@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="每日安全资讯（2025-07-28） - SECDaily">
+    <meta name="keywords" content="安全资讯,网络安全,信息安全">
+    <title>每日安全资讯（2025-07-28） - SECDaily</title>
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --secondary: #06b6d4;
+            --bg-page: #0f172a;
+            --bg-page-mid: #1e293b;
+            --bg-card: #ffffff;
+            --bg-muted: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 4px 20px rgba(15, 23, 42, 0.12);
+            --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.15);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 10px;
+            --sidebar-width: 260px;
+            --toc-width: 168px;
+            --gap-section: 12px;
+            --gap-card: 8px;
+            --accent: #10b981;
+            --glow-primary: rgba(14, 165, 233, 0.15);
+            --glow-accent: rgba(16, 185, 129, 0.12);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text-primary);
+            background: linear-gradient(165deg, var(--bg-page) 0%, var(--bg-page-mid) 55%, #134e4a 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 12% 8%, var(--glow-primary) 0%, transparent 40%),
+                radial-gradient(circle at 88% 92%, var(--glow-accent) 0%, transparent 36%),
+                linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+            background-size: auto, auto, 24px 24px, 24px 24px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 16px 16px 28px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .navigation {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 8px 14px;
+            margin-bottom: var(--gap-section);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-brand {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+            padding: 4px 10px;
+            border-radius: 999px;
+            margin-right: 4px;
+        }
+        
+        .navigation a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.82rem;
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s ease, color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .navigation a::before {
+            content: '←';
+            font-size: 1em;
+        }
+        
+        .navigation a:hover {
+            background: var(--bg-muted);
+            color: var(--primary);
+        }
+        
+        .navigation span {
+            color: var(--border);
+        }
+
+        .nav-search {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 180px;
+            max-width: 320px;
+            flex: 1;
+            padding: 4px 8px;
+            background: var(--bg-muted);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+        }
+
+        .nav-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 0.82rem;
+            color: var(--text-primary);
+            outline: none;
+            min-width: 0;
+        }
+
+        .nav-search button {
+            border: none;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 999px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .main-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px 22px;
+            box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            margin-right: calc(var(--sidebar-width) + 16px);
+            position: relative;
+        }
+        
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+        
+        .read-progress {
+            position: absolute;
+            top: 3px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--bg-muted);
+            z-index: 2;
+        }
+        
+        .read-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.1s linear;
+        }
+        
+        .article-layout {
+            display: grid;
+            grid-template-columns: var(--toc-width) 1fr;
+            gap: 14px;
+            align-items: start;
+        }
+        
+        .article-layout.no-toc {
+            grid-template-columns: 1fr;
+        }
+        
+        .toc-panel {
+            position: sticky;
+            top: 16px;
+            background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 10px;
+            max-height: calc(100vh - 32px);
+            overflow-y: auto;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .toc-panel[hidden] { display: none !important; }
+        
+        .toc-head {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed var(--border);
+        }
+        
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .toc-list a {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 5px 8px;
+            border-radius: var(--radius-sm);
+            border-left: 2px solid transparent;
+            line-height: 1.35;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+        
+        .toc-list a:hover {
+            color: var(--primary-dark);
+            background: rgba(14, 165, 233, 0.08);
+        }
+        
+        .toc-list a.is-active {
+            color: var(--primary-dark);
+            font-weight: 600;
+            background: rgba(14, 165, 233, 0.1);
+            border-left-color: var(--primary);
+        }
+        
+        .main-body {
+            min-width: 0;
+        }
+        
+        .main-content h2 {
+            scroll-margin-top: 12px;
+        }
+        
+        .main-content h2:target {
+            outline: 2px solid rgba(14, 165, 233, 0.35);
+            outline-offset: 2px;
+        }
+        
+        .article-head {
+            padding-top: 4px;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--border);
+        }
+        
+        .main-content h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+            line-height: 1.35;
+        }
+        
+        .date {
+            color: var(--primary-dark);
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            background: rgba(14, 165, 233, 0.08);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+        }
+        
+        .meta-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        
+        .meta-tag {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--bg-muted);
+            border: 1px solid var(--border);
+            padding: 2px 8px;
+            border-radius: 999px;
+        }
+        
+        .meta-tag.is-ai {
+            color: #047857;
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.25);
+        }
+        
+        .main-content hr {
+            border: none;
+            height: 1px;
+            background: var(--border);
+            margin: 16px 0;
+        }
+        
+        .main-content h2 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 18px 0 8px 0;
+            padding: 8px 12px 8px 10px;
+            background: linear-gradient(90deg, rgba(14, 165, 233, 0.08) 0%, transparent 100%);
+            border: 1px solid rgba(14, 165, 233, 0.12);
+            border-radius: var(--radius-sm);
+        }
+        
+        .main-content h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 1em;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            margin-right: 10px;
+            vertical-align: -0.1em;
+        }
+        
+        .main-content blockquote {
+            margin: 10px 0;
+            padding: 10px 14px;
+            border-left: 3px solid var(--secondary);
+            background: var(--bg-muted);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+        }
+        
+        .main-content code {
+            font-size: 0.85em;
+            padding: 1px 5px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            color: #0f172a;
+        }
+        
+        .main-content h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 14px 0 6px 0;
+        }
+        
+        .main-content a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        
+        .main-content a:hover {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .main-content ul, .main-content ol {
+            margin: 8px 0;
+            padding-left: 1.35em;
+        }
+        
+        .main-content li {
+            margin: 4px 0;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+        
+        .main-content li a {
+            color: var(--primary-dark);
+        }
+
+        .daily-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 14px;
+            padding: 10px 12px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+        }
+
+        .daily-filter-input,
+        .daily-filter-select {
+            border: 1px solid var(--border);
+            background: #fff;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            color: var(--text-primary);
+            padding: 6px 10px;
+            outline: none;
+        }
+
+        .daily-filter-input {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .daily-filter-select {
+            min-width: 140px;
+            max-width: 220px;
+        }
+
+        .daily-filter-btn {
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            background: rgba(14, 165, 233, 0.08);
+            color: var(--primary-dark);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .daily-filter-btn:hover,
+        .daily-filter-btn.is-active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: transparent;
+            color: #fff;
+        }
+
+        .daily-filter-meta {
+            width: 100%;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .daily-empty,
+        .daily-filter-empty {
+            text-align: center;
+            padding: 24px 12px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .daily-filter-empty {
+            display: none;
+        }
+
+        .source-section {
+            margin-bottom: 18px;
+        }
+
+        .source-section.is-hidden {
+            display: none;
+        }
+
+        .source-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 1.5em;
+            padding: 1px 8px;
+            margin-left: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            background: rgba(14, 165, 233, 0.12);
+            border: 1px solid rgba(14, 165, 233, 0.18);
+            border-radius: 999px;
+            vertical-align: middle;
+        }
+
+        .article-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .article-item {
+            padding: 7px 10px;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+            transition: background 0.2s ease;
+        }
+
+        .article-item:last-child {
+            border-bottom: none;
+        }
+
+        .article-item:hover {
+            background: rgba(14, 165, 233, 0.05);
+        }
+
+        .article-item.is-hidden {
+            display: none;
+        }
+
+        .article-item a {
+            display: inline;
+            line-height: 1.55;
+        }
+
+        .cve-badge {
+            display: inline-block;
+            margin-right: 4px;
+            padding: 1px 6px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: #b45309;
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-radius: 999px;
+            vertical-align: middle;
+        }
+        
+        .main-content p {
+            margin: 6px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .main-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.82rem;
+        }
+        
+        .main-content th,
+        .main-content td {
+            border: 1px solid var(--border);
+            padding: 6px 8px;
+            text-align: left;
+        }
+        
+        .main-content th {
+            background: var(--bg-muted);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .stats-line {
+            margin: 12px 0;
+            padding: 8px 12px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.06) 0%, rgba(6, 182, 212, 0.04) 100%);
+            border: 1px solid rgba(14, 165, 233, 0.15);
+            border-left: 3px solid var(--primary);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+        
+        .stat-separator {
+            margin: 0 12px;
+            color: var(--text-muted);
+        }
+        
+        .tag-cloud {
+            position: fixed;
+            right: 16px;
+            top: 16px;
+            width: var(--sidebar-width);
+            max-height: 38vh;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            z-index: 999;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tag-cloud.has-ai-summary {
+            top: auto;
+            bottom: 72px;
+            max-height: calc(36vh - 24px);
+        }
+        
+        .tag-cloud-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #0369a1 100%);
+            color: #fff;
+            padding: 8px 10px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-align: center;
+            box-shadow: 0 2px 8px var(--glow-primary);
+        }
+        
+        .tag-cloud-content {
+            padding: 10px;
+            overflow-y: auto;
+            flex: 1;
+            text-align: center;
+            line-height: 1.45;
+        }
+        
+        .tag-cloud-content::-webkit-scrollbar { width: 5px; }
+        .tag-cloud-content::-webkit-scrollbar-track { background: var(--bg-muted); }
+        .tag-cloud-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        .tag-cloud-item {
+            display: inline-block;
+            margin: 2px 3px;
+            padding: 2px 8px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 999px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            font-weight: 400;
+            cursor: pointer;
+            transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .tag-cloud-item:hover {
+            border-color: rgba(14, 165, 233, 0.5);
+            color: var(--primary-dark);
+            box-shadow: 0 2px 6px var(--glow-primary);
+        }
+        
+        .tag-cloud-item.tag-size-1 { font-size: 0.7em; opacity: 0.65; }
+        .tag-cloud-item.tag-size-2 { font-size: 0.75em; opacity: 0.75; }
+        .tag-cloud-item.tag-size-3 { font-size: 0.8em; opacity: 0.85; }
+        .tag-cloud-item.tag-size-4 { font-size: 0.85em; }
+        .tag-cloud-item.tag-size-5 { font-size: 0.9em; font-weight: 500; }
+        .tag-cloud-item.tag-size-6 { font-size: 0.95em; font-weight: 600; color: var(--primary-dark); }
+        
+        .footer {
+            margin-top: 24px;
+            padding-top: 14px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .ai-summary-panel {
+            position: fixed;
+            right: 16px;
+            top: 16px;
+            width: var(--sidebar-width);
+            max-height: 78vh;
+            background: var(--bg-card);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .ai-summary-header {
+            background: linear-gradient(135deg, #0284c7 0%, #0891b2 50%, #0d9488 100%);
+            color: #fff;
+            padding: 10px 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 10px var(--glow-primary);
+            cursor: move;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .ai-summary-close {
+            cursor: pointer;
+            font-size: 1.35rem;
+            line-height: 1;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s ease;
+        }
+        
+        .ai-summary-close:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .ai-summary-content {
+            padding: 12px 14px;
+            overflow-y: auto;
+            flex: 1;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+        
+        .ai-summary-content::-webkit-scrollbar { width: 6px; }
+        .ai-summary-content::-webkit-scrollbar-track { background: var(--bg-muted); }
+        .ai-summary-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        .ai-summary-content h3 {
+            color: var(--text-primary);
+            margin-top: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .ai-summary-content ul {
+            margin: 12px 0;
+            padding-left: 1.25em;
+        }
+        
+        .ai-summary-content li { margin: 6px 0; }
+        
+        .ai-summary-toggle {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            width: 40px;
+            height: 40px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            z-index: 999;
+            display: none;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        
+        .ai-summary-toggle:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 64px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            background: var(--secondary);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1.25rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            z-index: 998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .back-to-top.has-ai-toggle { bottom: 64px; }
+        
+        @media (max-width: 1100px) {
+            :root { --sidebar-width: 240px; }
+            .main-content { margin-right: calc(var(--sidebar-width) + 12px); }
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 12px 12px 24px; }
+            .navigation { align-items: stretch; }
+            .nav-search {
+                width: 100%;
+                max-width: none;
+                margin-left: 0;
+            }
+            .main-content {
+                margin-right: 0;
+                padding: 14px 16px;
+            }
+            .article-layout {
+                grid-template-columns: 1fr;
+            }
+            .toc-panel {
+                position: static;
+                max-height: none;
+            }
+            .toc-list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .toc-list li { flex: 0 0 auto; }
+            .toc-list a {
+                border: 1px solid var(--border);
+                border-left: 1px solid var(--border);
+                white-space: nowrap;
+            }
+            .main-content h1 { font-size: 1.15rem; }
+            .ai-summary-panel,
+            .tag-cloud {
+                width: calc(100% - 32px);
+                right: 16px;
+                left: 16px;
+                max-height: 65vh;
+                top: 16px;
+            }
+            .tag-cloud.has-ai-summary {
+                top: auto;
+                bottom: 16px;
+            }
+            .ai-summary-toggle { display: block; }
+            .back-to-top {
+                bottom: 24px;
+                right: 16px;
+                width: 44px;
+                height: 44px;
+            }
+            .back-to-top.has-ai-toggle { bottom: 60px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <span class="nav-brand">SECDaily</span>
+            <a href="../index.html">返回首页</a>
+            <span>|</span>
+            <a href="../../index.html">项目主页</a>
+            <form class="nav-search" id="navSearchForm">
+                <input type="search" id="navSearchInput" placeholder="全站标题搜索..." autocomplete="off" aria-label="全站标题搜索">
+                <button type="submit">搜索</button>
+            </form>
+        </div>
+        
+        <div class="main-content">
+            <div class="read-progress" aria-hidden="true"><div class="read-progress-bar" id="readProgress"></div></div>
+            <div class="article-head">
+                <h1>每日安全资讯（2025-07-28）</h1>
+                <div class="date">📅 资讯日期: 2025-07-28</div>
+                <div class="meta-tags">
+                    <span class="meta-tag">安全日报</span>
+                    <span class="meta-tag">98 篇文章</span>
+                    <span class="meta-tag">42 个来源</span>
+                    <span class="meta-tag">CVE 1 条</span>
+                    
+                    <span class="meta-tag">关键词 30 个</span>
+                </div>
+            </div>
+            <div class="article-layout no-toc" id="articleLayout">
+                <aside class="toc-panel" id="tocPanel" hidden>
+                    <div class="toc-head">来源导航</div>
+                    <ul class="toc-list" id="tocList"></ul>
+                </aside>
+                <div class="main-body" id="mainBody">
+                    <div class="daily-toolbar" id="dailyToolbar">
+                        <input type="search" class="daily-filter-input" id="articleFilter" placeholder="筛选标题或 CVE..." autocomplete="off" aria-label="筛选文章标题">
+                        <select class="daily-filter-select" id="sourceFilter" aria-label="筛选来源">
+                            <option value="">全部来源</option>
+                        </select>
+                        <button type="button" class="daily-filter-btn" id="cveOnlyBtn">仅 CVE</button>
+                        <button type="button" class="daily-filter-btn" id="clearFilterBtn">清除</button>
+                        <span class="daily-filter-meta" id="filterMeta"></span>
+                    </div>
+                    <div class="stats-line">
+    <span>98 篇文章</span>
+    <span class="stat-separator">|</span>
+    <span>42 个来源</span>
+    <span class="stat-separator">|</span>
+    <span>1 条 CVE</span>
+    <span class="stat-separator">|</span>
+    <span>页面更新: 2026-05-26 15:58:07</span>
+</div><div class="daily-feed" id="dailyFeed">
+<section class="source-section" data-source="SecWiki News" id="source-0-SecWiki-News">
+<h2>SecWiki News <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="secwiki news 2025-07-27 review"><a href="http://www.sec-wiki.com/?2025-07-27" target="_blank" rel="noopener noreferrer">SecWiki News 2025-07-27 Review</a></li>
+</ul></section>
+<section class="source-section" data-source="InfoSec Write-ups - Medium" id="source-1-InfoSec-Write-ups---Medium">
+<h2>InfoSec Write-ups - Medium <span class="source-count">6</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="episode 7: server-side includes injection — the quiet danger lurking in legacy code"><a href="https://infosecwriteups.com/episode-7-server-side-includes-injection-the-quiet-danger-lurking-in-legacy-code-51002a88fb88?source=rss----7b722bfd1b8d---4" target="_blank" rel="noopener noreferrer">Episode 7: Server-Side Includes Injection — The Quiet Danger Lurking in Legacy Code</a></li>
+<li class="article-item" data-title="“idor attacks unmasked: code exploits and real-world breaches”"><a href="https://infosecwriteups.com/idor-attacks-unmasked-code-exploits-and-real-world-breaches-b05cddfb45c7?source=rss----7b722bfd1b8d---4" target="_blank" rel="noopener noreferrer">“IDOR Attacks Unmasked: Code Exploits and Real-World Breaches”</a></li>
+<li class="article-item" data-title="how to use “caido workflows” to scan for anything"><a href="https://infosecwriteups.com/how-to-use-caido-workflows-to-scan-for-anything-07eed72ba06a?source=rss----7b722bfd1b8d---4" target="_blank" rel="noopener noreferrer">How to use “Caido Workflows” to scan for anything</a></li>
+<li class="article-item" data-title="insecure by design: how a mobile api let me reset anyone’s password with just a phone number"><a href="https://infosecwriteups.com/insecure-by-design-how-a-mobile-api-let-me-reset-anyones-password-with-just-a-phone-number-ba588ec384e5?source=rss----7b722bfd1b8d---4" target="_blank" rel="noopener noreferrer">Insecure by Design: How a Mobile API Let Me Reset Anyone’s Password With Just a Phone Number</a></li>
+<li class="article-item" data-title="how we discovered a stored html injection in a chatbot system ️"><a href="https://infosecwriteups.com/how-we-discovered-a-stored-html-injection-in-a-chatbot-system-%EF%B8%8F-6cbefe8b0718?source=rss----7b722bfd1b8d---4" target="_blank" rel="noopener noreferrer">How We Discovered a Stored HTML Injection in a Chatbot System ️</a></li>
+<li class="article-item" data-title="“why idors are everywhere — and how to find them”"><a href="https://infosecwriteups.com/why-idors-are-everywhere-and-how-to-find-them-3ba45128e0f3?source=rss----7b722bfd1b8d---4" target="_blank" rel="noopener noreferrer">“Why IDORs Are Everywhere — And How to Find Them”</a></li>
+</ul></section>
+<section class="source-section" data-source="Sploitus.com Exploits RSS Feed" id="source-2-Sploitus-com-Exploits-RSS-Feed">
+<h2>Sploitus.com Exploits RSS Feed <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item is-cve" data-title="exploit for cve-2025-8220 exploit"><a href="https://sploitus.com/exploit?id=7EE7C95E-8D22-5700-B758-B8DE26DCD5EA&amp;utm_source=rss&amp;utm_medium=rss" target="_blank" rel="noopener noreferrer"><span class="cve-badge">CVE</span> Exploit for CVE-2025-8220 exploit</a></li>
+</ul></section>
+<section class="source-section" data-source="ふるつき" id="source-3-ふるつき">
+<h2>ふるつき <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="seccon beginners ctf 2025 writeup"><a href="https://furutsuki.hatenablog.com/entry/2025/07/27/223211" target="_blank" rel="noopener noreferrer">SECCON Beginners CTF 2025 writeup</a></li>
+</ul></section>
+<section class="source-section" data-source="Bug Bounty in InfoSec Write-ups on Medium" id="source-4-Bug-Bounty-in-InfoSec-Write-ups-on-Mediu">
+<h2>Bug Bounty in InfoSec Write-ups on Medium <span class="source-count">5</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="“idor attacks unmasked: code exploits and real-world breaches”"><a href="https://infosecwriteups.com/idor-attacks-unmasked-code-exploits-and-real-world-breaches-b05cddfb45c7?source=rss----7b722bfd1b8d--bug_bounty" target="_blank" rel="noopener noreferrer">“IDOR Attacks Unmasked: Code Exploits and Real-World Breaches”</a></li>
+<li class="article-item" data-title="how to use “caido workflows” to scan for anything"><a href="https://infosecwriteups.com/how-to-use-caido-workflows-to-scan-for-anything-07eed72ba06a?source=rss----7b722bfd1b8d--bug_bounty" target="_blank" rel="noopener noreferrer">How to use “Caido Workflows” to scan for anything</a></li>
+<li class="article-item" data-title="insecure by design: how a mobile api let me reset anyone’s password with just a phone number"><a href="https://infosecwriteups.com/insecure-by-design-how-a-mobile-api-let-me-reset-anyones-password-with-just-a-phone-number-ba588ec384e5?source=rss----7b722bfd1b8d--bug_bounty" target="_blank" rel="noopener noreferrer">Insecure by Design: How a Mobile API Let Me Reset Anyone’s Password With Just a Phone Number</a></li>
+<li class="article-item" data-title="how we discovered a stored html injection in a chatbot system ️"><a href="https://infosecwriteups.com/how-we-discovered-a-stored-html-injection-in-a-chatbot-system-%EF%B8%8F-6cbefe8b0718?source=rss----7b722bfd1b8d--bug_bounty" target="_blank" rel="noopener noreferrer">How We Discovered a Stored HTML Injection in a Chatbot System ️</a></li>
+<li class="article-item" data-title="“why idors are everywhere — and how to find them”"><a href="https://infosecwriteups.com/why-idors-are-everywhere-and-how-to-find-them-3ba45128e0f3?source=rss----7b722bfd1b8d--bug_bounty" target="_blank" rel="noopener noreferrer">“Why IDORs Are Everywhere — And How to Find Them”</a></li>
+</ul></section>
+<section class="source-section" data-source="Reverse Engineering" id="source-5-Reverse-Engineering">
+<h2>Reverse Engineering <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="guides/books/videos on reverseengineering a .net 8.0 exe?"><a href="https://www.reddit.com/r/ReverseEngineering/comments/1maffsi/guidesbooksvideos_on_reverseengineering_a_net_80/" target="_blank" rel="noopener noreferrer">Guides/books/videos on ReverseEngineering a .net 8.0 exe?</a></li>
+</ul></section>
+<section class="source-section" data-source="奇客Solidot–传递最新科技情报" id="source-6-奇客Solidot-传递最新科技情报">
+<h2>奇客Solidot–传递最新科技情报 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="stack exchange 迁移到云端"><a href="https://www.solidot.org/story?sid=81901" target="_blank" rel="noopener noreferrer">Stack Exchange 迁移到云端</a></li>
+</ul></section>
+<section class="source-section" data-source="威努特安全网络" id="source-7-威努特安全网络">
+<h2>威努特安全网络 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="行业安全实践：构建“数字烟草” 物流工控信息安全体系"><a href="https://mp.weixin.qq.com/s?__biz=MzAwNTgyODU3NQ==&amp;mid=2651134514&amp;idx=1&amp;sn=5cb56dc9604ae0049f28b7cfca066950" target="_blank" rel="noopener noreferrer">行业安全实践：构建“数字烟草” 物流工控信息安全体系</a></li>
+</ul></section>
+<section class="source-section" data-source="dotNet安全矩阵" id="source-8-dotNet安全矩阵">
+<h2>dotNet安全矩阵 <span class="source-count">3</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title=".net内网实战：通过文件映射技术实现注入本地进程"><a href="https://mp.weixin.qq.com/s?__biz=MzUyOTc3NTQ5MA==&amp;mid=2247500176&amp;idx=1&amp;sn=b51462b34eab39528d3d5e4df63d891a" target="_blank" rel="noopener noreferrer">.NET内网实战：通过文件映射技术实现注入本地进程</a></li>
+<li class="article-item" data-title=".net 安全攻防知识交流社区"><a href="https://mp.weixin.qq.com/s?__biz=MzUyOTc3NTQ5MA==&amp;mid=2247500176&amp;idx=2&amp;sn=30919cf654b392d454502c5cdcfd7f00" target="_blank" rel="noopener noreferrer">.NET 安全攻防知识交流社区</a></li>
+<li class="article-item" data-title=".net 2025 年第 82 期实战工具库和资源汇总"><a href="https://mp.weixin.qq.com/s?__biz=MzUyOTc3NTQ5MA==&amp;mid=2247500176&amp;idx=3&amp;sn=80c540d3af3e015f277f4321e2d396d9" target="_blank" rel="noopener noreferrer">.NET 2025 年第 82 期实战工具库和资源汇总</a></li>
+</ul></section>
+<section class="source-section" data-source="安全学术圈" id="source-9-安全学术圈">
+<h2>安全学术圈 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="帕德博恩大学 | 传输层混淆：在tls层规避sni审查"><a href="https://mp.weixin.qq.com/s?__biz=MzU5MTM5MTQ2MA==&amp;mid=2247493094&amp;idx=1&amp;sn=6d97064f452294cef8b437f973d22984" target="_blank" rel="noopener noreferrer">帕德博恩大学 | 传输层混淆：在TLS层规避SNI审查</a></li>
+</ul></section>
+<section class="source-section" data-source="中国信息安全" id="source-10-中国信息安全">
+<h2>中国信息安全 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="《2025信创引领：自主安全可靠中间件白皮书》发布 国产基础软件规模化替代全面提速"><a href="https://mp.weixin.qq.com/s?__biz=MzA5MzE5MDAzOA==&amp;mid=2664246207&amp;idx=1&amp;sn=5e81841cb3393076cca4c46411d3683e" target="_blank" rel="noopener noreferrer">《2025信创引领：自主安全可靠中间件白皮书》发布 国产基础软件规模化替代全面提速</a></li>
+</ul></section>
+<section class="source-section" data-source="极客公园" id="source-11-极客公园">
+<h2>极客公园 <span class="source-count">3</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="waic 2025：ai 肯定继续成长，避免变成「终极反派」是人类难题"><a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653083536&amp;idx=1&amp;sn=ad17bdbbd7fd2dc64d9b0052bc143ad0" target="_blank" rel="noopener noreferrer">WAIC 2025：AI 肯定继续成长，避免变成「终极反派」是人类难题</a></li>
+<li class="article-item" data-title="vibe coding 开赛，阿里靠新模型赢麻了？"><a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653083529&amp;idx=1&amp;sn=80a7640db4ac9d6aebde1580e333fcd9" target="_blank" rel="noopener noreferrer">Vibe Coding 开赛，阿里靠新模型赢麻了？</a></li>
+<li class="article-item" data-title="anthropic最新估值超 1500 亿美元；首款国产消费级6nm gpu亮相；100% 预防艾滋神药获准上市 | 极客早知道"><a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653083527&amp;idx=1&amp;sn=fe08fd2f0b6add8b0cf4405ea6c108ff" target="_blank" rel="noopener noreferrer">Anthropic最新估值超 1500 亿美元；首款国产消费级6nm GPU亮相；100% 预防艾滋神药获准上市 | 极客早知道</a></li>
+</ul></section>
+<section class="source-section" data-source="安全圈" id="source-12-安全圈">
+<h2>安全圈 <span class="source-count">4</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="【安全圈】微软365全球管理后台&quot;停摆危机&quot;：企业数字化命脉的72小时断流警报"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652070862&amp;idx=1&amp;sn=e70a9919b47c2cf671b71d2fae9a827f" target="_blank" rel="noopener noreferrer">【安全圈】微软365全球管理后台&quot;停摆危机&quot;：企业数字化命脉的72小时断流警报</a></li>
+<li class="article-item" data-title="【安全圈】千万保单背后的暗战：全美人寿1.4亿客户数据遭&quot;少年黑客团&quot;攻陷始末"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652070862&amp;idx=2&amp;sn=94d1f96eb4623018d646a39c7a6dd5cb" target="_blank" rel="noopener noreferrer">【安全圈】千万保单背后的暗战：全美人寿1.4亿客户数据遭&quot;少年黑客团&quot;攻陷始末</a></li>
+<li class="article-item" data-title="【安全圈】电竞外设惊现&quot;傀儡鼠标&quot;：黑客借官方驱动植入xred病毒入侵百万玩家"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652070862&amp;idx=3&amp;sn=91e55ef44df16de2b5b16447eeffd480" target="_blank" rel="noopener noreferrer">【安全圈】电竞外设惊现&quot;傀儡鼠标&quot;：黑客借官方驱动植入Xred病毒入侵百万玩家</a></li>
+<li class="article-item" data-title="【安全圈】数字猎手揭开印度假币帝国：人脸识别与gps技术如何摧毁2亿美元的黑色产业链"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652070862&amp;idx=4&amp;sn=5758c81d449089907988a1fd9411ce90" target="_blank" rel="noopener noreferrer">【安全圈】数字猎手揭开印度假币帝国：人脸识别与GPS技术如何摧毁2亿美元的黑色产业链</a></li>
+</ul></section>
+<section class="source-section" data-source="网安寻路人" id="source-13-网安寻路人">
+<h2>网安寻路人 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="“缺位”与“碎片化”：对《美国人工智能行动计划》的反向透视"><a href="https://mp.weixin.qq.com/s?__biz=MzIxODM0NDU4MQ==&amp;mid=2247507401&amp;idx=1&amp;sn=ceb60ad023dff7e68a6f880e0844188e" target="_blank" rel="noopener noreferrer">“缺位”与“碎片化”：对《美国人工智能行动计划》的反向透视</a></li>
+</ul></section>
+<section class="source-section" data-source="迪哥讲事" id="source-14-迪哥讲事">
+<h2>迪哥讲事 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="一次从0到1的逻辑漏洞挖掘之旅"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMTIzNTM0MA==&amp;mid=2247497956&amp;idx=1&amp;sn=330650442e400cf88ae9025a067c2ab0" target="_blank" rel="noopener noreferrer">一次从0到1的逻辑漏洞挖掘之旅</a></li>
+</ul></section>
+<section class="source-section" data-source="Over Security - Cybersecurity news aggregator" id="source-15-Over-Security---Cybersecurity-news-aggre">
+<h2>Over Security - Cybersecurity news aggregator <span class="source-count">3</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="two data breaches in three years: the mckenzie health system case"><a href="https://www.suspectfile.com/two-data-breaches-in-three-years-the-mckenzie-health-system-case/" target="_blank" rel="noopener noreferrer">Two Data Breaches in Three Years: The McKenzie Health System Case</a></li>
+<li class="article-item" data-title="scattered spider is running a vmware esxi hacking spree"><a href="https://www.bleepingcomputer.com/news/security/scattered-spider-is-running-a-vmware-esxi-hacking-spree/" target="_blank" rel="noopener noreferrer">Scattered Spider is running a VMware ESXi hacking spree</a></li>
+<li class="article-item" data-title="project 01: securing your first s3 bucket &amp; iam user"><a href="https://attacker-codeninja.github.io/2025-07-27-Project-01-S3-IAM-Security/" target="_blank" rel="noopener noreferrer">Project 01: Securing Your First S3 Bucket &amp; IAM User</a></li>
+</ul></section>
+<section class="source-section" data-source="ICT Security Magazine" id="source-16-ICT-Security-Magazine">
+<h2>ICT Security Magazine <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="cybersecurity specialist: la professione del futuro digitale"><a href="https://www.ictsecuritymagazine.com/notizie/cybersecurity-specialist/" target="_blank" rel="noopener noreferrer">Cybersecurity Specialist: la professione del futuro digitale</a></li>
+</ul></section>
+<section class="source-section" data-source="ImperialViolet" id="source-17-ImperialViolet">
+<h2>ImperialViolet <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="trmnl"><a href="http://www.imperialviolet.org/2025/07/27/trmnl.html" target="_blank" rel="noopener noreferrer">TRMNL</a></li>
+</ul></section>
+<section class="source-section" data-source="IT Service Management News" id="source-18-IT-Service-Management-News">
+<h2>IT Service Management News <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="iso/iec 27031:2025 sulla continuità operativa per l&#x27;ict"><a href="http://blog.cesaregallotti.it/2025/07/isoiec-270312025-sulla-continuita.html" target="_blank" rel="noopener noreferrer">ISO/IEC 27031:2025 sulla continuità operativa per l&#x27;ICT</a></li>
+</ul></section>
+<section class="source-section" data-source="Daniel Miessler" id="source-19-Daniel-Miessler">
+<h2>Daniel Miessler <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="self-contained typescript programs using bun"><a href="https://danielmiessler.com/blog/executable-typescript-programs-using-bun" target="_blank" rel="noopener noreferrer">Self-Contained TypeScript Programs Using Bun</a></li>
+</ul></section>
+<section class="source-section" data-source="Dark Space Blogspot" id="source-20-Dark-Space-Blogspot">
+<h2>Dark Space Blogspot <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="ottieni 10 euro di sconto su amazon (sino al 5 agosto 2025)"><a href="http://darkwhite666.blogspot.com/2025/07/ottieni-10-euro-di-sconto-su-amazon.html" target="_blank" rel="noopener noreferrer">Ottieni 10 Euro Di Sconto Su Amazon (Sino Al 5 Agosto 2025)</a></li>
+</ul></section>
+<section class="source-section" data-source="Security Affairs" id="source-21-Security-Affairs">
+<h2>Security Affairs <span class="source-count">3</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="allianz life data breach exposed the data of most of its 1.4m customers"><a href="https://securityaffairs.com/180445/data-breach/allianz-life-data-breach-exposed-the-data-of-most-of-its-1-4m-customers.html" target="_blank" rel="noopener noreferrer">Allianz Life data breach exposed the data of most of its 1.4M customers</a></li>
+<li class="article-item" data-title="security affairs malware newsletter round 55"><a href="https://securityaffairs.com/180434/malware/security-affairs-malware-newsletter-round-55.html" target="_blank" rel="noopener noreferrer">SECURITY AFFAIRS MALWARE NEWSLETTER ROUND 55</a></li>
+<li class="article-item" data-title="security affairs newsletter round 534 by pierluigi paganini – international edition"><a href="https://securityaffairs.com/180423/breaking-news/security-affairs-newsletter-round-534-by-pierluigi-paganini-international-edition.html" target="_blank" rel="noopener noreferrer">Security Affairs newsletter Round 534 by Pierluigi Paganini – INTERNATIONAL EDITION</a></li>
+</ul></section>
+<section class="source-section" data-source="Blackhat Library: Hacking techniques and research" id="source-22-Blackhat-Library-Hacking-techniques-and-">
+<h2>Blackhat Library: Hacking techniques and research <span class="source-count">3</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="uk online safety law sparks massive vpn surge"><a href="https://www.reddit.com/r/blackhat/comments/1mapt5p/uk_online_safety_law_sparks_massive_vpn_surge/" target="_blank" rel="noopener noreferrer">UK online safety law sparks massive VPN surge</a></li>
+<li class="article-item" data-title="best way to safely test potentially malicious or untrusted apps on mac (virtual machine?"><a href="https://www.reddit.com/r/blackhat/comments/1maqavn/best_way_to_safely_test_potentially_malicious_or/" target="_blank" rel="noopener noreferrer">Best Way to Safely Test Potentially Malicious or Untrusted Apps on Mac (Virtual Machine?</a></li>
+<li class="article-item" data-title="good wi-fi card with monitor &amp; packet injection mode."><a href="https://www.reddit.com/r/blackhat/comments/1magcc8/good_wifi_card_with_monitor_packet_injection_mode/" target="_blank" rel="noopener noreferrer">Good Wi-Fi card with Monitor &amp; Packet Injection Mode.</a></li>
+</ul></section>
+<section class="source-section" data-source="Your Open Hacker Community" id="source-23-Your-Open-Hacker-Community">
+<h2>Your Open Hacker Community <span class="source-count">3</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="good wi-fi card with monitor &amp; packet injection mode."><a href="https://www.reddit.com/r/HowToHack/comments/1magagx/good_wifi_card_with_monitor_packet_injection_mode/" target="_blank" rel="noopener noreferrer">Good Wi-Fi card with Monitor &amp; Packet Injection Mode.</a></li>
+<li class="article-item" data-title="easiest way for botnet"><a href="https://www.reddit.com/r/HowToHack/comments/1mauxei/easiest_way_for_botnet/" target="_blank" rel="noopener noreferrer">Easiest way for botnet</a></li>
+<li class="article-item" data-title="can please any body doxx these people"><a href="https://www.reddit.com/r/HowToHack/comments/1maxy7n/can_please_any_body_doxx_these_people/" target="_blank" rel="noopener noreferrer">Can please any body doxx these people</a></li>
+</ul></section>
+<section class="source-section" data-source="netsecstudents: Subreddit for students studying Network Security and its related subjects" id="source-24-netsecstudents-Subreddit-for-students-st">
+<h2>netsecstudents: Subreddit for students studying Network Security and its related subjects <span class="source-count">4</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="i made a penetration testing guide to learn and share, feedback welcome!"><a href="https://www.reddit.com/r/netsecstudents/comments/1mandes/i_made_a_penetration_testing_guide_to_learn_and/" target="_blank" rel="noopener noreferrer">I Made a Penetration Testing Guide to Learn and Share, Feedback Welcome!</a></li>
+<li class="article-item" data-title="ada as a first programming language, good idea?"><a href="https://www.reddit.com/r/netsecstudents/comments/1ma8d1m/ada_as_a_first_programming_language_good_idea/" target="_blank" rel="noopener noreferrer">ada as a first programming language, good idea?</a></li>
+<li class="article-item" data-title="looking for pentesting study partners (thm, htb, projects)"><a href="https://www.reddit.com/r/netsecstudents/comments/1maiaw1/looking_for_pentesting_study_partners_thm_htb/" target="_blank" rel="noopener noreferrer">Looking for Pentesting Study Partners (THM, HTB, Projects)</a></li>
+<li class="article-item" data-title="good wi-fi card with monitor &amp; packet injection mode."><a href="https://www.reddit.com/r/netsecstudents/comments/1magdlj/good_wifi_card_with_monitor_packet_injection_mode/" target="_blank" rel="noopener noreferrer">Good Wi-Fi card with Monitor &amp; Packet Injection Mode.</a></li>
+</ul></section>
+<section class="source-section" data-source="Social Engineering" id="source-25-Social-Engineering">
+<h2>Social Engineering <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="steven hassan......thoughts"><a href="https://www.reddit.com/r/SocialEngineering/comments/1mamznq/steven_hassanthoughts/" target="_blank" rel="noopener noreferrer">Steven Hassan......thoughts</a></li>
+<li class="article-item" data-title="sms codes for a mobile number i don’t own anymore."><a href="https://www.reddit.com/r/SocialEngineering/comments/1masnpe/sms_codes_for_a_mobile_number_i_dont_own_anymore/" target="_blank" rel="noopener noreferrer">SMS codes for a mobile number i don’t own anymore.</a></li>
+</ul></section>
+<section class="source-section" data-source="SEO 网站优化及网站推广" id="source-26-SEO-网站优化及网站推广">
+<h2>SEO 网站优化及网站推广 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="更一个新"><a href="https://seo.g2soft.net/2025/07/27/post-8.html" target="_blank" rel="noopener noreferrer">更一个新</a></li>
+</ul></section>
+<section class="source-section" data-source="硕鼠的博客站" id="source-27-硕鼠的博客站">
+<h2>硕鼠的博客站 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="遥遥领先神话彻底崩塌！懂车帝联合央视高速事故模拟实测曝光：特斯拉纯视觉完胜激光雷达阵营，问界m9小米su7惨败仅1项通关，马斯克点赞称需中国数据训练！"><a href="https://lukefan.com/2025/07/27/%e9%81%a5%e9%81%a5%e9%a2%86%e5%85%88%e7%a5%9e%e8%af%9d%e5%bd%bb%e5%ba%95%e5%b4%a9%e5%a1%8c%ef%bc%81%e6%87%82%e8%bd%a6%e5%b8%9d%e8%81%94%e5%90%88%e5%a4%ae%e8%a7%86%e9%ab%98%e9%80%9f%e4%ba%8b%e6%95%85/" target="_blank" rel="noopener noreferrer">遥遥领先神话彻底崩塌！懂车帝联合央视高速事故模拟实测曝光：特斯拉纯视觉完胜激光雷达阵营，问界M9小米SU7惨败仅1项通关，马斯克点赞称需中国数据训练！</a></li>
+</ul></section>
+<section class="source-section" data-source="Yiran&#x27;s Blog" id="source-28-Yiran-s-Blog">
+<h2>Yiran&#x27;s Blog <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="weekly issue-远离公众号"><a href="https://zdyxry.github.io/2025/07/27/Weekly-Issue-%E8%BF%9C%E7%A6%BB%E5%85%AC%E4%BC%97%E5%8F%B7/" target="_blank" rel="noopener noreferrer">Weekly Issue-远离公众号</a></li>
+</ul></section>
+<section class="source-section" data-source="Nicksxs&#x27;s Blog" id="source-29-Nicksxs-s-Blog">
+<h2>Nicksxs&#x27;s Blog <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="学习下mysql新版本支持的row_number方法"><a href="https://nicksxs.me/2025/07/27/%E5%AD%A6%E4%B9%A0%E4%B8%8Bmysql%E6%96%B0%E7%89%88%E6%9C%AC%E6%94%AF%E6%8C%81%E7%9A%84row-number%E6%96%B9%E6%B3%95/" target="_blank" rel="noopener noreferrer">学习下mysql新版本支持的row_number方法</a></li>
+</ul></section>
+<section class="source-section" data-source="维基萌" id="source-30-维基萌">
+<h2>维基萌 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="《时光流逝，饭菜依旧美味》的联动女仆咖啡"><a href="https://www.wikimoe.com/post/t01irxx7" target="_blank" rel="noopener noreferrer">《时光流逝，饭菜依旧美味》的联动女仆咖啡</a></li>
+</ul></section>
+<section class="source-section" data-source="Android Performance" id="source-31-Android-Performance">
+<h2>Android Performance <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="android weekly 2025-19 期"><a href="https://androidperformance.com/2025/07/28/Android-Weekly-2025-19/" target="_blank" rel="noopener noreferrer">Android Weekly 2025-19 期</a></li>
+</ul></section>
+<section class="source-section" data-source="蔷薇角落" id="source-32-蔷薇角落">
+<h2>蔷薇角落 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="在迷雾中探寻方向"><a href="https://qq.md/post/14" target="_blank" rel="noopener noreferrer">在迷雾中探寻方向</a></li>
+</ul></section>
+<section class="source-section" data-source="初之音" id="source-33-初之音">
+<h2>初之音 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="关于 caddy"><a href="https://www.himiku.com/archives/something-about-caddy.html" target="_blank" rel="noopener noreferrer">关于 Caddy</a></li>
+</ul></section>
+<section class="source-section" data-source="拾月" id="source-34-拾月">
+<h2>拾月 <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="拾月周记（第43期）：有财伸懒腰"><a href="https://www.skyue.com/25072807.html" target="_blank" rel="noopener noreferrer">拾月周记（第43期）：有财伸懒腰</a></li>
+<li class="article-item" data-title="南瓜怀孕和搬家"><a href="https://www.skyue.com/25072721.html" target="_blank" rel="noopener noreferrer">南瓜怀孕和搬家</a></li>
+</ul></section>
+<section class="source-section" data-source="icodex Blog" id="source-35-icodex-Blog">
+<h2>icodex Blog <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="如何开发自己的一个 shadcn 组件"><a href="https://icodex.me/shadcn-component" target="_blank" rel="noopener noreferrer">如何开发自己的一个 shadcn 组件</a></li>
+</ul></section>
+<section class="source-section" data-source="如有乐享" id="source-36-如有乐享">
+<h2>如有乐享 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="海外手机号注册tg账号提示验证码已发送其他设备？"><a href="https://51.ruyo.net/18933.html" target="_blank" rel="noopener noreferrer">海外手机号注册TG账号提示验证码已发送其他设备？</a></li>
+</ul></section>
+<section class="source-section" data-source="Tony Bai" id="source-37-Tony-Bai">
+<h2>Tony Bai <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="prometheus 联合创始人的警告：在使用 opentelemetry 生成 metrics 前请三思！"><a href="https://tonybai.com/2025/07/27/native-prometheus-instrumentation-over-opentelemetry/" target="_blank" rel="noopener noreferrer">Prometheus 联合创始人的警告：在使用 OpenTelemetry 生成 Metrics 前请三思！</a></li>
+</ul></section>
+<section class="source-section" data-source="草梅友仁的博客" id="source-38-草梅友仁的博客">
+<h2>草梅友仁的博客 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="草梅 auth 1.1.0 发布与最新动态 | 2025 年第 30 周草梅周报"><a href="https://blog.cmyr.ltd/archives/2025-30-caomei-weekly-auth-1-1-0-updates.html" target="_blank" rel="noopener noreferrer">草梅 Auth 1.1.0 发布与最新动态 | 2025 年第 30 周草梅周报</a></li>
+</ul></section>
+<section class="source-section" data-source="LanYunのBlog" id="source-39-LanYunのBlog">
+<h2>LanYunのBlog <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="优化macos dock栏的显示与隐藏"><a href="https://lanyundev.com/posts/88942e2e" target="_blank" rel="noopener noreferrer">优化macOS Dock栏的显示与隐藏</a></li>
+</ul></section>
+<section class="source-section" data-source="莫尔索随笔" id="source-40-莫尔索随笔">
+<h2>莫尔索随笔 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="vol.61 阶跃星辰发布step 3模型：推理效率创行业新高"><a href="https://liduos.com/the-weekly-gradient-61.html" target="_blank" rel="noopener noreferrer">Vol.61 阶跃星辰发布Step 3模型：推理效率创行业新高</a></li>
+</ul></section>
+<section class="source-section" data-source="了迹奇有没" id="source-41-了迹奇有没">
+<h2>了迹奇有没 <span class="source-count">28</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="鸿蒙 os 的签名密钥机制，我终于整明白了！"><a href="https://whrss.com/posts/harmonyos-signing-key" target="_blank" rel="noopener noreferrer">鸿蒙 OS 的签名密钥机制，我终于整明白了！</a></li>
+<li class="article-item" data-title="数据库分表实践：如何优雅地切换到分表架构"><a href="https://whrss.com/posts/mysql-sharding-migration" target="_blank" rel="noopener noreferrer">数据库分表实践：如何优雅地切换到分表架构</a></li>
+<li class="article-item" data-title="“该省省，该花花”"><a href="https://whrss.com/posts/smart-spending" target="_blank" rel="noopener noreferrer">“该省省，该花花”</a></li>
+<li class="article-item" data-title="golang 中的 eof 与 read: connection reset by peer 错误深度剖析"><a href="https://whrss.com/posts/golang-eof" target="_blank" rel="noopener noreferrer">Golang 中的 EOF 与 read: connection reset by peer 错误深度剖析</a></li>
+<li class="article-item" data-title="为什么你应该在代码中消除 &quot;context deadline exceeded&quot; 错误"><a href="https://whrss.com/posts/context-deadline-exceeded" target="_blank" rel="noopener noreferrer">为什么你应该在代码中消除 &quot;context deadline exceeded&quot; 错误</a></li>
+<li class="article-item" data-title="死锁日记：手写 golang 上报队列"><a href="https://whrss.com/posts/golang-deadlock" target="_blank" rel="noopener noreferrer">死锁日记：手写 GoLang 上报队列</a></li>
+<li class="article-item" data-title="gorm 中 mysql 错误码映射与主键冲突错误处理"><a href="https://whrss.com/posts/gorm-mysql-error-handling-duplicate-key-translations" target="_blank" rel="noopener noreferrer">gorm 中 MySQL 错误码映射与主键冲突错误处理</a></li>
+<li class="article-item" data-title="cloudflare tunnel 免费内网穿透的简明教程"><a href="https://whrss.com/posts/cloudflare-tunnel" target="_blank" rel="noopener noreferrer">CloudFlare Tunnel 免费内网穿透的简明教程</a></li>
+<li class="article-item" data-title="2023 年购物回忆录：值不值得买"><a href="https://whrss.com/posts/2023-shopping-journey-value-and-regrets" target="_blank" rel="noopener noreferrer">2023 年购物回忆录：值不值得买</a></li>
+<li class="article-item" data-title="探索服务端通信技术：短轮询、websocket、sse 与长轮询的深度比较"><a href="https://whrss.com/posts/server-communication-methods" target="_blank" rel="noopener noreferrer">探索服务端通信技术：短轮询、WebSocket、SSE 与长轮询的深度比较</a></li>
+<li class="article-item" data-title="api 设计中的多类型属性选择：openapi 与 grpc 的 oneof 与强类型对比"><a href="https://whrss.com/posts/api-design-openapi&amp;grpc" target="_blank" rel="noopener noreferrer">API 设计中的多类型属性选择：OpenAPI 与 gRPC 的 oneof 与强类型对比</a></li>
+<li class="article-item" data-title="团队开发中对于代码仓库和镜像管理的标准统一"><a href="https://whrss.com/posts/unified-standards-code-management-in-team-development" target="_blank" rel="noopener noreferrer">团队开发中对于代码仓库和镜像管理的标准统一</a></li>
+<li class="article-item" data-title="我的自行车"><a href="https://whrss.com/posts/fnhon" target="_blank" rel="noopener noreferrer">我的自行车</a></li>
+<li class="article-item" data-title="使用 rclone 命令行管理 cloudflare r2 对象存储"><a href="https://whrss.com/posts/r2-rclone" target="_blank" rel="noopener noreferrer">使用 rclone 命令行管理 Cloudflare R2 对象存储</a></li>
+<li class="article-item" data-title="gorm 中 sql、慢 sql 打印日志传递 trace id"><a href="https://whrss.com/posts/gorm-trace-id" target="_blank" rel="noopener noreferrer">GORM 中 SQL、慢 SQL 打印日志传递 trace ID</a></li>
+<li class="article-item" data-title="更换博客图床，从 oss 到 github 再到 r2"><a href="https://whrss.com/posts/pic-archive" target="_blank" rel="noopener noreferrer">更换博客图床，从 OSS 到 GitHub 再到 R2</a></li>
+<li class="article-item" data-title="如何在 go 中实现程序的优雅退出，go-kratos 源码解析"><a href="https://whrss.com/posts/go-grace-stop" target="_blank" rel="noopener noreferrer">如何在 Go 中实现程序的优雅退出，go-kratos 源码解析</a></li>
+<li class="article-item" data-title="os.signal golang 中的信号处理"><a href="https://whrss.com/posts/go-signal" target="_blank" rel="noopener noreferrer">os.signal golang 中的信号处理</a></li>
+<li class="article-item" data-title="探索 planetscale：划分分支的 mysql serverless 平台"><a href="https://whrss.com/posts/planet-scale" target="_blank" rel="noopener noreferrer">探索 PlanetScale：划分分支的 MySQL Serverless 平台</a></li>
+<li class="article-item" data-title="优化你的rss订阅：一次全面改进的实践"><a href="https://whrss.com/posts/feed-sub" target="_blank" rel="noopener noreferrer">优化你的RSS订阅：一次全面改进的实践</a></li>
+<li class="article-item" data-title="最近在做的事：github action | gpt plus | whisper | v2ex | gpt api | pmp"><a href="https://whrss.com/posts/done-lately" target="_blank" rel="noopener noreferrer">最近在做的事：GitHub Action | GPT Plus | whisper | V2EX | GPT API | PMP</a></li>
+<li class="article-item" data-title="一个游戏开发者的自我介绍"><a href="https://whrss.com/posts/me" target="_blank" rel="noopener noreferrer">一个游戏开发者的自我介绍</a></li>
+<li class="article-item" data-title="使用github action 同步运动数据并生成热力图"><a href="https://whrss.com/posts/github-poster" target="_blank" rel="noopener noreferrer">使用GitHub Action 同步运动数据并生成热力图</a></li>
+<li class="article-item" data-title="【gorm】save 方法更新踩坑记录"><a href="https://whrss.com/posts/gorm-save-issue" target="_blank" rel="noopener noreferrer">【Gorm】Save 方法更新踩坑记录</a></li>
+<li class="article-item" data-title="一次线上异常的追踪与处理"><a href="https://whrss.com/posts/exception-tracking" target="_blank" rel="noopener noreferrer">一次线上异常的追踪与处理</a></li>
+<li class="article-item" data-title="go 单元测试高效实践"><a href="https://whrss.com/posts/go-test" target="_blank" rel="noopener noreferrer">Go 单元测试高效实践</a></li>
+<li class="article-item" data-title="一个有趣且实用的开源项目，将网页打包成应用"><a href="https://whrss.com/posts/pake" target="_blank" rel="noopener noreferrer">一个有趣且实用的开源项目，将网页打包成应用</a></li>
+<li class="article-item" data-title="github action 自动化部署简单尝试"><a href="https://whrss.com/posts/github-action" target="_blank" rel="noopener noreferrer">GitHub Action 自动化部署简单尝试</a></li>
+</ul></section>
+</div>
+                    <div class="daily-filter-empty" id="dailyFilterEmpty">没有匹配的文章，请调整筛选条件</div>
+                    <div class="footer">
+                        <p>Generated by SECDaily - 2026 · 页面更新 2026-05-26 15:58:07</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="tag-cloud " id="tagCloud">
+        <div class="tag-cloud-header">🏷️ 关键词标签云</div>
+        <div class="tag-cloud-content">
+            
+                <span class="tag-cloud-item tag-size-6" title="出现 9 次">2025</span>
+            
+                <span class="tag-cloud-item tag-size-5" title="出现 8 次">how</span>
+            
+                <span class="tag-cloud-item tag-size-3" title="出现 6 次">injection</span>
+            
+                <span class="tag-cloud-item tag-size-2" title="出现 4 次">api</span>
+            
+                <span class="tag-cloud-item tag-size-2" title="出现 4 次">安全圈</span>
+            
+                <span class="tag-cloud-item tag-size-2" title="出现 4 次">good</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">code</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">breaches</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">mobile</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">reset</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">number</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">system</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">net</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">data</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">wi</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">fi</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">card</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">monitor</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">packet</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">mode</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">golang</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">gorm</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">github</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">go</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">action</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 2 次">idor</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 2 次">attacks</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 2 次">unmasked</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 2 次">exploits</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 2 次">real</span>
+            
+        </div>
+    </div>
+    
+    
+    
+    
+    <!-- 回到顶部按钮 -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()" title="回到顶部" aria-label="回到顶部">↑</button>
+    
+    <script>
+        // 拖拽功能
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+        
+        const panel = document.getElementById('aiSummaryPanel');
+        const toggle = document.getElementById('aiSummaryToggle');
+        
+        if (panel) {
+            const header = panel.querySelector('.ai-summary-header');
+            
+            header.addEventListener('mousedown', dragStart);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', dragEnd);
+        }
+        
+        function dragStart(e) {
+            if (e.target.classList.contains('ai-summary-close')) {
+                return;
+            }
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+            
+            if (e.target === header || header.contains(e.target)) {
+                isDragging = true;
+            }
+        }
+        
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+                
+                xOffset = currentX;
+                yOffset = currentY;
+                
+                setTranslate(currentX, currentY, panel);
+            }
+        }
+        
+        function dragEnd(e) {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+        }
+        
+        function setTranslate(xPos, yPos, el) {
+            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+        }
+        
+        // 显示/隐藏功能
+        function toggleSummary() {
+            if (panel) {
+                if (panel.style.display === 'none' || panel.style.display === '') {
+                    panel.style.display = 'flex';
+                    if (toggle) toggle.textContent = '🤖';
+                } else {
+                    panel.style.display = 'none';
+                    if (toggle) toggle.textContent = '🤖';
+                }
+            }
+        }
+        
+        // 响应式处理：窗口大小改变时调整
+        function handleResize() {
+            if (window.innerWidth <= 768) {
+                // 移动端：默认隐藏，显示切换按钮
+                if (panel && panel.style.display !== 'none') {
+                    // 如果当前显示，可以选择隐藏或保持显示
+                    // 这里保持当前状态，不强制隐藏
+                }
+            } else {
+                // 桌面端：默认显示
+                if (panel && panel.style.display === 'none') {
+                    panel.style.display = 'flex';
+                }
+            }
+        }
+        
+        // 监听窗口大小改变
+        window.addEventListener('resize', handleResize);
+        
+        // 移动端初始状态：默认隐藏
+        if (window.innerWidth <= 768) {
+            if (panel) {
+                panel.style.display = 'none';
+            }
+        }
+        
+        // 回到顶部功能
+        const backToTopBtn = document.getElementById('backToTop');
+        const aiSummaryToggle = document.getElementById('aiSummaryToggle');
+        
+        // 检查是否有AI总结按钮，调整回到顶部按钮位置
+        if (aiSummaryToggle && backToTopBtn) {
+            backToTopBtn.classList.add('has-ai-toggle');
+        }
+        
+        // 调整标签云位置（如果有AI总结）
+        const tagCloud = document.getElementById('tagCloud');
+        if (tagCloud && panel) {
+            // 如果AI总结面板存在，标签云会自动通过CSS类调整位置
+            // 这里可以添加额外的JavaScript逻辑如果需要
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        (function initNavSearch() {
+            const form = document.getElementById('navSearchForm');
+            const input = document.getElementById('navSearchInput');
+            if (!form || !input) return;
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const query = input.value.trim();
+                if (!query) {
+                    window.location.href = '../index.html';
+                    return;
+                }
+                window.location.href = '../index.html?mode=title&q=' + encodeURIComponent(query);
+            });
+        })();
+        
+        (function initDailyFilter() {
+            const mainBody = document.getElementById('mainBody');
+            const filterInput = document.getElementById('articleFilter');
+            const sourceFilter = document.getElementById('sourceFilter');
+            const cveOnlyBtn = document.getElementById('cveOnlyBtn');
+            const clearFilterBtn = document.getElementById('clearFilterBtn');
+            const filterMeta = document.getElementById('filterMeta');
+            const filterEmpty = document.getElementById('dailyFilterEmpty');
+            const feed = document.getElementById('dailyFeed');
+            if (!feed || !filterInput) return;
+
+            const sections = [...feed.querySelectorAll('.source-section')];
+            let cveOnly = false;
+
+            sections.forEach((section) => {
+                const sourceName = section.dataset.source || '';
+                if (sourceFilter && sourceName) {
+                    const option = document.createElement('option');
+                    option.value = sourceName;
+                    option.textContent = sourceName.length > 28 ? sourceName.slice(0, 28) + '…' : sourceName;
+                    option.title = sourceName;
+                    sourceFilter.appendChild(option);
+                }
+            });
+
+            const applyFilter = () => {
+                const query = filterInput.value.trim().toLowerCase();
+                const selectedSource = sourceFilter ? sourceFilter.value : '';
+                let visibleArticles = 0;
+                let visibleSections = 0;
+
+                sections.forEach((section) => {
+                    const sourceName = section.dataset.source || '';
+                    const items = [...section.querySelectorAll('.article-item')];
+                    let sectionVisible = 0;
+
+                    items.forEach((item) => {
+                        const title = item.dataset.title || item.textContent.toLowerCase();
+                        const matchQuery = !query || title.includes(query);
+                        const matchSource = !selectedSource || sourceName === selectedSource;
+                        const matchCve = !cveOnly || item.classList.contains('is-cve');
+                        const show = matchQuery && matchSource && matchCve;
+                        item.classList.toggle('is-hidden', !show);
+                        if (show) sectionVisible++;
+                    });
+
+                    const showSection = sectionVisible > 0;
+                    section.classList.toggle('is-hidden', !showSection);
+                    if (showSection) {
+                        visibleSections++;
+                        visibleArticles += sectionVisible;
+                    }
+                });
+
+                if (filterMeta) {
+                    filterMeta.textContent = query || selectedSource || cveOnly
+                        ? `显示 ${visibleArticles} 篇文章 · ${visibleSections} 个来源`
+                        : `共 ${sections.length} 个来源`;
+                }
+                if (filterEmpty) {
+                    filterEmpty.style.display = visibleArticles === 0 ? 'block' : 'none';
+                }
+            };
+
+            filterInput.addEventListener('input', applyFilter);
+            if (sourceFilter) sourceFilter.addEventListener('change', applyFilter);
+            if (cveOnlyBtn) {
+                cveOnlyBtn.addEventListener('click', () => {
+                    cveOnly = !cveOnly;
+                    cveOnlyBtn.classList.toggle('is-active', cveOnly);
+                    applyFilter();
+                });
+            }
+            if (clearFilterBtn) {
+                clearFilterBtn.addEventListener('click', () => {
+                    filterInput.value = '';
+                    if (sourceFilter) sourceFilter.value = '';
+                    cveOnly = false;
+                    if (cveOnlyBtn) cveOnlyBtn.classList.remove('is-active');
+                    applyFilter();
+                });
+            }
+
+            document.querySelectorAll('.tag-cloud-item').forEach((tag) => {
+                tag.addEventListener('click', () => {
+                    filterInput.value = tag.textContent.trim();
+                    applyFilter();
+                    document.getElementById('dailyToolbar')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+
+            applyFilter();
+        })();
+
+        (function initReadingEnhancements() {
+            const mainBody = document.getElementById('mainBody');
+            const tocPanel = document.getElementById('tocPanel');
+            const tocList = document.getElementById('tocList');
+            const articleLayout = document.getElementById('articleLayout');
+            const progressBar = document.getElementById('readProgress');
+            if (!mainBody) return;
+            
+            const headings = mainBody.querySelectorAll('h2');
+            if (headings.length && tocList && tocPanel) {
+                tocPanel.hidden = false;
+                articleLayout.classList.remove('no-toc');
+                headings.forEach((heading, index) => {
+                    const text = heading.textContent.trim();
+                    if (!text) return;
+                    let id = heading.id;
+                    if (!id) {
+                        id = 'section-' + index + '-' + text.replace(/\s+/g, '-').replace(/[^\w\u4e00-\u9fff-]/g, '').slice(0, 40);
+                        heading.id = id;
+                    }
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = '#' + id;
+                    a.textContent = text.length > 28 ? text.slice(0, 28) + '…' : text;
+                    a.title = text;
+                    a.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                    li.appendChild(a);
+                    tocList.appendChild(li);
+                });
+                
+                const tocLinks = tocList.querySelectorAll('a');
+                const onScroll = () => {
+                    let active = 0;
+                    headings.forEach((h, i) => {
+                        if (h.getBoundingClientRect().top <= 120) active = i;
+                    });
+                    tocLinks.forEach((link, i) => link.classList.toggle('is-active', i === active));
+                };
+                window.addEventListener('scroll', onScroll, { passive: true });
+                onScroll();
+            }
+            
+            if (progressBar) {
+                window.addEventListener('scroll', () => {
+                    const rect = mainBody.getBoundingClientRect();
+                    const total = mainBody.scrollHeight - window.innerHeight;
+                    const scrolled = Math.min(Math.max(-rect.top, 0), total);
+                    const pct = total > 0 ? (scrolled / total) * 100 : 0;
+                    progressBar.style.width = pct + '%';
+                }, { passive: true });
+            }
+        })();
+    </script>
+</body>
+</html>

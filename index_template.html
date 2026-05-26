@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ site_name }} - {{ site_tagline }}">
+    <meta name="keywords" content="安全资讯,网络安全,信息安全,安全日报,AI总结">
+    <meta name="author" content="{{ site_name }}">
+    <title>{{ title }} - {{ site_name }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --secondary: #06b6d4;
+            --accent: #10b981;
+            --bg-page: #0f172a;
+            --bg-page-mid: #1e293b;
+            --bg-card: #ffffff;
+            --bg-muted: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --text-on-dark: #e2e8f0;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 4px 20px rgba(15, 23, 42, 0.12);
+            --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.15);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 10px;
+            --gap-section: 14px;
+            --gap-card: 10px;
+            --glow-primary: rgba(14, 165, 233, 0.15);
+            --glow-accent: rgba(16, 185, 129, 0.12);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text-primary);
+            background: linear-gradient(165deg, var(--bg-page) 0%, var(--bg-page-mid) 55%, #134e4a 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 15% 10%, var(--glow-primary) 0%, transparent 42%),
+                radial-gradient(circle at 85% 80%, var(--glow-accent) 0%, transparent 38%),
+                linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+            background-size: auto, auto, 24px 24px, 24px 24px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 16px 16px 28px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px 18px;
+            margin-bottom: var(--gap-section);
+            box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+        
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        
+        .icon-wrap {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: linear-gradient(145deg, #e0f2fe 0%, #cffafe 100%);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            border-radius: var(--radius-md);
+            box-shadow: 0 4px 12px var(--glow-primary);
+        }
+        
+        .header-text { flex: 1; min-width: 0; }
+        
+        .header-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            padding: 2px 8px;
+            border-radius: 999px;
+            margin-bottom: 4px;
+        }
+        
+        .header h1 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            font-weight: 400;
+        }
+        
+        .stats-bar {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            margin-bottom: var(--gap-section);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .stats-bar-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
+            padding-left: 2px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: var(--gap-card);
+        }
+        
+        .stat-item {
+            text-align: left;
+            padding: 10px 10px 10px 12px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--primary);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        
+        .stat-item:nth-child(2) { border-left-color: var(--secondary); }
+        .stat-item:nth-child(3) { border-left-color: var(--accent); }
+        .stat-item:nth-child(4) { border-left-color: #6366f1; }
+        
+        .stat-item:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(14, 165, 233, 0.35);
+        }
+        
+        .stat-icon {
+            font-size: 1rem;
+            margin-bottom: 4px;
+            display: block;
+            opacity: 0.9;
+        }
+        
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+        }
+        
+        .content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 16px 18px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+        
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed var(--border);
+        }
+        
+        .section-head h2 {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        
+        .header-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 999px;
+            box-shadow: 0 2px 8px var(--glow-primary);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            flex-shrink: 0;
+        }
+        
+        .header-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px var(--glow-primary);
+        }
+        
+        .recent-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            margin-bottom: var(--gap-section);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .recent-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--gap-card);
+        }
+        
+        .recent-card {
+            text-decoration: none;
+            color: inherit;
+            text-align: center;
+            padding: 10px 6px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+        
+        .recent-card:hover {
+            border-color: rgba(14, 165, 233, 0.45);
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-1px);
+        }
+        
+        .recent-card.is-latest {
+            border-color: rgba(16, 185, 129, 0.45);
+            background: linear-gradient(180deg, #ecfdf5 0%, #f0fdfa 100%);
+        }
+        
+        .recent-card .recent-day {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+        
+        .recent-card .recent-date {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        
+        .recent-card .recent-label {
+            font-size: 0.65rem;
+            color: var(--accent);
+            margin-top: 3px;
+            font-weight: 600;
+        }
+        
+        .toolbar {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 10px 12px;
+            margin-bottom: var(--gap-section);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 180px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            background: var(--bg-muted);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+        }
+        
+        .search-box input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            outline: none;
+        }
+        
+        .search-box input::placeholder { color: var(--text-muted); }
+
+        .search-mode {
+            display: inline-flex;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            overflow: hidden;
+            background: var(--bg-muted);
+            flex-shrink: 0;
+        }
+
+        .search-mode button {
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .search-mode button.is-active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+        }
+
+        .title-search-panel {
+            display: none;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            margin-bottom: var(--gap-section);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .title-search-panel.is-visible { display: block; }
+
+        .title-search-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .title-search-head h2 {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .title-search-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .title-search-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 420px;
+            overflow-y: auto;
+        }
+
+        .title-search-item {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .title-search-item:hover {
+            border-color: rgba(14, 165, 233, 0.45);
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-1px);
+        }
+
+        .title-search-item-title {
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.45;
+            margin-bottom: 6px;
+        }
+
+        .title-search-item-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .title-search-item-meta span {
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: rgba(14, 165, 233, 0.08);
+            border: 1px solid rgba(14, 165, 233, 0.15);
+        }
+
+        .title-search-empty,
+        .title-search-loading {
+            text-align: center;
+            padding: 24px 12px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        .year-jump {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+        }
+        
+        .year-jump-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        
+        .year-jump a {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            text-decoration: none;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(14, 165, 233, 0.08);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+        
+        .year-jump a:hover {
+            color: #fff;
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .search-empty {
+            display: none;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        .archive-panel .section-head { margin-bottom: 12px; }
+        
+        .year-section {
+            margin-bottom: 22px;
+        }
+        
+        .year-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .year-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            background: linear-gradient(90deg, rgba(14, 165, 233, 0.08) 0%, transparent 100%);
+            border: 1px solid rgba(14, 165, 233, 0.15);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .year-title::before {
+            content: "";
+            width: 4px;
+            height: 1em;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: var(--gap-card);
+            margin-top: 8px;
+        }
+        
+        .article-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: var(--radius-sm);
+            padding: 10px 28px 10px 14px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .article-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            opacity: 0.6;
+            transition: opacity 0.2s ease, width 0.2s ease;
+        }
+        
+        .article-card::after {
+            content: '→';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            opacity: 0;
+            transition: opacity 0.2s ease, right 0.2s ease, color 0.2s ease;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--glow-primary);
+            border-color: rgba(14, 165, 233, 0.4);
+        }
+        
+        .article-card:hover::before { opacity: 1; width: 4px; }
+        .article-card:hover::after { opacity: 1; right: 8px; color: var(--primary); }
+        
+        .article-date {
+            display: inline-block;
+            color: var(--primary-dark);
+            font-size: 0.68rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.02em;
+            padding: 2px 8px;
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.18);
+            border-radius: 999px;
+        }
+        
+        .article-title {
+            color: var(--text-primary);
+            font-size: 0.84rem;
+            font-weight: 500;
+            line-height: 1.45;
+            transition: color 0.2s;
+        }
+        
+        .article-card:hover .article-title {
+            color: var(--primary-dark);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 16px 18px;
+            margin-top: var(--gap-section);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(30, 41, 59, 0.85) 100%);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: var(--radius-md);
+            color: var(--text-on-dark);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+        
+        .footer p {
+            font-size: 0.82rem;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #f1f5f9;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            background: rgba(14, 165, 233, 0.12);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            transition: background 0.2s ease, color 0.2s ease;
+            font-weight: 500;
+            font-size: 0.78rem;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .footer-links span {
+            color: var(--text-muted);
+        }
+        
+        .update-time {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1.25rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            z-index: 998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 900px) {
+            .recent-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 12px 12px 24px; }
+            .header { padding: 14px 16px; }
+            .header-brand { gap: 10px; flex-wrap: wrap; }
+            .icon-wrap { width: 42px; height: 42px; font-size: 1.25rem; }
+            .header h1 { font-size: 1.2rem; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 10px; }
+            .article-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .content { padding: 14px 14px; }
+            .recent-grid { grid-template-columns: repeat(2, 1fr); }
+            .toolbar { flex-direction: column; align-items: stretch; }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-bar { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-brand">
+                <div class="icon-wrap" aria-hidden="true">🛡️</div>
+                <div class="header-text">
+                    <span class="header-badge">{{ site_name }}</span>
+                    <h1>{{ site_name }}</h1>
+                    <p>{{ site_tagline }}</p>
+                </div>
+                {% if recent_days and recent_days|length > 0 %}
+                <a class="header-cta" href="{{ recent_days[0].path }}" target="_blank">阅读最新 →</a>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if recent_days and recent_days|length > 0 %}
+        <section class="recent-section" aria-label="最近七天">
+            <div class="section-head">
+                <h2>最近 7 天</h2>
+            </div>
+            <div class="recent-grid">
+                {% for day in recent_days %}
+                <a href="{{ day.path }}" class="recent-card{% if loop.first %} is-latest{% endif %}" target="_blank" title="{{ day.date }}">
+                    <div class="recent-day">{% if loop.first %}最新{% else %}日报{% endif %}</div>
+                    <div class="recent-date">{{ day.date[5:] if day.date|length > 5 else day.date }}</div>
+                    {% if loop.first %}<div class="recent-label">今日推荐</div>{% endif %}
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+        
+        {% if years_list and years_list|length > 0 %}
+        <div class="toolbar">
+            <div class="search-mode" role="tablist" aria-label="搜索模式">
+                <button type="button" id="modeTitle" data-mode="title">标题搜索</button>
+                <button type="button" id="modeDate" class="is-active" data-mode="date">日期归档</button>
+            </div>
+            <label class="search-box">
+                <span aria-hidden="true">🔍</span>
+                <input type="search" id="archiveSearch" placeholder="搜索日期，如 2026-03" autocomplete="off">
+            </label>
+            <div class="year-jump" id="yearJump">
+                <span class="year-jump-label">年份</span>
+                {% for y in years_list %}
+                <a href="#year-{{ y }}">{{ y }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <section class="title-search-panel" id="titleSearchPanel" aria-label="标题搜索结果">
+            <div class="title-search-head">
+                <h2>标题搜索结果</h2>
+                <span class="title-search-meta" id="titleSearchMeta"></span>
+            </div>
+            <div class="title-search-loading" id="titleSearchLoading">正在加载搜索索引...</div>
+            <div class="title-search-empty" id="titleSearchEmpty" hidden>未找到匹配文章，请换个关键词试试</div>
+            <div class="title-search-list" id="titleSearchList"></div>
+        </section>
+        {% endif %}
+        
+        <div class="stats-bar">
+            <div class="stats-bar-title">数据概览</div>
+            <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-icon">📚</span>
+                <div class="stat-value">{{ total_files }}</div>
+                <div class="stat-label">总文章数</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">📅</span>
+                <div class="stat-value">{{ total_years }}</div>
+                <div class="stat-label">归档年份</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">⭐</span>
+                <div class="stat-value">{{ latest_year }}</div>
+                <div class="stat-label">最新年份</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-icon">🔄</span>
+                <div class="stat-value" style="font-size: 1.1rem;">{{ update_time.split(' ')[0] }}</div>
+                <div class="stat-label">更新时间</div>
+            </div>
+            </div>
+        </div>
+        
+        <div class="content archive-panel">
+            <div class="section-head">
+                <h2>归档目录</h2>
+                <span id="archiveCount" style="font-size:0.75rem;color:var(--text-muted);"></span>
+            </div>
+            <div id="searchEmpty" class="search-empty">未找到匹配的日报，请换个关键词试试</div>
+            <div id="archiveContent">{{ content }}</div>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; {{ year }} {{ site_name }}</p>
+            <div class="footer-links">
+                <a href="sitemap.xml" target="_blank">站点地图</a>
+                <span>|</span>
+                <a href="robots.txt" target="_blank">Robots.txt</a>
+            </div>
+            <div class="update-time">最后更新: {{ update_time }}</div>
+        </div>
+    </div>
+    
+    <button class="back-to-top" onclick="scrollToTop()" title="回到顶部" aria-label="回到顶部">↑</button>
+    
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        (function () {
+            const searchInput = document.getElementById('archiveSearch');
+            const archiveContent = document.getElementById('archiveContent');
+            const searchEmpty = document.getElementById('searchEmpty');
+            const countEl = document.getElementById('archiveCount');
+            const titleSearchPanel = document.getElementById('titleSearchPanel');
+            const titleSearchList = document.getElementById('titleSearchList');
+            const titleSearchMeta = document.getElementById('titleSearchMeta');
+            const titleSearchEmpty = document.getElementById('titleSearchEmpty');
+            const titleSearchLoading = document.getElementById('titleSearchLoading');
+            const yearJump = document.getElementById('yearJump');
+            const modeTitleBtn = document.getElementById('modeTitle');
+            const modeDateBtn = document.getElementById('modeDate');
+            if (!archiveContent) return;
+
+            const cards = archiveContent.querySelectorAll('.article-card');
+            let searchMode = 'date';
+            let searchIndex = [];
+            let indexLoaded = false;
+            let indexLoading = false;
+            const MAX_TITLE_RESULTS = 80;
+
+            const updateCount = (visible) => {
+                if (countEl) countEl.textContent = visible === cards.length
+                    ? `共 ${cards.length} 篇`
+                    : `显示 ${visible} / ${cards.length} 篇`;
+            };
+            updateCount(cards.length);
+
+            const setSearchMode = (mode) => {
+                searchMode = mode;
+                if (modeTitleBtn) modeTitleBtn.classList.toggle('is-active', mode === 'title');
+                if (modeDateBtn) modeDateBtn.classList.toggle('is-active', mode === 'date');
+                if (searchInput) {
+                    searchInput.placeholder = mode === 'title'
+                        ? '搜索文章标题、CVE、来源...'
+                        : '搜索日期，如 2026-03';
+                }
+                if (yearJump) yearJump.style.display = mode === 'date' ? '' : 'none';
+                const hasQuery = !!(searchInput?.value || '').trim();
+                if (titleSearchPanel) {
+                    titleSearchPanel.classList.toggle('is-visible', mode === 'title' && hasQuery);
+                }
+                if (searchEmpty) searchEmpty.style.display = 'none';
+                runSearch();
+            };
+
+            const loadSearchIndex = async () => {
+                if (indexLoaded || indexLoading) return;
+                indexLoading = true;
+                try {
+                    const response = await fetch('search-index.json', { cache: 'no-cache' });
+                    if (!response.ok) throw new Error('索引加载失败');
+                    const data = await response.json();
+                    searchIndex = Array.isArray(data) ? data : (data.articles || []);
+                    indexLoaded = true;
+                } catch (error) {
+                    if (titleSearchLoading) {
+                        titleSearchLoading.textContent = '搜索索引加载失败，请稍后重试';
+                    }
+                } finally {
+                    indexLoading = false;
+                    if (titleSearchLoading) titleSearchLoading.hidden = true;
+                }
+            };
+
+            const renderTitleResults = (query) => {
+                if (!titleSearchList || !titleSearchMeta || !titleSearchEmpty) return;
+                titleSearchList.innerHTML = '';
+
+                if (!query) {
+                    titleSearchMeta.textContent = '';
+                    titleSearchEmpty.hidden = true;
+                    if (titleSearchPanel) titleSearchPanel.classList.remove('is-visible');
+                    return;
+                }
+
+                if (titleSearchPanel) titleSearchPanel.classList.add('is-visible');
+
+                const q = query.toLowerCase();
+                const allMatches = searchIndex.filter((item) => {
+                    const haystack = [
+                        item.title || '',
+                        item.source || '',
+                        item.date || '',
+                    ].join(' ').toLowerCase();
+                    return haystack.includes(q);
+                });
+                const results = allMatches.slice(0, MAX_TITLE_RESULTS);
+
+                titleSearchMeta.textContent = allMatches.length
+                    ? `找到 ${results.length}${allMatches.length > MAX_TITLE_RESULTS ? '+' : ''} 条结果`
+                    : '未找到匹配文章';
+
+                if (!results.length) {
+                    titleSearchEmpty.hidden = false;
+                    return;
+                }
+
+                titleSearchEmpty.hidden = true;
+                results.forEach((item) => {
+                    const link = document.createElement('a');
+                    link.className = 'title-search-item';
+                    link.href = item.url;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    link.innerHTML = `
+                        <div class="title-search-item-title"></div>
+                        <div class="title-search-item-meta">
+                            <span>${item.date || ''}</span>
+                            <span>${item.source || '未分类'}</span>
+                        </div>
+                    `;
+                    link.querySelector('.title-search-item-title').textContent = item.title || '未命名文章';
+                    titleSearchList.appendChild(link);
+                });
+            };
+
+            const runDateSearch = () => {
+                const q = (searchInput?.value || '').trim().toLowerCase();
+                let visible = 0;
+                cards.forEach((card) => {
+                    const date = (card.dataset.date || card.textContent || '').toLowerCase();
+                    const show = !q || date.includes(q);
+                    card.style.display = show ? '' : 'none';
+                    if (show) visible++;
+                });
+                archiveContent.querySelectorAll('.year-section').forEach((section) => {
+                    const any = [...section.querySelectorAll('.article-card')].some(c => c.style.display !== 'none');
+                    section.style.display = any ? '' : 'none';
+                });
+                if (searchEmpty) searchEmpty.style.display = visible === 0 && q ? 'block' : 'none';
+                updateCount(visible);
+            };
+
+            const runSearch = async () => {
+                if (searchMode === 'date') {
+                    runDateSearch();
+                    return;
+                }
+                const query = (searchInput?.value || '').trim();
+                if (!indexLoaded && !indexLoading) {
+                    if (titleSearchLoading) {
+                        titleSearchLoading.hidden = false;
+                        titleSearchLoading.textContent = '正在加载搜索索引...';
+                    }
+                    await loadSearchIndex();
+                }
+                renderTitleResults(query);
+            };
+
+            if (modeTitleBtn) modeTitleBtn.addEventListener('click', () => setSearchMode('title'));
+            if (modeDateBtn) modeDateBtn.addEventListener('click', () => setSearchMode('date'));
+
+            if (searchInput) {
+                searchInput.addEventListener('input', runSearch);
+            }
+
+            document.querySelectorAll('.year-jump a').forEach((link) => {
+                link.addEventListener('click', (e) => {
+                    const id = link.getAttribute('href');
+                    const el = id && document.querySelector(id);
+                    if (el) {
+                        e.preventDefault();
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            const params = new URLSearchParams(window.location.search);
+            const initialQuery = params.get('q') || '';
+            const initialMode = params.get('mode') === 'title' || initialQuery ? 'title' : 'date';
+            setSearchMode(initialMode);
+            if (initialQuery && searchInput) {
+                searchInput.value = initialQuery;
+                runSearch();
+            }
+        })();
+    </script>
+</body>
+</html>
+

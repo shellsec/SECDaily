@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="每日安全资讯（2025-08-22） - SECDaily">
+    <meta name="keywords" content="安全资讯,网络安全,信息安全">
+    <title>每日安全资讯（2025-08-22） - SECDaily</title>
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --secondary: #06b6d4;
+            --bg-page: #0f172a;
+            --bg-page-mid: #1e293b;
+            --bg-card: #ffffff;
+            --bg-muted: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 4px 20px rgba(15, 23, 42, 0.12);
+            --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.15);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 10px;
+            --sidebar-width: 260px;
+            --toc-width: 168px;
+            --gap-section: 12px;
+            --gap-card: 8px;
+            --accent: #10b981;
+            --glow-primary: rgba(14, 165, 233, 0.15);
+            --glow-accent: rgba(16, 185, 129, 0.12);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text-primary);
+            background: linear-gradient(165deg, var(--bg-page) 0%, var(--bg-page-mid) 55%, #134e4a 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 12% 8%, var(--glow-primary) 0%, transparent 40%),
+                radial-gradient(circle at 88% 92%, var(--glow-accent) 0%, transparent 36%),
+                linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+            background-size: auto, auto, 24px 24px, 24px 24px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 16px 16px 28px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .navigation {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 8px 14px;
+            margin-bottom: var(--gap-section);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-brand {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+            padding: 4px 10px;
+            border-radius: 999px;
+            margin-right: 4px;
+        }
+        
+        .navigation a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.82rem;
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s ease, color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .navigation a::before {
+            content: '←';
+            font-size: 1em;
+        }
+        
+        .navigation a:hover {
+            background: var(--bg-muted);
+            color: var(--primary);
+        }
+        
+        .navigation span {
+            color: var(--border);
+        }
+
+        .nav-search {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 180px;
+            max-width: 320px;
+            flex: 1;
+            padding: 4px 8px;
+            background: var(--bg-muted);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+        }
+
+        .nav-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 0.82rem;
+            color: var(--text-primary);
+            outline: none;
+            min-width: 0;
+        }
+
+        .nav-search button {
+            border: none;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 999px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .main-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px 22px;
+            box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            margin-right: calc(var(--sidebar-width) + 16px);
+            position: relative;
+        }
+        
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+        
+        .read-progress {
+            position: absolute;
+            top: 3px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--bg-muted);
+            z-index: 2;
+        }
+        
+        .read-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.1s linear;
+        }
+        
+        .article-layout {
+            display: grid;
+            grid-template-columns: var(--toc-width) 1fr;
+            gap: 14px;
+            align-items: start;
+        }
+        
+        .article-layout.no-toc {
+            grid-template-columns: 1fr;
+        }
+        
+        .toc-panel {
+            position: sticky;
+            top: 16px;
+            background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 10px;
+            max-height: calc(100vh - 32px);
+            overflow-y: auto;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .toc-panel[hidden] { display: none !important; }
+        
+        .toc-head {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed var(--border);
+        }
+        
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .toc-list a {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 5px 8px;
+            border-radius: var(--radius-sm);
+            border-left: 2px solid transparent;
+            line-height: 1.35;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+        
+        .toc-list a:hover {
+            color: var(--primary-dark);
+            background: rgba(14, 165, 233, 0.08);
+        }
+        
+        .toc-list a.is-active {
+            color: var(--primary-dark);
+            font-weight: 600;
+            background: rgba(14, 165, 233, 0.1);
+            border-left-color: var(--primary);
+        }
+        
+        .main-body {
+            min-width: 0;
+        }
+        
+        .main-content h2 {
+            scroll-margin-top: 12px;
+        }
+        
+        .main-content h2:target {
+            outline: 2px solid rgba(14, 165, 233, 0.35);
+            outline-offset: 2px;
+        }
+        
+        .article-head {
+            padding-top: 4px;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--border);
+        }
+        
+        .main-content h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+            line-height: 1.35;
+        }
+        
+        .date {
+            color: var(--primary-dark);
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            background: rgba(14, 165, 233, 0.08);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+        }
+        
+        .meta-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        
+        .meta-tag {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--bg-muted);
+            border: 1px solid var(--border);
+            padding: 2px 8px;
+            border-radius: 999px;
+        }
+        
+        .meta-tag.is-ai {
+            color: #047857;
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.25);
+        }
+        
+        .main-content hr {
+            border: none;
+            height: 1px;
+            background: var(--border);
+            margin: 16px 0;
+        }
+        
+        .main-content h2 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 18px 0 8px 0;
+            padding: 8px 12px 8px 10px;
+            background: linear-gradient(90deg, rgba(14, 165, 233, 0.08) 0%, transparent 100%);
+            border: 1px solid rgba(14, 165, 233, 0.12);
+            border-radius: var(--radius-sm);
+        }
+        
+        .main-content h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 1em;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            margin-right: 10px;
+            vertical-align: -0.1em;
+        }
+        
+        .main-content blockquote {
+            margin: 10px 0;
+            padding: 10px 14px;
+            border-left: 3px solid var(--secondary);
+            background: var(--bg-muted);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+        }
+        
+        .main-content code {
+            font-size: 0.85em;
+            padding: 1px 5px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            color: #0f172a;
+        }
+        
+        .main-content h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 14px 0 6px 0;
+        }
+        
+        .main-content a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        
+        .main-content a:hover {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .main-content ul, .main-content ol {
+            margin: 8px 0;
+            padding-left: 1.35em;
+        }
+        
+        .main-content li {
+            margin: 4px 0;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+        
+        .main-content li a {
+            color: var(--primary-dark);
+        }
+
+        .daily-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 14px;
+            padding: 10px 12px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+        }
+
+        .daily-filter-input,
+        .daily-filter-select {
+            border: 1px solid var(--border);
+            background: #fff;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            color: var(--text-primary);
+            padding: 6px 10px;
+            outline: none;
+        }
+
+        .daily-filter-input {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .daily-filter-select {
+            min-width: 140px;
+            max-width: 220px;
+        }
+
+        .daily-filter-btn {
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            background: rgba(14, 165, 233, 0.08);
+            color: var(--primary-dark);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .daily-filter-btn:hover,
+        .daily-filter-btn.is-active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: transparent;
+            color: #fff;
+        }
+
+        .daily-filter-meta {
+            width: 100%;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .daily-empty,
+        .daily-filter-empty {
+            text-align: center;
+            padding: 24px 12px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .daily-filter-empty {
+            display: none;
+        }
+
+        .source-section {
+            margin-bottom: 18px;
+        }
+
+        .source-section.is-hidden {
+            display: none;
+        }
+
+        .source-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 1.5em;
+            padding: 1px 8px;
+            margin-left: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            background: rgba(14, 165, 233, 0.12);
+            border: 1px solid rgba(14, 165, 233, 0.18);
+            border-radius: 999px;
+            vertical-align: middle;
+        }
+
+        .article-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .article-item {
+            padding: 7px 10px;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+            transition: background 0.2s ease;
+        }
+
+        .article-item:last-child {
+            border-bottom: none;
+        }
+
+        .article-item:hover {
+            background: rgba(14, 165, 233, 0.05);
+        }
+
+        .article-item.is-hidden {
+            display: none;
+        }
+
+        .article-item a {
+            display: inline;
+            line-height: 1.55;
+        }
+
+        .cve-badge {
+            display: inline-block;
+            margin-right: 4px;
+            padding: 1px 6px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: #b45309;
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-radius: 999px;
+            vertical-align: middle;
+        }
+        
+        .main-content p {
+            margin: 6px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .main-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.82rem;
+        }
+        
+        .main-content th,
+        .main-content td {
+            border: 1px solid var(--border);
+            padding: 6px 8px;
+            text-align: left;
+        }
+        
+        .main-content th {
+            background: var(--bg-muted);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .stats-line {
+            margin: 12px 0;
+            padding: 8px 12px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.06) 0%, rgba(6, 182, 212, 0.04) 100%);
+            border: 1px solid rgba(14, 165, 233, 0.15);
+            border-left: 3px solid var(--primary);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+        
+        .stat-separator {
+            margin: 0 12px;
+            color: var(--text-muted);
+        }
+        
+        .tag-cloud {
+            position: fixed;
+            right: 16px;
+            top: 16px;
+            width: var(--sidebar-width);
+            max-height: 38vh;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            z-index: 999;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .tag-cloud.has-ai-summary {
+            top: auto;
+            bottom: 72px;
+            max-height: calc(36vh - 24px);
+        }
+        
+        .tag-cloud-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #0369a1 100%);
+            color: #fff;
+            padding: 8px 10px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-align: center;
+            box-shadow: 0 2px 8px var(--glow-primary);
+        }
+        
+        .tag-cloud-content {
+            padding: 10px;
+            overflow-y: auto;
+            flex: 1;
+            text-align: center;
+            line-height: 1.45;
+        }
+        
+        .tag-cloud-content::-webkit-scrollbar { width: 5px; }
+        .tag-cloud-content::-webkit-scrollbar-track { background: var(--bg-muted); }
+        .tag-cloud-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        .tag-cloud-item {
+            display: inline-block;
+            margin: 2px 3px;
+            padding: 2px 8px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 999px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            font-weight: 400;
+            cursor: pointer;
+            transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .tag-cloud-item:hover {
+            border-color: rgba(14, 165, 233, 0.5);
+            color: var(--primary-dark);
+            box-shadow: 0 2px 6px var(--glow-primary);
+        }
+        
+        .tag-cloud-item.tag-size-1 { font-size: 0.7em; opacity: 0.65; }
+        .tag-cloud-item.tag-size-2 { font-size: 0.75em; opacity: 0.75; }
+        .tag-cloud-item.tag-size-3 { font-size: 0.8em; opacity: 0.85; }
+        .tag-cloud-item.tag-size-4 { font-size: 0.85em; }
+        .tag-cloud-item.tag-size-5 { font-size: 0.9em; font-weight: 500; }
+        .tag-cloud-item.tag-size-6 { font-size: 0.95em; font-weight: 600; color: var(--primary-dark); }
+        
+        .footer {
+            margin-top: 24px;
+            padding-top: 14px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .ai-summary-panel {
+            position: fixed;
+            right: 16px;
+            top: 16px;
+            width: var(--sidebar-width);
+            max-height: 78vh;
+            background: var(--bg-card);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            z-index: 1000;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .ai-summary-header {
+            background: linear-gradient(135deg, #0284c7 0%, #0891b2 50%, #0d9488 100%);
+            color: #fff;
+            padding: 10px 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            box-shadow: 0 2px 10px var(--glow-primary);
+            cursor: move;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .ai-summary-close {
+            cursor: pointer;
+            font-size: 1.35rem;
+            line-height: 1;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s ease;
+        }
+        
+        .ai-summary-close:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .ai-summary-content {
+            padding: 12px 14px;
+            overflow-y: auto;
+            flex: 1;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+        
+        .ai-summary-content::-webkit-scrollbar { width: 6px; }
+        .ai-summary-content::-webkit-scrollbar-track { background: var(--bg-muted); }
+        .ai-summary-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        .ai-summary-content h3 {
+            color: var(--text-primary);
+            margin-top: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .ai-summary-content ul {
+            margin: 12px 0;
+            padding-left: 1.25em;
+        }
+        
+        .ai-summary-content li { margin: 6px 0; }
+        
+        .ai-summary-toggle {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            width: 40px;
+            height: 40px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            z-index: 999;
+            display: none;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        
+        .ai-summary-toggle:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 64px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            background: var(--secondary);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1.25rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            z-index: 998;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .back-to-top.has-ai-toggle { bottom: 64px; }
+        
+        @media (max-width: 1100px) {
+            :root { --sidebar-width: 240px; }
+            .main-content { margin-right: calc(var(--sidebar-width) + 12px); }
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 12px 12px 24px; }
+            .navigation { align-items: stretch; }
+            .nav-search {
+                width: 100%;
+                max-width: none;
+                margin-left: 0;
+            }
+            .main-content {
+                margin-right: 0;
+                padding: 14px 16px;
+            }
+            .article-layout {
+                grid-template-columns: 1fr;
+            }
+            .toc-panel {
+                position: static;
+                max-height: none;
+            }
+            .toc-list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .toc-list li { flex: 0 0 auto; }
+            .toc-list a {
+                border: 1px solid var(--border);
+                border-left: 1px solid var(--border);
+                white-space: nowrap;
+            }
+            .main-content h1 { font-size: 1.15rem; }
+            .ai-summary-panel,
+            .tag-cloud {
+                width: calc(100% - 32px);
+                right: 16px;
+                left: 16px;
+                max-height: 65vh;
+                top: 16px;
+            }
+            .tag-cloud.has-ai-summary {
+                top: auto;
+                bottom: 16px;
+            }
+            .ai-summary-toggle { display: block; }
+            .back-to-top {
+                bottom: 24px;
+                right: 16px;
+                width: 44px;
+                height: 44px;
+            }
+            .back-to-top.has-ai-toggle { bottom: 60px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <span class="nav-brand">SECDaily</span>
+            <a href="../index.html">返回首页</a>
+            <span>|</span>
+            <a href="../../index.html">项目主页</a>
+            <form class="nav-search" id="navSearchForm">
+                <input type="search" id="navSearchInput" placeholder="全站标题搜索..." autocomplete="off" aria-label="全站标题搜索">
+                <button type="submit">搜索</button>
+            </form>
+        </div>
+        
+        <div class="main-content">
+            <div class="read-progress" aria-hidden="true"><div class="read-progress-bar" id="readProgress"></div></div>
+            <div class="article-head">
+                <h1>每日安全资讯（2025-08-22）</h1>
+                <div class="date">📅 资讯日期: 2025-08-22</div>
+                <div class="meta-tags">
+                    <span class="meta-tag">安全日报</span>
+                    <span class="meta-tag">195 篇文章</span>
+                    <span class="meta-tag">84 个来源</span>
+                    <span class="meta-tag">CVE 7 条</span>
+                    
+                    <span class="meta-tag">关键词 30 个</span>
+                </div>
+            </div>
+            <div class="article-layout no-toc" id="articleLayout">
+                <aside class="toc-panel" id="tocPanel" hidden>
+                    <div class="toc-head">来源导航</div>
+                    <ul class="toc-list" id="tocList"></ul>
+                </aside>
+                <div class="main-body" id="mainBody">
+                    <div class="daily-toolbar" id="dailyToolbar">
+                        <input type="search" class="daily-filter-input" id="articleFilter" placeholder="筛选标题或 CVE..." autocomplete="off" aria-label="筛选文章标题">
+                        <select class="daily-filter-select" id="sourceFilter" aria-label="筛选来源">
+                            <option value="">全部来源</option>
+                        </select>
+                        <button type="button" class="daily-filter-btn" id="cveOnlyBtn">仅 CVE</button>
+                        <button type="button" class="daily-filter-btn" id="clearFilterBtn">清除</button>
+                        <span class="daily-filter-meta" id="filterMeta"></span>
+                    </div>
+                    <div class="stats-line">
+    <span>195 篇文章</span>
+    <span class="stat-separator">|</span>
+    <span>84 个来源</span>
+    <span class="stat-separator">|</span>
+    <span>7 条 CVE</span>
+    <span class="stat-separator">|</span>
+    <span>页面更新: 2026-05-26 15:58:07</span>
+</div><div class="daily-feed" id="dailyFeed">
+<section class="source-section" data-source="安全客-有思想的安全新媒体" id="source-0-安全客-有思想的安全新媒体">
+<h2>安全客-有思想的安全新媒体 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="从技术到安全：中科固源拆解车载以太网的演进路径与防护策略"><a href="https://www.anquanke.com/post/id/310094" target="_blank" rel="noopener noreferrer">从技术到安全：中科固源拆解车载以太网的演进路径与防护策略</a></li>
+</ul></section>
+<section class="source-section" data-source="Microsoft Security Blog" id="source-1-Microsoft-Security-Blog">
+<h2>Microsoft Security Blog <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="think before you click(fix): analyzing the clickfix social engineering technique"><a href="https://www.microsoft.com/en-us/security/blog/2025/08/21/think-before-you-clickfix-analyzing-the-clickfix-social-engineering-technique/" target="_blank" rel="noopener noreferrer">Think before you Click(Fix): Analyzing the ClickFix social engineering technique</a></li>
+</ul></section>
+<section class="source-section" data-source="Recent Commits to cve:main" id="source-2-Recent-Commits-to-cve-main">
+<h2>Recent Commits to cve:main <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="update thu aug 21 11:51:46 utc 2025"><a href="https://github.com/trickest/cve/commit/f2ae994db0dcffa1bb4064787a108d73bd98be2b" target="_blank" rel="noopener noreferrer">Update Thu Aug 21 11:51:46 UTC 2025</a></li>
+</ul></section>
+<section class="source-section" data-source="Trustwave Blog" id="source-3-Trustwave-Blog">
+<h2>Trustwave Blog <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="introducing d-fence: mailmarshal’s advanced machine learning phishing protection"><a href="https://www.trustwave.com/en-us/resources/blogs/trustwave-blog/introducing-d-fence-mailmarshals-advanced-machine-learning-phishing-protection/" target="_blank" rel="noopener noreferrer">Introducing D-Fence: MailMarshal’s Advanced Machine Learning Phishing Protection</a></li>
+</ul></section>
+<section class="source-section" data-source="嘶吼 RoarTalk – 网络安全行业综合服务平台,4hou.com" id="source-4-嘶吼-RoarTalk-网络安全行业综合服务平台-4hou-com">
+<h2>嘶吼 RoarTalk – 网络安全行业综合服务平台,4hou.com <span class="source-count">9</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="新态势·新实战 | csop 2025 网络安全运营实战大会在京开幕"><a href="https://www.4hou.com/posts/338Q" target="_blank" rel="noopener noreferrer">新态势·新实战 | CSOP 2025 网络安全运营实战大会在京开幕</a></li>
+<li class="article-item" data-title="ermac android恶意软件源代码泄露暴露了银行木马基础设施"><a href="https://www.4hou.com/posts/QXEY" target="_blank" rel="noopener noreferrer">ERMAC Android恶意软件源代码泄露暴露了银行木马基础设施</a></li>
+<li class="article-item" data-title="用数据说话：cacter大模型网关如何秒杀ai钓鱼邮件？"><a href="https://www.4hou.com/posts/YZLp" target="_blank" rel="noopener noreferrer">用数据说话：CACTER大模型网关如何秒杀AI钓鱼邮件？</a></li>
+<li class="article-item" data-title="autosec 2025 首批参会阵容 | 大众、宝马、奔驰、北汽、吉利、长安、零跑、小米、理想、潍柴等40+车企确认出席"><a href="https://www.4hou.com/posts/ZgM6" target="_blank" rel="noopener noreferrer">AutoSec 2025 首批参会阵容 | 大众、宝马、奔驰、北汽、吉利、长安、零跑、小米、理想、潍柴等40+车企确认出席</a></li>
+<li class="article-item" data-title="idc权威认证：360终端安全智能体获多维度五星满分评价领跑行业"><a href="https://www.4hou.com/posts/1MZj" target="_blank" rel="noopener noreferrer">IDC权威认证：360终端安全智能体获多维度五星满分评价领跑行业</a></li>
+<li class="article-item" data-title="csig“企业行”走进国投智能股份，共话ai与取证技术未来"><a href="https://www.4hou.com/posts/zAj8" target="_blank" rel="noopener noreferrer">CSIG“企业行”走进国投智能股份，共话AI与取证技术未来</a></li>
+<li class="article-item" data-title="共绘取证鉴定新画卷——国投智能股份成功承办“鹭岛论鉴”交流会"><a href="https://www.4hou.com/posts/Arkz" target="_blank" rel="noopener noreferrer">共绘取证鉴定新画卷——国投智能股份成功承办“鹭岛论鉴”交流会</a></li>
+<li class="article-item" data-title="天融信发布2025年中报，加码ai安全、可信数据空间等领域布局"><a href="https://www.4hou.com/posts/XPOm" target="_blank" rel="noopener noreferrer">天融信发布2025年中报，加码AI安全、可信数据空间等领域布局</a></li>
+<li class="article-item" data-title="面对域名过期漏洞，pypi阻断了账户劫持与攻击风险"><a href="https://www.4hou.com/posts/RXGR" target="_blank" rel="noopener noreferrer">面对域名过期漏洞，PyPI阻断了账户劫持与攻击风险</a></li>
+</ul></section>
+<section class="source-section" data-source="SecWiki News" id="source-5-SecWiki-News">
+<h2>SecWiki News <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="secwiki news 2025-08-21 review"><a href="http://www.sec-wiki.com/?2025-08-21" target="_blank" rel="noopener noreferrer">SecWiki News 2025-08-21 Review</a></li>
+</ul></section>
+<section class="source-section" data-source="Sploitus.com Exploits RSS Feed" id="source-6-Sploitus-com-Exploits-RSS-Feed">
+<h2>Sploitus.com Exploits RSS Feed <span class="source-count">4</span></h2>
+<ul class="article-list">
+<li class="article-item is-cve" data-title="exploit for cve-2025-22235 exploit"><a href="https://sploitus.com/exploit?id=C6D16AC3-BCFF-5D26-A8BF-AF2537610D59&amp;utm_source=rss&amp;utm_medium=rss" target="_blank" rel="noopener noreferrer"><span class="cve-badge">CVE</span> Exploit for CVE-2025-22235 exploit</a></li>
+<li class="article-item" data-title="exploit for path traversal in rarlab winrar exploit"><a href="https://sploitus.com/exploit?id=007C40A6-C735-59E8-B7C5-CB0A01F3A0BD&amp;utm_source=rss&amp;utm_medium=rss" target="_blank" rel="noopener noreferrer">Exploit for Path Traversal in Rarlab Winrar exploit</a></li>
+<li class="article-item" data-title="exploit for incorrect authorization in apache shiro exploit"><a href="https://sploitus.com/exploit?id=7B41EE7B-2748-5521-8823-01E419A5730A&amp;utm_source=rss&amp;utm_medium=rss" target="_blank" rel="noopener noreferrer">Exploit for Incorrect Authorization in Apache Shiro exploit</a></li>
+<li class="article-item" data-title="exploit for code injection in craftcms craft_cms exploit"><a href="https://sploitus.com/exploit?id=7D5B07AF-EAEE-5814-B0D1-79478A43DC2A&amp;utm_source=rss&amp;utm_medium=rss" target="_blank" rel="noopener noreferrer">Exploit for Code Injection in Craftcms Craft_Cms exploit</a></li>
+</ul></section>
+<section class="source-section" data-source="The Trail of Bits Blog" id="source-7-The-Trail-of-Bits-Blog">
+<h2>The Trail of Bits Blog <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="weaponizing image scaling against production ai systems"><a href="https://blog.trailofbits.com/2025/08/21/weaponizing-image-scaling-against-production-ai-systems/" target="_blank" rel="noopener noreferrer">Weaponizing image scaling against production AI systems</a></li>
+</ul></section>
+<section class="source-section" data-source="Horizon3.ai" id="source-8-Horizon3-ai">
+<h2>Horizon3.ai <span class="source-count">3</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="cve‑2025‑25256"><a href="https://horizon3.ai/attack-research/vulnerabilities/cve%e2%80%912025%e2%80%9125256/" target="_blank" rel="noopener noreferrer">CVE‑2025‑25256</a></li>
+<li class="article-item" data-title="from noise to proof: reinventing vulnerability management with nodezero®"><a href="https://horizon3.ai/intelligence/webinars/from-noise-to-proof-reinventing-vulnerability-management-with-nodezero/" target="_blank" rel="noopener noreferrer">From Noise to Proof: Reinventing Vulnerability Management with NodeZero®</a></li>
+<li class="article-item" data-title="horizon3.ai introduces mcp server to accelerate remediation and close the find–fix–verify loop"><a href="https://horizon3.ai/news/press-release/horizon3-ai-introduces-mcp-server-to-accelerate-remediation-and-close-the-find-fix-verify-loop/" target="_blank" rel="noopener noreferrer">Horizon3.ai Introduces MCP Server to Accelerate Remediation and Close the Find–Fix–Verify Loop</a></li>
+</ul></section>
+<section class="source-section" data-source="Wallarm" id="source-9-Wallarm">
+<h2>Wallarm <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="comprehensive mcp security checklist: protecting your ai-powered infrastructure"><a href="https://lab.wallarm.com/comprehensive-mcp-security-checklist-protect-ai-powered-infrastructure/" target="_blank" rel="noopener noreferrer">Comprehensive MCP Security Checklist: Protecting Your AI-Powered Infrastructure</a></li>
+</ul></section>
+<section class="source-section" data-source="明天的乌云" id="source-10-明天的乌云">
+<h2>明天的乌云 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="claude code router远程命令执行漏洞"><a href="https://blog.xlab.app/p/70dc71dc/" target="_blank" rel="noopener noreferrer">Claude Code Router远程命令执行漏洞</a></li>
+</ul></section>
+<section class="source-section" data-source="奇客Solidot–传递最新科技情报" id="source-11-奇客Solidot-传递最新科技情报">
+<h2>奇客Solidot–传递最新科技情报 <span class="source-count">9</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="meta 和 openai 的 ai 爬虫对网站造成最严重的负担"><a href="https://www.solidot.org/story?sid=82110" target="_blank" rel="noopener noreferrer">Meta 和 OpenAI 的 AI 爬虫对网站造成最严重的负担</a></li>
+<li class="article-item" data-title="google ai 每次查询的耗电量中位数是 0.24 瓦时"><a href="https://www.solidot.org/story?sid=82109" target="_blank" rel="noopener noreferrer">Google AI 每次查询的耗电量中位数是 0.24 瓦时</a></li>
+<li class="article-item" data-title="《空洞骑士：丝之歌》将于 9 月 4 日发售"><a href="https://www.solidot.org/story?sid=82108" target="_blank" rel="noopener noreferrer">《空洞骑士：丝之歌》将于 9 月 4 日发售</a></li>
+<li class="article-item" data-title="微软表示正在调查与安全更新相关的硬盘故障问题"><a href="https://www.solidot.org/story?sid=82106" target="_blank" rel="noopener noreferrer">微软表示正在调查与安全更新相关的硬盘故障问题</a></li>
+<li class="article-item" data-title="国网卫星星座可能不只是 starlink 的中国版"><a href="https://www.solidot.org/story?sid=82105" target="_blank" rel="noopener noreferrer">国网卫星星座可能不只是 Starlink 的中国版</a></li>
+<li class="article-item" data-title="索尼上调美国 ps5 游戏机售价 50 美元"><a href="https://www.solidot.org/story?sid=82104" target="_blank" rel="noopener noreferrer">索尼上调美国 PS5 游戏机售价 50 美元</a></li>
+<li class="article-item" data-title="google 宣布 pixel 10 系列手机"><a href="https://www.solidot.org/story?sid=82103" target="_blank" rel="noopener noreferrer">Google 宣布 Pixel 10 系列手机</a></li>
+<li class="article-item" data-title="华硕将于 10 月 16 日推出其 xbox 掌机"><a href="https://www.solidot.org/story?sid=82102" target="_blank" rel="noopener noreferrer">华硕将于 10 月 16 日推出其 Xbox 掌机</a></li>
+<li class="article-item" data-title="libreoffice 25.8 发布"><a href="https://www.solidot.org/story?sid=82101" target="_blank" rel="noopener noreferrer">LibreOffice 25.8 发布</a></li>
+</ul></section>
+<section class="source-section" data-source="威努特安全网络" id="source-12-威努特安全网络">
+<h2>威努特安全网络 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="威努特iomt安全锦囊：智慧医院联网医疗设备防护全攻略"><a href="https://mp.weixin.qq.com/s?__biz=MzAwNTgyODU3NQ==&amp;mid=2651135106&amp;idx=1&amp;sn=bf26fa516d2ffdb87d29f2a90a4be212" target="_blank" rel="noopener noreferrer">威努特IoMT安全锦囊：智慧医院联网医疗设备防护全攻略</a></li>
+</ul></section>
+<section class="source-section" data-source="黑海洋 - Wiki" id="source-13-黑海洋---Wiki">
+<h2>黑海洋 - Wiki <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="voicss：ai人声分离与在线卡拉ok伴奏制作工具"><a href="https://blog.upx8.com/4840" target="_blank" rel="noopener noreferrer">Voicss：AI人声分离与在线卡拉OK伴奏制作工具</a></li>
+<li class="article-item" data-title="cloud mail 邮箱搭建（cf部署无需服务器）"><a href="https://blog.upx8.com/4839" target="_blank" rel="noopener noreferrer">Cloud Mail 邮箱搭建（CF部署无需服务器）</a></li>
+</ul></section>
+<section class="source-section" data-source="FreeBuf网络安全行业门户" id="source-14-FreeBuf网络安全行业门户">
+<h2>FreeBuf网络安全行业门户 <span class="source-count">15</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="uac-0057黑客组织利用武器化压缩包和进化型植入程序攻击乌克兰与波兰"><a href="https://www.freebuf.com/articles/445357.html" target="_blank" rel="noopener noreferrer">UAC-0057黑客组织利用武器化压缩包和进化型植入程序攻击乌克兰与波兰</a></li>
+<li class="article-item is-cve" data-title="cve-2025-9288：流行javascript库存在严重漏洞，威胁全球web安全"><a href="https://www.freebuf.com/articles/web/445352.html" target="_blank" rel="noopener noreferrer"><span class="cve-badge">CVE</span> CVE-2025-9288：流行JavaScript库存在严重漏洞，威胁全球Web安全</a></li>
+<li class="article-item" data-title="黑客活动分子与僵尸网络推高ddos攻击浪潮：2025年7月网络攻击态势分析"><a href="https://www.freebuf.com/articles/network/445355.html" target="_blank" rel="noopener noreferrer">黑客活动分子与僵尸网络推高DDoS攻击浪潮：2025年7月网络攻击态势分析</a></li>
+<li class="article-item" data-title="smartbi v8.5 环境搭建"><a href="https://www.freebuf.com/articles/web/445157.html" target="_blank" rel="noopener noreferrer">Smartbi v8.5 环境搭建</a></li>
+<li class="article-item" data-title="麒麟勒索软件团伙宣称窃取日产汽车4tb设计数据"><a href="https://www.freebuf.com/articles/database/445339.html" target="_blank" rel="noopener noreferrer">麒麟勒索软件团伙宣称窃取日产汽车4TB设计数据</a></li>
+<li class="article-item is-cve" data-title="freebuf早报 | 黑客在暗网兜售windows零日漏洞；苹果紧急修复零日漏洞cve-2025-43300"><a href="https://www.freebuf.com/news/445268.html" target="_blank" rel="noopener noreferrer"><span class="cve-badge">CVE</span> FreeBuf早报 | 黑客在暗网兜售Windows零日漏洞；苹果紧急修复零日漏洞CVE-2025-43300</a></li>
+<li class="article-item" data-title="promptfix攻击：ai浏览器可能被诱骗在虚假商店完成支付"><a href="https://www.freebuf.com/articles/ai-security/445332.html" target="_blank" rel="noopener noreferrer">PromptFix攻击：AI浏览器可能被诱骗在虚假商店完成支付</a></li>
+<li class="article-item" data-title="aws 云服务安全系列（一）：s3 对象存储基础及典型安全风险解析"><a href="https://www.freebuf.com/articles/container/445246.html" target="_blank" rel="noopener noreferrer">AWS 云服务安全系列（一）：S3 对象存储基础及典型安全风险解析</a></li>
+<li class="article-item" data-title="微软限制中国企业获取网络安全漏洞预警通知"><a href="https://www.freebuf.com/news/445224.html" target="_blank" rel="noopener noreferrer">微软限制中国企业获取网络安全漏洞预警通知</a></li>
+<li class="article-item" data-title="apt组织muddywater利用openssh攻击企业cfo 部署rdp与计划任务建立持久化访问"><a href="https://www.freebuf.com/articles/es/445319.html" target="_blank" rel="noopener noreferrer">APT组织MuddyWater利用OpenSSH攻击企业CFO 部署RDP与计划任务建立持久化访问</a></li>
+<li class="article-item" data-title="kali linux 发布重构版vagrant镜像：通过命令行快速部署预配置debos虚拟机"><a href="https://www.freebuf.com/articles/445310.html" target="_blank" rel="noopener noreferrer">Kali Linux 发布重构版Vagrant镜像：通过命令行快速部署预配置DebOS虚拟机</a></li>
+<li class="article-item" data-title="2025网安行业优质播客精选集⑨"><a href="https://www.freebuf.com/articles/445199.html" target="_blank" rel="noopener noreferrer">2025网安行业优质播客精选集⑨</a></li>
+<li class="article-item is-cve" data-title="苹果紧急修复ios/ipados/macos中被利用的零日漏洞cve-2025-43300"><a href="https://www.freebuf.com/articles/system/445226.html" target="_blank" rel="noopener noreferrer"><span class="cve-badge">CVE</span> 苹果紧急修复iOS/iPadOS/macOS中被利用的零日漏洞CVE-2025-43300</a></li>
+<li class="article-item" data-title="从国企名到接管阿里云控制台和数据库"><a href="https://www.freebuf.com/articles/web/445191.html" target="_blank" rel="noopener noreferrer">从国企名到接管阿里云控制台和数据库</a></li>
+<li class="article-item" data-title="新型mitm6+ntlm中继攻击可导致权限提升并完全控制域环境"><a href="https://www.freebuf.com/articles/445273.html" target="_blank" rel="noopener noreferrer">新型MITM6+NTLM中继攻击可导致权限提升并完全控制域环境</a></li>
+</ul></section>
+<section class="source-section" data-source="看雪学苑" id="source-15-看雪学苑">
+<h2>看雪学苑 <span class="source-count">3</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="app设备风控分析及绕过"><a href="https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&amp;mid=2458598771&amp;idx=1&amp;sn=9662613f97f103a8f27a8e4261e6c36e" target="_blank" rel="noopener noreferrer">APP设备风控分析及绕过</a></li>
+<li class="article-item" data-title="scattered spider黑客获刑10年，需赔偿1300万美元"><a href="https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&amp;mid=2458598771&amp;idx=2&amp;sn=1295c8486c3b9beae0fa8fb02a44db9b" target="_blank" rel="noopener noreferrer">Scattered Spider黑客获刑10年，需赔偿1300万美元</a></li>
+<li class="article-item" data-title="2025 kctf 第四题战况 | 『namikaze』拿下“一血”，目前已有12支战队成功破解"><a href="https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&amp;mid=2458598771&amp;idx=3&amp;sn=d1865bd7060e2c54791d43d9cbe6887b" target="_blank" rel="noopener noreferrer">2025 KCTF 第四题战况 | 『Namikaze』拿下“一血”，目前已有12支战队成功破解</a></li>
+</ul></section>
+<section class="source-section" data-source="安全内参" id="source-16-安全内参">
+<h2>安全内参 <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="电信巨头大量用户卡数据泄露，涉sim卡号、puk码、资费套餐等"><a href="https://mp.weixin.qq.com/s?__biz=MzI4NDY2MDMwMw==&amp;mid=2247514879&amp;idx=1&amp;sn=502aefcbf936efe51b6e881181c09532" target="_blank" rel="noopener noreferrer">电信巨头大量用户卡数据泄露，涉SIM卡号、PUK码、资费套餐等</a></li>
+<li class="article-item" data-title="美国制药上市公司遭勒索软件攻击，业务运营受影响"><a href="https://mp.weixin.qq.com/s?__biz=MzI4NDY2MDMwMw==&amp;mid=2247514879&amp;idx=2&amp;sn=9b8e06a793803571a74886d64cf27be6" target="_blank" rel="noopener noreferrer">美国制药上市公司遭勒索软件攻击，业务运营受影响</a></li>
+</ul></section>
+<section class="source-section" data-source="代码卫士" id="source-17-代码卫士">
+<h2>代码卫士 <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="苹果紧急修复已遭利用的新 0day"><a href="https://mp.weixin.qq.com/s?__biz=MzI2NTg4OTc5Nw==&amp;mid=2247523850&amp;idx=1&amp;sn=292ce2473690739e7a9c0cd1dbafe137" target="_blank" rel="noopener noreferrer">苹果紧急修复已遭利用的新 0day</a></li>
+<li class="article-item" data-title="pypi拦截1800个过期域名邮件，防御供应链攻击"><a href="https://mp.weixin.qq.com/s?__biz=MzI2NTg4OTc5Nw==&amp;mid=2247523850&amp;idx=2&amp;sn=72dc01d9984a720959b312dd0e7cf05e" target="_blank" rel="noopener noreferrer">PyPI拦截1800个过期域名邮件，防御供应链攻击</a></li>
+</ul></section>
+<section class="source-section" data-source="HackerNews" id="source-18-HackerNews">
+<h2>HackerNews <span class="source-count">6</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="ai 网站搭建平台 lovable 遭黑客滥用，恶意活动激增"><a href="https://hackernews.cc/archives/60363" target="_blank" rel="noopener noreferrer">AI 网站搭建平台 Lovable 遭黑客滥用，恶意活动激增</a></li>
+<li class="article-item" data-title="gpt-5  存在漏洞：路由系统或自动导向旧版不安全模型"><a href="https://hackernews.cc/archives/60361" target="_blank" rel="noopener noreferrer">GPT-5  存在漏洞：路由系统或自动导向旧版不安全模型</a></li>
+<li class="article-item" data-title="亲乌克兰黑客攻击俄罗斯 investment projects，致平台瘫痪数天"><a href="https://hackernews.cc/archives/60359" target="_blank" rel="noopener noreferrer">亲乌克兰黑客攻击俄罗斯 Investment Projects，致平台瘫痪数天</a></li>
+<li class="article-item" data-title="比利时电信巨头遭黑客攻击，85 万账户数据泄露​"><a href="https://hackernews.cc/archives/60357" target="_blank" rel="noopener noreferrer">比利时电信巨头遭黑客攻击，85 万账户数据泄露​</a></li>
+<li class="article-item" data-title="英国制裁协助俄罗斯的吉尔吉斯斯坦加密货币网络"><a href="https://hackernews.cc/archives/60355" target="_blank" rel="noopener noreferrer">英国制裁协助俄罗斯的吉尔吉斯斯坦加密货币网络</a></li>
+<li class="article-item" data-title="fbi警告：俄罗斯网络间谍组织正持续利用思科设备漏洞发起攻击"><a href="https://hackernews.cc/archives/60352" target="_blank" rel="noopener noreferrer">FBI警告：俄罗斯网络间谍组织正持续利用思科设备漏洞发起攻击</a></li>
+</ul></section>
+<section class="source-section" data-source="丁爸 情报分析师的工具箱" id="source-19-丁爸-情报分析师的工具箱">
+<h2>丁爸 情报分析师的工具箱 <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="【反恐】2025年8月全球恐怖主义态势及应对策略"><a href="https://mp.weixin.qq.com/s?__biz=MzI2MTE0NTE3Mw==&amp;mid=2651151682&amp;idx=1&amp;sn=214ca443ac1e43949f8007f0b85f0648" target="_blank" rel="noopener noreferrer">【反恐】2025年8月全球恐怖主义态势及应对策略</a></li>
+<li class="article-item" data-title="【转载】国家安全情报理论研究“融智论坛”征文"><a href="https://mp.weixin.qq.com/s?__biz=MzI2MTE0NTE3Mw==&amp;mid=2651151682&amp;idx=2&amp;sn=d7ccf8270f0cf2ebcd9488964dd2572c" target="_blank" rel="noopener noreferrer">【转载】国家安全情报理论研究“融智论坛”征文</a></li>
+</ul></section>
+<section class="source-section" data-source="我的安全视界观" id="source-20-我的安全视界观">
+<h2>我的安全视界观 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="sdl 86/100问：水平越权属于stride中的哪一种？"><a href="https://mp.weixin.qq.com/s?__biz=MzI3Njk2OTIzOQ==&amp;mid=2247487104&amp;idx=1&amp;sn=a0cd9b1592e984d0c686f888dc689668" target="_blank" rel="noopener noreferrer">SDL 86/100问：水平越权属于STRIDE中的哪一种？</a></li>
+</ul></section>
+<section class="source-section" data-source="dotNet安全矩阵" id="source-21-dotNet安全矩阵">
+<h2>dotNet安全矩阵 <span class="source-count">3</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title=".net内网实战： 通过 filesecurity 获取目录及文件控制列表和规则"><a href="https://mp.weixin.qq.com/s?__biz=MzUyOTc3NTQ5MA==&amp;mid=2247500341&amp;idx=1&amp;sn=db5c1855865263ca7f38add61146ead3" target="_blank" rel="noopener noreferrer">.NET内网实战： 通过 FileSecurity 获取目录及文件控制列表和规则</a></li>
+<li class="article-item" data-title=".net 安全攻防知识交流社区"><a href="https://mp.weixin.qq.com/s?__biz=MzUyOTc3NTQ5MA==&amp;mid=2247500341&amp;idx=2&amp;sn=562eefd657bb5402fcbec51c1bed6508" target="_blank" rel="noopener noreferrer">.NET 安全攻防知识交流社区</a></li>
+<li class="article-item" data-title=".net 旧威胁新挑战：2025年 sql 注入漏洞攻与防"><a href="https://mp.weixin.qq.com/s?__biz=MzUyOTc3NTQ5MA==&amp;mid=2247500341&amp;idx=3&amp;sn=435d7f05bb9e8a523d92cbcfa4a297ce" target="_blank" rel="noopener noreferrer">.NET 旧威胁新挑战：2025年 SQL 注入漏洞攻与防</a></li>
+</ul></section>
+<section class="source-section" data-source="安全学术圈" id="source-22-安全学术圈">
+<h2>安全学术圈 <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="2024年度安徽省科学技术奖受理项目(网络空间安全领域)"><a href="https://mp.weixin.qq.com/s?__biz=MzU5MTM5MTQ2MA==&amp;mid=2247493514&amp;idx=1&amp;sn=5ca2750545e2bcd72ff0e95a1abb1aef" target="_blank" rel="noopener noreferrer">2024年度安徽省科学技术奖受理项目(网络空间安全领域)</a></li>
+<li class="article-item" data-title="2024年度福建省科学技术奖初评通过项目(网络空间安全领域)"><a href="https://mp.weixin.qq.com/s?__biz=MzU5MTM5MTQ2MA==&amp;mid=2247493514&amp;idx=2&amp;sn=abba8b99de7aa7e596fee5f5a1cf7793" target="_blank" rel="noopener noreferrer">2024年度福建省科学技术奖初评通过项目(网络空间安全领域)</a></li>
+</ul></section>
+<section class="source-section" data-source="信息安全国家工程研究中心" id="source-23-信息安全国家工程研究中心">
+<h2>信息安全国家工程研究中心 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="专家解读 | 梁正：推进高质量数据集建设 筑牢数智时代新基座"><a href="https://mp.weixin.qq.com/s?__biz=MzU5OTQ0NzY3Ng==&amp;mid=2247500695&amp;idx=1&amp;sn=12493bbcfeefaf70279daf73ddf1cd46" target="_blank" rel="noopener noreferrer">专家解读 | 梁正：推进高质量数据集建设 筑牢数智时代新基座</a></li>
+</ul></section>
+<section class="source-section" data-source="安全牛" id="source-24-安全牛">
+<h2>安全牛 <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="探寻网络安全人才培养的时代特点与变化！新时期网络安全人才能力系列报告调研启动"><a href="https://mp.weixin.qq.com/s?__biz=MjM5Njc3NjM4MA==&amp;mid=2651138380&amp;idx=1&amp;sn=e13aacaf77722727cd6fd8bc79433043" target="_blank" rel="noopener noreferrer">探寻网络安全人才培养的时代特点与变化！新时期网络安全人才能力系列报告调研启动</a></li>
+<li class="article-item" data-title="电科网安上半年亏损1.74亿，营收同比降23.8%；马斯克的grok又捅娄子；谷歌赔付超2亿元和解隐私诉讼 | 牛览"><a href="https://mp.weixin.qq.com/s?__biz=MjM5Njc3NjM4MA==&amp;mid=2651138380&amp;idx=2&amp;sn=d78fd6f7b18dd78d6e46df5716744e00" target="_blank" rel="noopener noreferrer">电科网安上半年亏损1.74亿，营收同比降23.8%；马斯克的Grok又捅娄子；谷歌赔付超2亿元和解隐私诉讼 | 牛览</a></li>
+</ul></section>
+<section class="source-section" data-source="安全圈" id="source-25-安全圈">
+<h2>安全圈 <span class="source-count">4</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="【安全圈】攻击deepseek的黑客被逮捕！"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652071298&amp;idx=1&amp;sn=38e58cba34a060168ae3bb2c0ff6d6a4" target="_blank" rel="noopener noreferrer">【安全圈】攻击Deepseek的黑客被逮捕！</a></li>
+<li class="article-item" data-title="【安全圈】突发！事关英国警方9.6万段执法记录仪视频"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652071298&amp;idx=2&amp;sn=e4042d9a9b9e75b8c0d6c2d0fd920656" target="_blank" rel="noopener noreferrer">【安全圈】突发！事关英国警方9.6万段执法记录仪视频</a></li>
+<li class="article-item" data-title="【安全圈】俄黑客利用思科7年前漏洞入侵关键基础设施"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652071298&amp;idx=3&amp;sn=f9e6ee58e845fd627ca3c177a4a381b1" target="_blank" rel="noopener noreferrer">【安全圈】俄黑客利用思科7年前漏洞入侵关键基础设施</a></li>
+<li class="article-item" data-title="【安全圈】新型安卓间谍软件：专盯俄罗斯用户的&quot;guardcb&quot;假杀毒程序"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652071298&amp;idx=4&amp;sn=a92b2e652f13e55a75d5161876f785c8" target="_blank" rel="noopener noreferrer">【安全圈】新型安卓间谍软件：专盯俄罗斯用户的&quot;GuardCB&quot;假杀毒程序</a></li>
+</ul></section>
+<section class="source-section" data-source="中国信息安全" id="source-26-中国信息安全">
+<h2>中国信息安全 <span class="source-count">4</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="专题·原创 | 可信数据空间建设路径的探索与思考"><a href="https://mp.weixin.qq.com/s?__biz=MzA5MzE5MDAzOA==&amp;mid=2664247803&amp;idx=1&amp;sn=8678fb7e02bd20eda64aea38fa839260" target="_blank" rel="noopener noreferrer">专题·原创 | 可信数据空间建设路径的探索与思考</a></li>
+<li class="article-item" data-title="专家解读 | 构建数据标注新生态 推进高质量数据集建设"><a href="https://mp.weixin.qq.com/s?__biz=MzA5MzE5MDAzOA==&amp;mid=2664247803&amp;idx=2&amp;sn=6372e6cc30338be70f19722d3aeaa892" target="_blank" rel="noopener noreferrer">专家解读 | 构建数据标注新生态 推进高质量数据集建设</a></li>
+<li class="article-item" data-title="关于举办“ai安全攻防与测试”培训班的通知"><a href="https://mp.weixin.qq.com/s?__biz=MzA5MzE5MDAzOA==&amp;mid=2664247803&amp;idx=3&amp;sn=15389950b36e2672f587fe6a0261d398" target="_blank" rel="noopener noreferrer">关于举办“AI安全攻防与测试”培训班的通知</a></li>
+<li class="article-item" data-title="一图读懂 | 国家标准gb/t 31722—2025《网络安全技术 信息安全风险管理指导》"><a href="https://mp.weixin.qq.com/s?__biz=MzA5MzE5MDAzOA==&amp;mid=2664247803&amp;idx=4&amp;sn=e3b2dc2e5ce003dbde8072984be6b266" target="_blank" rel="noopener noreferrer">一图读懂 | 国家标准GB/T 31722—2025《网络安全技术 信息安全风险管理指导》</a></li>
+</ul></section>
+<section class="source-section" data-source="情报分析师" id="source-27-情报分析师">
+<h2>情报分析师 <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="情报分析案例过程详解，思路复盘总结"><a href="https://mp.weixin.qq.com/s?__biz=MzA3Mjc1MTkwOA==&amp;mid=2650561986&amp;idx=1&amp;sn=22dab1fb42e61f1eeb0319806718de47" target="_blank" rel="noopener noreferrer">情报分析案例过程详解，思路复盘总结</a></li>
+<li class="article-item" data-title="美国秘密助台打造无人机学校"><a href="https://mp.weixin.qq.com/s?__biz=MzA3Mjc1MTkwOA==&amp;mid=2650561986&amp;idx=2&amp;sn=1a13f878f1c219bc12e4f692f343dd54" target="_blank" rel="noopener noreferrer">美国秘密助台打造无人机学校</a></li>
+</ul></section>
+<section class="source-section" data-source="数世咨询" id="source-28-数世咨询">
+<h2>数世咨询 <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="勒索软件攻击后，25% 的安全主管被替换"><a href="https://mp.weixin.qq.com/s?__biz=MzkxNzA3MTgyNg==&amp;mid=2247540033&amp;idx=1&amp;sn=8a9c242a3a5bcc1330e4c811f836f0bd" target="_blank" rel="noopener noreferrer">勒索软件攻击后，25% 的安全主管被替换</a></li>
+<li class="article-item" data-title="学ai安全攻防与测试，真正实现网安人才价值"><a href="https://mp.weixin.qq.com/s?__biz=MzkxNzA3MTgyNg==&amp;mid=2247540033&amp;idx=2&amp;sn=d34d54d899edd13a61c8f0086f597204" target="_blank" rel="noopener noreferrer">学AI安全攻防与测试，真正实现网安人才价值</a></li>
+</ul></section>
+<section class="source-section" data-source="天黑说嘿话" id="source-29-天黑说嘿话">
+<h2>天黑说嘿话 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item is-cve" data-title="swagger ui 的隐藏陷阱，xss 注入一击即中（cve-2025-8191）"><a href="https://mp.weixin.qq.com/s?__biz=MzI5NTQ5MTAzMA==&amp;mid=2247484578&amp;idx=1&amp;sn=c7566697c939d878ee985fb93b6eaf74" target="_blank" rel="noopener noreferrer"><span class="cve-badge">CVE</span> Swagger UI 的隐藏陷阱，XSS 注入一击即中（CVE-2025-8191）</a></li>
+</ul></section>
+<section class="source-section" data-source="国家互联网应急中心CNCERT" id="source-30-国家互联网应急中心CNCERT">
+<h2>国家互联网应急中心CNCERT <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="网络安全信息与动态周报2025年第33期（8月11日-8月17日）"><a href="https://mp.weixin.qq.com/s?__biz=MzIwNDk0MDgxMw==&amp;mid=2247500292&amp;idx=1&amp;sn=d0378d674cbc16df4c7d11e2fa8346c6" target="_blank" rel="noopener noreferrer">网络安全信息与动态周报2025年第33期（8月11日-8月17日）</a></li>
+</ul></section>
+<section class="source-section" data-source="青衣十三楼飞花堂" id="source-31-青衣十三楼飞花堂">
+<h2>青衣十三楼飞花堂 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="一次找书的趣味挑战"><a href="https://mp.weixin.qq.com/s?__biz=MzUzMjQyMDE3Ng==&amp;mid=2247488542&amp;idx=1&amp;sn=0cebc8c6a72805a3e95d6a46c36f45c6" target="_blank" rel="noopener noreferrer">一次找书的趣味挑战</a></li>
+</ul></section>
+<section class="source-section" data-source="极客公园" id="source-32-极客公园">
+<h2>极客公园 <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="汽车业务还没盈利，小米却已找到「第三曲线」"><a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653085235&amp;idx=1&amp;sn=016e22e53e0b328fbcce6ef4357a1d8a" target="_blank" rel="noopener noreferrer">汽车业务还没盈利，小米却已找到「第三曲线」</a></li>
+<li class="article-item" data-title="openai 单月营收已经破 10 亿美元；马斯克的 grok，用户聊天记录在「裸奔」；谷歌发布 ai 手机 | 极客早知道"><a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653085224&amp;idx=1&amp;sn=f6d91095346bc39b6ac912052a5e1e62" target="_blank" rel="noopener noreferrer">OpenAI 单月营收已经破 10 亿美元；马斯克的 Grok，用户聊天记录在「裸奔」；谷歌发布 AI 手机 | 极客早知道</a></li>
+</ul></section>
+<section class="source-section" data-source="山石网科安全技术研究院" id="source-33-山石网科安全技术研究院">
+<h2>山石网科安全技术研究院 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="下载量达 3000 万次的 npm 软件包如何传播恶意软件"><a href="https://mp.weixin.qq.com/s?__biz=MzUzMDUxNTE1Mw==&amp;mid=2247512670&amp;idx=1&amp;sn=e3dbdf3adafe203dff4b45c5b21e3040" target="_blank" rel="noopener noreferrer">下载量达 3000 万次的 npm 软件包如何传播恶意软件</a></li>
+</ul></section>
+<section class="source-section" data-source="嘶吼专业版" id="source-34-嘶吼专业版">
+<h2>嘶吼专业版 <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="面对域名过期漏洞，pypi阻断了账户劫持与攻击风险"><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDY1MDU4MQ==&amp;mid=2247584348&amp;idx=1&amp;sn=6d1432bd4fca14a647832a914daae622" target="_blank" rel="noopener noreferrer">面对域名过期漏洞，PyPI阻断了账户劫持与攻击风险</a></li>
+<li class="article-item" data-title="一图读懂 | 国家标准gb/t 31722—2025《网络安全技术 信息安全风险管理指导》"><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDY1MDU4MQ==&amp;mid=2247584348&amp;idx=2&amp;sn=cbf58333bd685c10846e5e6d4a5b05c9" target="_blank" rel="noopener noreferrer">一图读懂 | 国家标准GB/T 31722—2025《网络安全技术 信息安全风险管理指导》</a></li>
+</ul></section>
+<section class="source-section" data-source="深信服千里目安全技术中心" id="source-35-深信服千里目安全技术中心">
+<h2>深信服千里目安全技术中心 <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item is-cve" data-title="【漏洞通告】commvault 未授权远程代码执行漏洞(cve-2025-57790)"><a href="https://mp.weixin.qq.com/s?__biz=Mzg2NjgzNjA5NQ==&amp;mid=2247524548&amp;idx=1&amp;sn=dbcaf48999dd7953424a331e925d3633" target="_blank" rel="noopener noreferrer"><span class="cve-badge">CVE</span> 【漏洞通告】Commvault 未授权远程代码执行漏洞(CVE-2025-57790)</a></li>
+<li class="article-item" data-title="网络安全信息与动态周报2025年第33期（8月11日-8月17日）"><a href="https://mp.weixin.qq.com/s?__biz=Mzg2NjgzNjA5NQ==&amp;mid=2247524548&amp;idx=2&amp;sn=ede17797e5b4a9473d2ac984424773ac" target="_blank" rel="noopener noreferrer">网络安全信息与动态周报2025年第33期（8月11日-8月17日）</a></li>
+</ul></section>
+<section class="source-section" data-source="360数字安全" id="source-36-360数字安全">
+<h2>360数字安全 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="idc权威认证：360终端安全智能体获多维度五星满分评价领跑行业"><a href="https://mp.weixin.qq.com/s?__biz=MzA4MTg0MDQ4Nw==&amp;mid=2247581652&amp;idx=1&amp;sn=420456998a631257f2f60b3967ead0be" target="_blank" rel="noopener noreferrer">IDC权威认证：360终端安全智能体获多维度五星满分评价领跑行业</a></li>
+</ul></section>
+<section class="source-section" data-source="悬镜安全" id="source-37-悬镜安全">
+<h2>悬镜安全 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="ai供应链情报预警 | 恶意py包伪装ai框架库开展数据窃密及应用劫持攻击"><a href="https://mp.weixin.qq.com/s?__biz=MzA3NzE2ODk1Mg==&amp;mid=2647796856&amp;idx=1&amp;sn=9f3ec2f8cdd961441c1f63ed07ac244b" target="_blank" rel="noopener noreferrer">AI供应链情报预警 | 恶意Py包伪装AI框架库开展数据窃密及应用劫持攻击</a></li>
+</ul></section>
+<section class="source-section" data-source="美团技术团队" id="source-38-美团技术团队">
+<h2>美团技术团队 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="可信实验白皮书系列08：开放式分析引擎 | 附pdf合集下载"><a href="https://mp.weixin.qq.com/s?__biz=MjM5NjQ5MTI5OA==&amp;mid=2651781337&amp;idx=1&amp;sn=a693896385a6049e840f09646d34e776" target="_blank" rel="noopener noreferrer">可信实验白皮书系列08：开放式分析引擎 | 附PDF合集下载</a></li>
+</ul></section>
+<section class="source-section" data-source="Microsoft Security Blog" id="source-39-Microsoft-Security-Blog">
+<h2>Microsoft Security Blog <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="think before you click(fix): analyzing the clickfix social engineering technique"><a href="https://www.microsoft.com/en-us/security/blog/2025/08/21/think-before-you-clickfix-analyzing-the-clickfix-social-engineering-technique/" target="_blank" rel="noopener noreferrer">Think before you Click(Fix): Analyzing the ClickFix social engineering technique</a></li>
+</ul></section>
+<section class="source-section" data-source="迪哥讲事" id="source-40-迪哥讲事">
+<h2>迪哥讲事 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="当《黑客帝国》照进现实：ai 安全幻影特工队的破界行动"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMTIzNTM0MA==&amp;mid=2247498080&amp;idx=1&amp;sn=9559aa7035816ae1c346cf771bcb362b" target="_blank" rel="noopener noreferrer">当《黑客帝国》照进现实：AI 安全幻影特工队的破界行动</a></li>
+</ul></section>
+<section class="source-section" data-source="复旦白泽战队" id="source-41-复旦白泽战队">
+<h2>复旦白泽战队 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="成果分享｜[usenix security 2025] linkzard: lfvulns漏洞自动化检测与利用框架"><a href="https://mp.weixin.qq.com/s?__biz=MzU4NzUxOTI0OQ==&amp;mid=2247495822&amp;idx=1&amp;sn=74b4e61b671f2b2a918865e79d2861c0" target="_blank" rel="noopener noreferrer">成果分享｜[USENIX Security 2025] LinkZard: LFVulns漏洞自动化检测与利用框架</a></li>
+</ul></section>
+<section class="source-section" data-source="NETRESEC Network Security Blog" id="source-42-NETRESEC-Network-Security-Blog">
+<h2>NETRESEC Network Security Blog <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="define protocol from traffic (xenorat)"><a href="https://www.netresec.com/?page=Blog&amp;month=2025-08&amp;post=Define-Protocol-from-Traffic-XenoRAT" target="_blank" rel="noopener noreferrer">Define Protocol from Traffic (XenoRAT)</a></li>
+</ul></section>
+<section class="source-section" data-source="IT Service Management News" id="source-43-IT-Service-Management-News">
+<h2>IT Service Management News <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="mio articolo sulle misure acn per nis2"><a href="http://blog.cesaregallotti.it/2025/08/mio-articolo-sulle-misure-acn-per-nis2.html" target="_blank" rel="noopener noreferrer">Mio articolo sulle misure ACN per NIS2</a></li>
+</ul></section>
+<section class="source-section" data-source="Securityinfo.it" id="source-44-Securityinfo-it">
+<h2>Securityinfo.it <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="static tundra sfrutta una vecchia vulnerabilità cisco per spionaggio"><a href="https://www.securityinfo.it/2025/08/21/static-tundra-sfrutta-una-vecchia-vulnerabilita-cisco-per-spionaggio/?utm_source=rss&amp;utm_medium=rss&amp;utm_campaign=static-tundra-sfrutta-una-vecchia-vulnerabilita-cisco-per-spionaggio" target="_blank" rel="noopener noreferrer">Static Tundra sfrutta una vecchia vulnerabilità Cisco per spionaggio</a></li>
+</ul></section>
+<section class="source-section" data-source="TrustedSec" id="source-45-TrustedSec">
+<h2>TrustedSec <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="a big step on the cmmc rollout timeline"><a href="https://trustedsec.com/blog/a-big-step-on-the-cmmc-rollout-timeline" target="_blank" rel="noopener noreferrer">A Big Step on the CMMC Rollout Timeline</a></li>
+</ul></section>
+<section class="source-section" data-source="ICT Security Magazine" id="source-46-ICT-Security-Magazine">
+<h2>ICT Security Magazine <span class="source-count">3</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="cyber warfare: il dominio fluido dei conflitti moderni tra ai, spazio e quantistica"><a href="https://www.ictsecuritymagazine.com/notizie/cyber-warfare-ai/" target="_blank" rel="noopener noreferrer">Cyber Warfare: il dominio fluido dei conflitti moderni tra AI, Spazio e Quantistica</a></li>
+<li class="article-item" data-title="dark llm e cybercrime: la minaccia dei modelli linguistici malevoli in cybersecurity"><a href="https://www.ictsecuritymagazine.com/notizie/dark-llm/" target="_blank" rel="noopener noreferrer">Dark LLM e cybercrime: la minaccia dei modelli linguistici malevoli in cybersecurity</a></li>
+<li class="article-item" data-title="apt groups: i cybercriminali più influenti e le tecniche e tattiche utilizzate nel cybercrime"><a href="https://www.ictsecuritymagazine.com/articoli/apt-groups/" target="_blank" rel="noopener noreferrer">APT groups: i cybercriminali più influenti e le tecniche e tattiche utilizzate nel cybercrime</a></li>
+</ul></section>
+<section class="source-section" data-source="美团安全应急响应中心" id="source-47-美团安全应急响应中心">
+<h2>美团安全应急响应中心 <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="活动｜keeta安全专测英雄帖：邀您洞见非凡，守护新域！"><a href="https://mp.weixin.qq.com/s?__biz=MzI5MDc4MTM3Mg==&amp;mid=2247493924&amp;idx=1&amp;sn=0e8ab3b3a2af4d1b20e62b31fb82ccc2" target="_blank" rel="noopener noreferrer">活动｜Keeta安全专测英雄帖：邀您洞见非凡，守护新域！</a></li>
+<li class="article-item" data-title="美团安全应急响应中心漏洞测试高压线v2.0"><a href="https://mp.weixin.qq.com/s?__biz=MzI5MDc4MTM3Mg==&amp;mid=2247493924&amp;idx=2&amp;sn=af01328cacbe1fb5c29a08e52a26457a" target="_blank" rel="noopener noreferrer">美团安全应急响应中心漏洞测试高压线V2.0</a></li>
+</ul></section>
+<section class="source-section" data-source="Cyber Division" id="source-48-Cyber-Division">
+<h2>Cyber Division <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="furto di credenziali: come proteggere password e accessi digitali"><a href="https://cyberdivision.net/2025/08/21/furto-di-credenziali-come-difendersi/" target="_blank" rel="noopener noreferrer">Furto di credenziali: come proteggere password e accessi digitali</a></li>
+</ul></section>
+<section class="source-section" data-source="SANS Internet Storm Center, InfoCON: green" id="source-49-SANS-Internet-Storm-Center-InfoCON-green">
+<h2>SANS Internet Storm Center, InfoCON: green <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="don&#x27;t forget the &quot;-n&quot; command line switch, (thu, aug 21st)"><a href="https://isc.sans.edu/diary/rss/32220" target="_blank" rel="noopener noreferrer">Don&#x27;t Forget The &quot;-n&quot; Command Line Switch, (Thu, Aug 21st)</a></li>
+<li class="article-item" data-title="isc stormcast for thursday, august 21st, 2025 https://isc.sans.edu/podcastdetail/9580, (thu, aug 21st)"><a href="https://isc.sans.edu/diary/rss/32218" target="_blank" rel="noopener noreferrer">ISC Stormcast For Thursday, August 21st, 2025 https://isc.sans.edu/podcastdetail/9580, (Thu, Aug 21st)</a></li>
+</ul></section>
+<section class="source-section" data-source="Schneier on Security" id="source-50-Schneier-on-Security">
+<h2>Schneier on Security <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="jim sanborn is auctioning off the solution to part four of the kryptos sculpture"><a href="https://www.schneier.com/blog/archives/2025/08/jim-sanborn-is-auctioning-off-the-solution-to-part-four-of-the-kryptos-sculpture.html" target="_blank" rel="noopener noreferrer">Jim Sanborn Is Auctioning Off the Solution to Part Four of the Kryptos Sculpture</a></li>
+</ul></section>
+<section class="source-section" data-source="NetSPI" id="source-51-NetSPI">
+<h2>NetSPI <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="def con 33: netspi’s  “access everywhere” experience"><a href="https://www.netspi.com/blog/executive-blog/penetration-testing-as-a-service/def-con-33-netspis-access-everywhere-experience/" target="_blank" rel="noopener noreferrer">DEF CON 33: NetSPI’s  “Access Everywhere” Experience</a></li>
+</ul></section>
+<section class="source-section" data-source="Over Security - Cybersecurity news aggregator" id="source-52-Over-Security---Cybersecurity-news-aggre">
+<h2>Over Security - Cybersecurity news aggregator <span class="source-count">21</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="whatsapp rafforza la privacy con una funzione avanzata, lasciando metaai fuori gioco"><a href="https://www.cybersecurity360.it/news/whatsapp-rafforza-la-privacy-con-una-funzione-avanzata-lasciando-metaai-fuori-gioco/" target="_blank" rel="noopener noreferrer">WhatsApp rafforza la privacy con una funzione avanzata, lasciando MetaAI fuori gioco</a></li>
+<li class="article-item" data-title="qilin and their alleged “legal department”: criminal propaganda disguised as legitimacy"><a href="https://www.suspectfile.com/qilin-and-their-alleged-legal-department-criminal-propaganda-disguised-as-legitimacy/" target="_blank" rel="noopener noreferrer">Qilin and Their Alleged “Legal Department”: Criminal Propaganda Disguised as Legitimacy</a></li>
+<li class="article-item" data-title="colt confirms customer data stolen as warlock ransomware auctions files"><a href="https://www.bleepingcomputer.com/news/security/colt-confirms-customer-data-stolen-as-warlock-ransomware-auctions-files/" target="_blank" rel="noopener noreferrer">Colt confirms customer data stolen as Warlock ransomware auctions files</a></li>
+<li class="article-item" data-title="cherry pie, douglas firs and the last trip of the summer"><a href="https://blog.talosintelligence.com/cherry-pie-douglas-firs-and-the-last-trip-of-the-summer/" target="_blank" rel="noopener noreferrer">Cherry pie, Douglas firs and the last trip of the summer</a></li>
+<li class="article-item" data-title="maturità cyber: dalla teoria alla pratica con il framework nazionale italiano"><a href="https://www.cybersecurity360.it/legal/maturita-cyber-dalla-teoria-alla-pratica-con-il-framework-nazionale-italiano/" target="_blank" rel="noopener noreferrer">Maturità cyber: dalla teoria alla pratica con il Framework nazionale italiano</a></li>
+<li class="article-item" data-title="direttiva europea red, focus sulla sicurezza dei dispositivi radio connessi via internet"><a href="https://www.cybersecurity360.it/legal/direttiva-europea-red-focus-sulla-sicurezza-dei-dispositivi-radio-connessi-via-internet/" target="_blank" rel="noopener noreferrer">Direttiva europea RED, focus sulla sicurezza dei dispositivi radio connessi via Internet</a></li>
+<li class="article-item" data-title="hafnium e la strategia cyber cinese: ecco la capacità del gruppo hacker contro i dispositivi apple"><a href="https://www.cybersecurity360.it/nuove-minacce/hafnium-e-la-strategia-cyber-cinese-ecco-la-capacita-del-gruppo-hacker-contro-i-dispositivi-apple/" target="_blank" rel="noopener noreferrer">Hafnium e la strategia cyber cinese: ecco la capacità del gruppo hacker contro i dispositivi Apple</a></li>
+<li class="article-item" data-title="europol confirms $50,000 qilin ransomware reward is fake"><a href="https://www.bleepingcomputer.com/news/security/europol-confirms-that-qilin-ransomware-reward-is-fake/" target="_blank" rel="noopener noreferrer">Europol confirms $50,000 Qilin ransomware reward is fake</a></li>
+<li class="article-item" data-title="microsoft asks customers for feedback on ssd failure issues"><a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-asks-customers-for-feedback-on-ssd-failure-issues/" target="_blank" rel="noopener noreferrer">Microsoft asks customers for feedback on SSD failure issues</a></li>
+<li class="article-item" data-title="static tundra sfrutta una vecchia vulnerabilità cisco per spionaggio"><a href="https://www.securityinfo.it/2025/08/21/static-tundra-sfrutta-una-vecchia-vulnerabilita-cisco-per-spionaggio/" target="_blank" rel="noopener noreferrer">Static Tundra sfrutta una vecchia vulnerabilità Cisco per spionaggio</a></li>
+<li class="article-item" data-title="why certified vmware pros are driving the future of it"><a href="https://www.bleepingcomputer.com/news/security/why-certified-vmware-pros-are-driving-the-future-of-it/" target="_blank" rel="noopener noreferrer">Why Certified VMware Pros Are Driving the Future of IT</a></li>
+<li class="article-item" data-title="scattered spider affiliate given 10 year sentence, ordered to pay $13 million in restitution"><a href="https://therecord.media/scattered-spider-affiliate-sentenced-10-years" target="_blank" rel="noopener noreferrer">Scattered Spider affiliate given 10 year sentence, ordered to pay $13 million in restitution</a></li>
+<li class="article-item" data-title="hackers who exposed north korean government hacker explain why they did it"><a href="https://techcrunch.com/2025/08/21/hackers-who-exposed-north-korean-government-hacker-explain-why-they-did-it/" target="_blank" rel="noopener noreferrer">Hackers who exposed North Korean government hacker explain why they did it</a></li>
+<li class="article-item" data-title="fbi warns of russian hackers exploiting 7-year-old cisco flaw"><a href="https://www.bleepingcomputer.com/news/security/fbi-warns-of-russian-hackers-exploiting-cisco-flaw-in-critical-infrastructure-attacks/" target="_blank" rel="noopener noreferrer">FBI warns of Russian hackers exploiting 7-year-old Cisco flaw</a></li>
+<li class="article-item" data-title="falsa patch per firma digitale diffonde malware"><a href="https://cert-agid.gov.it/news/falsa-patch-per-firma-digitale-diffonde-malware/" target="_blank" rel="noopener noreferrer">Falsa patch per firma digitale diffonde malware</a></li>
+<li class="article-item" data-title="kali vagrant rebuilt: out with packer, in with debos"><a href="https://www.kali.org/blog/kali-vagrant-rebuilt/" target="_blank" rel="noopener noreferrer">Kali Vagrant Rebuilt: Out With Packer, In With DebOS</a></li>
+<li class="article-item" data-title="r/bithorn su reddit"><a href="https://roccosicilia.com/2025/08/21/r-bithorn-su-reddit/" target="_blank" rel="noopener noreferrer">r/BitHorn su reddit</a></li>
+<li class="article-item" data-title="scattered spider hacker gets sentenced to 10 years in prison"><a href="https://www.bleepingcomputer.com/news/security/scattered-spider-hacker-gets-sentenced-to-10-years-in-prison/" target="_blank" rel="noopener noreferrer">Scattered Spider hacker gets sentenced to 10 years in prison</a></li>
+<li class="article-item" data-title="orange belgium discloses data breach impacting 850,000 customers"><a href="https://www.bleepingcomputer.com/news/security/orange-belgium-discloses-data-breach-impacting-850-000-customers/" target="_blank" rel="noopener noreferrer">Orange Belgium discloses data breach impacting 850,000 customers</a></li>
+<li class="article-item" data-title="sim-swapper, scattered spider hacker gets 10 years"><a href="https://krebsonsecurity.com/2025/08/sim-swapper-scattered-spider-hacker-gets-10-years/" target="_blank" rel="noopener noreferrer">SIM-Swapper, Scattered Spider Hacker Gets 10 Years</a></li>
+<li class="article-item" data-title="openai says gpt-6 is coming and it&#x27;ll be better than gpt-5 (obviously)"><a href="https://www.bleepingcomputer.com/news/artificial-intelligence/openai-says-gpt-6-is-coming-and-itll-be-better-than-gpt-5-obviously/" target="_blank" rel="noopener noreferrer">OpenAI says GPT-6 is coming and it&#x27;ll be better than GPT-5 (obviously)</a></li>
+</ul></section>
+<section class="source-section" data-source="The Hacker News" id="source-53-The-Hacker-News">
+<h2>The Hacker News <span class="source-count">6</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="pre-auth exploit chains found in commvault could enable remote code execution attacks"><a href="https://thehackernews.com/2025/08/pre-auth-exploit-chains-found-in.html" target="_blank" rel="noopener noreferrer">Pre-Auth Exploit Chains Found in Commvault Could Enable Remote Code Execution Attacks</a></li>
+<li class="article-item" data-title="cybercriminals deploy cornflake.v3 backdoor via clickfix tactic and fake captcha pages"><a href="https://thehackernews.com/2025/08/cybercriminals-deploy-cornflakev3.html" target="_blank" rel="noopener noreferrer">Cybercriminals Deploy CORNFLAKE.V3 Backdoor via ClickFix Tactic and Fake CAPTCHA Pages</a></li>
+<li class="article-item" data-title="weak passwords and compromised accounts: key findings from the blue report 2025"><a href="https://thehackernews.com/2025/08/weak-passwords-and-compromised-accounts.html" target="_blank" rel="noopener noreferrer">Weak Passwords and Compromised Accounts: Key Findings from the Blue Report 2025</a></li>
+<li class="article-item" data-title="hackers using new quirkyloader malware to spread agent tesla, asyncrat and snake keylogger"><a href="https://thehackernews.com/2025/08/hackers-using-new-quirkyloader-malware.html" target="_blank" rel="noopener noreferrer">Hackers Using New QuirkyLoader Malware to Spread Agent Tesla, AsyncRAT and Snake Keylogger</a></li>
+<li class="article-item" data-title="scattered spider hacker gets 10 years, $13m restitution for sim swapping crypto theft"><a href="https://thehackernews.com/2025/08/scattered-spider-hacker-gets-10-years.html" target="_blank" rel="noopener noreferrer">Scattered Spider Hacker Gets 10 Years, $13M Restitution for SIM Swapping Crypto Theft</a></li>
+<li class="article-item is-cve" data-title="apple patches cve-2025-43300 zero-day in ios, ipados, and macos exploited in targeted attacks"><a href="https://thehackernews.com/2025/08/apple-patches-cve-2025-43300-zero-day.html" target="_blank" rel="noopener noreferrer"><span class="cve-badge">CVE</span> Apple Patches CVE-2025-43300 Zero-Day in iOS, iPadOS, and macOS Exploited in Targeted Attacks</a></li>
+</ul></section>
+<section class="source-section" data-source="Tor Project blog" id="source-54-Tor-Project-blog">
+<h2>Tor Project blog <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="new release: tails 6.19"><a href="https://blog.torproject.org/new-release-tails-6_19/" target="_blank" rel="noopener noreferrer">New Release: Tails 6.19</a></li>
+</ul></section>
+<section class="source-section" data-source="Security Weekly Podcast Network (Audio)" id="source-55-Security-Weekly-Podcast-Network-Audio">
+<h2>Security Weekly Podcast Network (Audio) <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="what we’ve learned from lockbit and black basta leaks (and news) - ian gray - psw #888"><a href="http://sites.libsyn.com/18678/what-weve-learned-from-lockbit-and-black-basta-leaks-and-news-ian-gray-psw-888" target="_blank" rel="noopener noreferrer">What We’ve Learned from LockBit and Black Basta Leaks (and News) - Ian Gray - PSW #888</a></li>
+</ul></section>
+<section class="source-section" data-source="Krebs on Security" id="source-56-Krebs-on-Security">
+<h2>Krebs on Security <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="sim-swapper, scattered spider hacker gets 10 years"><a href="https://krebsonsecurity.com/2025/08/sim-swapper-scattered-spider-hacker-gets-10-years/" target="_blank" rel="noopener noreferrer">SIM-Swapper, Scattered Spider Hacker Gets 10 Years</a></li>
+</ul></section>
+<section class="source-section" data-source="Security Affairs" id="source-57-Security-Affairs">
+<h2>Security Affairs <span class="source-count">5</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="apple addressed the seventh actively exploited zero-day"><a href="https://securityaffairs.com/181394/security/apple-addressed-the-seventh-actively-exploited-zero-day.html" target="_blank" rel="noopener noreferrer">Apple addressed the seventh actively exploited zero-day</a></li>
+<li class="article-item" data-title="hackers deploy dripdropper via apache activemq flaw, patch systems to evade detection"><a href="https://securityaffairs.com/181356/malware/hackers-deploy-dripdropper-via-apache-activemq-flaw-patch-systems-to-evade-detection.html" target="_blank" rel="noopener noreferrer">Hackers deploy DripDropper via Apache ActiveMQ flaw, patch systems to evade detection</a></li>
+<li class="article-item" data-title="a scattered spider member gets 10 years in prison"><a href="https://securityaffairs.com/181383/cyber-crime/a-scattered-spider-member-gets-10-years-in-prison.html" target="_blank" rel="noopener noreferrer">A Scattered Spider member gets 10 years in prison</a></li>
+<li class="article-item" data-title="fbi: russia-linked group static tundra exploit old cisco flaw for espionage"><a href="https://securityaffairs.com/181347/intelligence/fbi-russia-linked-group-static-tundra-exploit-old-cisco-flaw-for-espionage.html" target="_blank" rel="noopener noreferrer">FBI: Russia-linked group Static Tundra exploit old Cisco flaw for espionage</a></li>
+<li class="article-item" data-title="us cert/cc warns of flaws in workhorse software accounting software used by hundreds of municipalities in wisconsin"><a href="https://securityaffairs.com/181363/security/us-cert-cc-warns-of-flaws-in-workhorse-software-accounting-software-used-by-hundreds-of-municipalities-in-wisconsin.html" target="_blank" rel="noopener noreferrer">US CERT/CC warns of flaws in Workhorse Software accounting software used by hundreds of municipalities in Wisconsin</a></li>
+</ul></section>
+<section class="source-section" data-source="TecHug" id="source-58-TecHug">
+<h2>TecHug <span class="source-count">4</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="妈妈，看，我把他们吓到了！"><a href="https://www.techug.com/post/look-mom-im-scaring-them/" target="_blank" rel="noopener noreferrer">妈妈，看，我把他们吓到了！</a></li>
+<li class="article-item" data-title="openbsd 比 linux 快 10 倍？"><a href="https://www.techug.com/post/is-openbsd-10x-faster-than-linux/" target="_blank" rel="noopener noreferrer">OpenBSD 比 Linux 快 10 倍？</a></li>
+<li class="article-item" data-title="如果科技领袖是编程语言……"><a href="https://www.techug.com/post/if-tech-leaders-were-programming-languages/" target="_blank" rel="noopener noreferrer">如果科技领袖是编程语言……</a></li>
+<li class="article-item" data-title="反恐精英：宿舍里诞生的十亿美元游戏"><a href="https://www.techug.com/post/the-billion-dollar-game-built-in-a-dorm-room/" target="_blank" rel="noopener noreferrer">反恐精英：宿舍里诞生的十亿美元游戏</a></li>
+</ul></section>
+<section class="source-section" data-source="极道" id="source-59-极道">
+<h2>极道 <span class="source-count">5</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="中国锂电池首次实现了超过600瓦时每千克的能量密度"><a href="https://www.jdon.com/81264.html" target="_blank" rel="noopener noreferrer">中国锂电池首次实现了超过600瓦时每千克的能量密度</a></li>
+<li class="article-item" data-title="幽默：丈人问女婿用什么编程语言：chatgpt和cursor"><a href="https://www.jdon.com/81263.html" target="_blank" rel="noopener noreferrer">幽默：丈人问女婿用什么编程语言：ChatGPT和Cursor</a></li>
+<li class="article-item" data-title="新石墨烯电容器能操控比无线电波短几万倍的太赫兹波"><a href="https://www.jdon.com/81262.html" target="_blank" rel="noopener noreferrer">新石墨烯电容器能操控比无线电波短几万倍的太赫兹波</a></li>
+<li class="article-item" data-title="网友实证：gpt-5-pro真的能证明新数学定理"><a href="https://www.jdon.com/81261.html" target="_blank" rel="noopener noreferrer">网友实证：GPT-5-Pro真的能证明新数学定理</a></li>
+<li class="article-item" data-title="一句话讲明白cpython的jit构建机制和工作原理"><a href="https://www.jdon.com/81260.html" target="_blank" rel="noopener noreferrer">一句话讲明白CPython的JIT构建机制和工作原理</a></li>
+</ul></section>
+<section class="source-section" data-source="硕鼠的博客站" id="source-60-硕鼠的博客站">
+<h2>硕鼠的博客站 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="1000万装机量，鸿蒙操作系统是不是跨过了生态鸿沟？别傻了！揭秘华为不敢说的3个真相。"><a href="https://lukefan.com/2025/08/21/1000%e4%b8%87%e8%a3%85%e6%9c%ba%e9%87%8f%ef%bc%8c%e9%b8%bf%e8%92%99%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e6%98%af%e4%b8%8d%e6%98%af%e8%b7%a8%e8%bf%87%e4%ba%86%e7%94%9f%e6%80%81%e9%b8%bf%e6%b2%9f/" target="_blank" rel="noopener noreferrer">1000万装机量，鸿蒙操作系统是不是跨过了生态鸿沟？别傻了！揭秘华为不敢说的3个真相。</a></li>
+</ul></section>
+<section class="source-section" data-source="KAIX.IN" id="source-61-KAIX-IN">
+<h2>KAIX.IN <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="2025.08.21 11:17"><a href="https://kaix.in/2025/0821-rethink/" target="_blank" rel="noopener noreferrer">2025.08.21 11:17</a></li>
+</ul></section>
+<section class="source-section" data-source="把酒诗代码" id="source-62-把酒诗代码">
+<h2>把酒诗代码 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="武汉凉面🍜"><a href="https://102no.com/2025/08/21/liang-mian/" target="_blank" rel="noopener noreferrer">武汉凉面🍜</a></li>
+</ul></section>
+<section class="source-section" data-source="素生" id="source-63-素生">
+<h2>素生 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="入蜀记 81 曹鸡片"><a href="https://z.arlmy.me/posts/BBBPandINSW/INSW/INSW_81/" target="_blank" rel="noopener noreferrer">入蜀记 81 曹鸡片</a></li>
+</ul></section>
+<section class="source-section" data-source="维基萌" id="source-64-维基萌">
+<h2>维基萌 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="《夏目友人帐》圣地巡礼之人吉 影绘与探店篇"><a href="https://www.wikimoe.com/post/t18if09x" target="_blank" rel="noopener noreferrer">《夏目友人帐》圣地巡礼之人吉 影绘与探店篇</a></li>
+</ul></section>
+<section class="source-section" data-source="二丫讲梵" id="source-65-二丫讲梵">
+<h2>二丫讲梵 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="学习周刊-总第225期-2025年第34周"><a href="https://wiki.eryajf.net/pages/2b8afa/" target="_blank" rel="noopener noreferrer">学习周刊-总第225期-2025年第34周</a></li>
+</ul></section>
+<section class="source-section" data-source="61’s life" id="source-66-61-s-life">
+<h2>61’s life <span class="source-count">2</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="20250821"><a href="https://61.life/2025/0821" target="_blank" rel="noopener noreferrer">20250821</a></li>
+<li class="article-item" data-title="20250820"><a href="https://61.life/2025/0820" target="_blank" rel="noopener noreferrer">20250820</a></li>
+</ul></section>
+<section class="source-section" data-source="CHEGVA" id="source-67-CHEGVA">
+<h2>CHEGVA <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="macos格式化 u 盘"><a href="https://chegva.com/6502.html" target="_blank" rel="noopener noreferrer">MacOS格式化 U 盘</a></li>
+</ul></section>
+<section class="source-section" data-source="懒得勤快的博客_互联网分享精神" id="source-68-懒得勤快的博客_互联网分享精神">
+<h2>懒得勤快的博客_互联网分享精神 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="开源免费的 windows 剪贴板增强工具神器——ditto 3.25.76"><a href="https://masuit.net/150" target="_blank" rel="noopener noreferrer">开源免费的 Windows 剪贴板增强工具神器——Ditto 3.25.76</a></li>
+</ul></section>
+<section class="source-section" data-source="Li Hui Blog" id="source-69-Li-Hui-Blog">
+<h2>Li Hui Blog <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="工作流调研与实践经验"><a href="https://lihui.net/workflow-investigation-and-practice-experience.html" target="_blank" rel="noopener noreferrer">工作流调研与实践经验</a></li>
+</ul></section>
+<section class="source-section" data-source="游研社" id="source-70-游研社">
+<h2>游研社 <span class="source-count">6</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="出海积累多年，今天轮到天美在科隆崭露头角了"><a href="https://www.yystv.cn/p/13124" target="_blank" rel="noopener noreferrer">出海积累多年，今天轮到天美在科隆崭露头角了</a></li>
+<li class="article-item" data-title="《流放之路2》的国服，目标依旧是“永久运营”"><a href="https://www.yystv.cn/p/13123" target="_blank" rel="noopener noreferrer">《流放之路2》的国服，目标依旧是“永久运营”</a></li>
+<li class="article-item" data-title="《空之轨迹the 1st》体验版上线，falcom社长谈为何选此时重制"><a href="https://www.yystv.cn/p/13121" target="_blank" rel="noopener noreferrer">《空之轨迹the 1st》体验版上线，Falcom社长谈为何选此时重制</a></li>
+<li class="article-item" data-title="一种专骗老年人的电商骗局，被年轻人当羊毛薅秃了"><a href="https://www.yystv.cn/p/13120" target="_blank" rel="noopener noreferrer">一种专骗老年人的电商骗局，被年轻人当羊毛薅秃了</a></li>
+<li class="article-item" data-title="gpt升级后，消失的赛博恋人"><a href="https://www.yystv.cn/p/13119" target="_blank" rel="noopener noreferrer">GPT升级后，消失的赛博恋人</a></li>
+<li class="article-item" data-title="盛趣游戏《ff14》11周年热闹不断 多重联动走进光战生活"><a href="https://www.yystv.cn/p/13117" target="_blank" rel="noopener noreferrer">盛趣游戏《FF14》11周年热闹不断 多重联动走进光战生活</a></li>
+</ul></section>
+<section class="source-section" data-source="玉明-风起于青萍之末" id="source-71-玉明-风起于青萍之末">
+<h2>玉明-风起于青萍之末 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="the secret to success in the ai age: broadening yourself（原文以及翻译）"><a href="https://xdym11235.com/archives/316.html" target="_blank" rel="noopener noreferrer">The secret to success in the AI Age: broadening yourself（原文以及翻译）</a></li>
+</ul></section>
+<section class="source-section" data-source="一叶斋" id="source-72-一叶斋">
+<h2>一叶斋 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="写在《小丑牌》全卡组金注之后"><a href="https://xieguanglei.github.io/blog/2025-08-21/xie-zai-xiao-chou-pai-quan-ka-zu-jin-zhu-zhi-hou" target="_blank" rel="noopener noreferrer">写在《小丑牌》全卡组金注之后</a></li>
+</ul></section>
+<section class="source-section" data-source="ShineKid" id="source-73-ShineKid">
+<h2>ShineKid <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="潮汐之歌：暗湧的少年時光"><a href="https://shinekid.com/2025/08/the-unspoken-bloom/" target="_blank" rel="noopener noreferrer">潮汐之歌：暗湧的少年時光</a></li>
+</ul></section>
+<section class="source-section" data-source="Conge" id="source-74-Conge">
+<h2>Conge <span class="source-count">3</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="2025 七月读民俗 哲学 运动 小说 …… 7 本"><a href="https://conge.livingwithfcs.org/2025/08/21/reading_summary/" target="_blank" rel="noopener noreferrer">2025 七月读民俗 哲学 运动 小说 …… 7 本</a></li>
+<li class="article-item" data-title="父范学堂 2533 小礼物"><a href="https://conge.livingwithfcs.org/2025/08/21/NewDaddy-gifts/" target="_blank" rel="noopener noreferrer">父范学堂 2533 小礼物</a></li>
+<li class="article-item" data-title="折返点 2533 小小的加量"><a href="https://conge.livingwithfcs.org/2025/08/21/ReturnPoint-ramping-up/" target="_blank" rel="noopener noreferrer">折返点 2533 小小的加量</a></li>
+</ul></section>
+<section class="source-section" data-source="运维咖啡吧" id="source-75-运维咖啡吧">
+<h2>运维咖啡吧 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="久违的暑假｜沿海自驾day10 - 厦门"><a href="https://blog.ops-coffee.cn/r/2025-summer-coastal-road-trip-day10-xiamen-huandao.html" target="_blank" rel="noopener noreferrer">久违的暑假｜沿海自驾DAY10 - 厦门</a></li>
+</ul></section>
+<section class="source-section" data-source="ZkeqのCoding日志" id="source-76-ZkeqのCoding日志">
+<h2>ZkeqのCoding日志 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="云声计划 ｜ 如何使用宝塔最新版 + vercel，来部署一个私人的影视站+音乐站"><a href="https://icodeq.com/2025/a747161ccf76/" target="_blank" rel="noopener noreferrer">云声计划 ｜ 如何使用宝塔最新版 + Vercel，来部署一个私人的影视站+音乐站</a></li>
+</ul></section>
+<section class="source-section" data-source="TrumanDu&#x27;s Blog" id="source-77-TrumanDu-s-Blog">
+<h2>TrumanDu&#x27;s Blog <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="修图大师 - 限制 ai 修图能力的不是修图大师，而是你的想象力"><a href="http://blog.trumandu.top/2025/08/21/%E4%BF%AE%E5%9B%BE%E5%A4%A7%E5%B8%88---%E9%99%90%E5%88%B6-ai-%E4%BF%AE%E5%9B%BE%E8%83%BD%E5%8A%9B%E7%9A%84%E4%B8%8D%E6%98%AF%E4%BF%AE%E5%9B%BE%E5%A4%A7%E5%B8%88%EF%BC%8C%E8%80%8C%E6%98%AF%E4%BD%A0%E7%9A%84%E6%83%B3%E8%B1%A1%E5%8A%9B/" target="_blank" rel="noopener noreferrer">修图大师 - 限制 AI 修图能力的不是修图大师，而是你的想象力</a></li>
+</ul></section>
+<section class="source-section" data-source="happy xiao" id="source-78-happy-xiao">
+<h2>happy xiao <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="事业"><a href="https://happyxiao.com/venture/" target="_blank" rel="noopener noreferrer">事业</a></li>
+</ul></section>
+<section class="source-section" data-source="Tony Bai" id="source-79-Tony-Bai">
+<h2>Tony Bai <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="哲学家与工程师：为何 rust 和 go 的“官方之声”如此不同？"><a href="https://tonybai.com/2025/08/21/go-rust-official-voices/" target="_blank" rel="noopener noreferrer">哲学家与工程师：为何 Rust 和 Go 的“官方之声”如此不同？</a></li>
+</ul></section>
+<section class="source-section" data-source="子虚栈" id="source-80-子虚栈">
+<h2>子虚栈 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="巨人的荷塘"><a href="https://blog.si-on.top/2025/LotusPond@Giant/" target="_blank" rel="noopener noreferrer">巨人的荷塘</a></li>
+</ul></section>
+<section class="source-section" data-source="老刘博客" id="source-81-老刘博客">
+<h2>老刘博客 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="物必自腐，而后虫生"><a href="https://iliu.org/a-thing-must-first-decay-before-insects-can-breed/" target="_blank" rel="noopener noreferrer">物必自腐，而后虫生</a></li>
+</ul></section>
+<section class="source-section" data-source="smallyu的博客" id="source-82-smallyu的博客">
+<h2>smallyu的博客 <span class="source-count">3</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="defi 进阶: 闪电贷与套利"><a href="https://smallyu.net/2025/08/21/DeFi%E8%BF%9B%E9%98%B61/" target="_blank" rel="noopener noreferrer">DeFi 进阶: 闪电贷与套利</a></li>
+<li class="article-item" data-title="defi 基础: 借贷与清算"><a href="https://smallyu.net/2025/08/21/DeFi%E5%9F%BA%E7%A1%803/" target="_blank" rel="noopener noreferrer">DeFi 基础: 借贷与清算</a></li>
+<li class="article-item" data-title="defi 基础: 预言机与报价"><a href="https://smallyu.net/2025/08/21/DeFi%E5%9F%BA%E7%A1%802/" target="_blank" rel="noopener noreferrer">DeFi 基础: 预言机与报价</a></li>
+</ul></section>
+<section class="source-section" data-source="莫尔索随笔" id="source-83-莫尔索随笔">
+<h2>莫尔索随笔 <span class="source-count">1</span></h2>
+<ul class="article-list">
+<li class="article-item" data-title="claude code 最佳实践（译）"><a href="https://liduos.com/claude-code-best-practices.html" target="_blank" rel="noopener noreferrer">Claude Code 最佳实践（译）</a></li>
+</ul></section>
+</div>
+                    <div class="daily-filter-empty" id="dailyFilterEmpty">没有匹配的文章，请调整筛选条件</div>
+                    <div class="footer">
+                        <p>Generated by SECDaily - 2026 · 页面更新 2026-05-26 15:58:07</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="tag-cloud " id="tagCloud">
+        <div class="tag-cloud-header">🏷️ 关键词标签云</div>
+        <div class="tag-cloud-content">
+            
+                <span class="tag-cloud-item tag-size-6" title="出现 20 次">2025</span>
+            
+                <span class="tag-cloud-item tag-size-3" title="出现 11 次">ai</span>
+            
+                <span class="tag-cloud-item tag-size-3" title="出现 10 次">10</span>
+            
+                <span class="tag-cloud-item tag-size-2" title="出现 7 次">scattered</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 6 次">cve</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 6 次">hacker</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 6 次">spider</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 5 次">gets</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 5 次">years</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 4 次">code</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 4 次">linux</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 4 次">gpt</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 4 次">安全圈</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 4 次">per</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 4 次">cisco</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 4 次">la</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 4 次">hackers</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">fix</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">clickfix</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">thu</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">aug</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">21</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">openai</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">25</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">cve-2025-43300</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">43300</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">static</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">tundra</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">una</span>
+            
+                <span class="tag-cloud-item tag-size-1" title="出现 3 次">cyber</span>
+            
+        </div>
+    </div>
+    
+    
+    
+    
+    <!-- 回到顶部按钮 -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()" title="回到顶部" aria-label="回到顶部">↑</button>
+    
+    <script>
+        // 拖拽功能
+        let isDragging = false;
+        let currentX;
+        let currentY;
+        let initialX;
+        let initialY;
+        let xOffset = 0;
+        let yOffset = 0;
+        
+        const panel = document.getElementById('aiSummaryPanel');
+        const toggle = document.getElementById('aiSummaryToggle');
+        
+        if (panel) {
+            const header = panel.querySelector('.ai-summary-header');
+            
+            header.addEventListener('mousedown', dragStart);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', dragEnd);
+        }
+        
+        function dragStart(e) {
+            if (e.target.classList.contains('ai-summary-close')) {
+                return;
+            }
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+            
+            if (e.target === header || header.contains(e.target)) {
+                isDragging = true;
+            }
+        }
+        
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+                
+                xOffset = currentX;
+                yOffset = currentY;
+                
+                setTranslate(currentX, currentY, panel);
+            }
+        }
+        
+        function dragEnd(e) {
+            initialX = currentX;
+            initialY = currentY;
+            isDragging = false;
+        }
+        
+        function setTranslate(xPos, yPos, el) {
+            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+        }
+        
+        // 显示/隐藏功能
+        function toggleSummary() {
+            if (panel) {
+                if (panel.style.display === 'none' || panel.style.display === '') {
+                    panel.style.display = 'flex';
+                    if (toggle) toggle.textContent = '🤖';
+                } else {
+                    panel.style.display = 'none';
+                    if (toggle) toggle.textContent = '🤖';
+                }
+            }
+        }
+        
+        // 响应式处理：窗口大小改变时调整
+        function handleResize() {
+            if (window.innerWidth <= 768) {
+                // 移动端：默认隐藏，显示切换按钮
+                if (panel && panel.style.display !== 'none') {
+                    // 如果当前显示，可以选择隐藏或保持显示
+                    // 这里保持当前状态，不强制隐藏
+                }
+            } else {
+                // 桌面端：默认显示
+                if (panel && panel.style.display === 'none') {
+                    panel.style.display = 'flex';
+                }
+            }
+        }
+        
+        // 监听窗口大小改变
+        window.addEventListener('resize', handleResize);
+        
+        // 移动端初始状态：默认隐藏
+        if (window.innerWidth <= 768) {
+            if (panel) {
+                panel.style.display = 'none';
+            }
+        }
+        
+        // 回到顶部功能
+        const backToTopBtn = document.getElementById('backToTop');
+        const aiSummaryToggle = document.getElementById('aiSummaryToggle');
+        
+        // 检查是否有AI总结按钮，调整回到顶部按钮位置
+        if (aiSummaryToggle && backToTopBtn) {
+            backToTopBtn.classList.add('has-ai-toggle');
+        }
+        
+        // 调整标签云位置（如果有AI总结）
+        const tagCloud = document.getElementById('tagCloud');
+        if (tagCloud && panel) {
+            // 如果AI总结面板存在，标签云会自动通过CSS类调整位置
+            // 这里可以添加额外的JavaScript逻辑如果需要
+        }
+        
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        (function initNavSearch() {
+            const form = document.getElementById('navSearchForm');
+            const input = document.getElementById('navSearchInput');
+            if (!form || !input) return;
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const query = input.value.trim();
+                if (!query) {
+                    window.location.href = '../index.html';
+                    return;
+                }
+                window.location.href = '../index.html?mode=title&q=' + encodeURIComponent(query);
+            });
+        })();
+        
+        (function initDailyFilter() {
+            const mainBody = document.getElementById('mainBody');
+            const filterInput = document.getElementById('articleFilter');
+            const sourceFilter = document.getElementById('sourceFilter');
+            const cveOnlyBtn = document.getElementById('cveOnlyBtn');
+            const clearFilterBtn = document.getElementById('clearFilterBtn');
+            const filterMeta = document.getElementById('filterMeta');
+            const filterEmpty = document.getElementById('dailyFilterEmpty');
+            const feed = document.getElementById('dailyFeed');
+            if (!feed || !filterInput) return;
+
+            const sections = [...feed.querySelectorAll('.source-section')];
+            let cveOnly = false;
+
+            sections.forEach((section) => {
+                const sourceName = section.dataset.source || '';
+                if (sourceFilter && sourceName) {
+                    const option = document.createElement('option');
+                    option.value = sourceName;
+                    option.textContent = sourceName.length > 28 ? sourceName.slice(0, 28) + '…' : sourceName;
+                    option.title = sourceName;
+                    sourceFilter.appendChild(option);
+                }
+            });
+
+            const applyFilter = () => {
+                const query = filterInput.value.trim().toLowerCase();
+                const selectedSource = sourceFilter ? sourceFilter.value : '';
+                let visibleArticles = 0;
+                let visibleSections = 0;
+
+                sections.forEach((section) => {
+                    const sourceName = section.dataset.source || '';
+                    const items = [...section.querySelectorAll('.article-item')];
+                    let sectionVisible = 0;
+
+                    items.forEach((item) => {
+                        const title = item.dataset.title || item.textContent.toLowerCase();
+                        const matchQuery = !query || title.includes(query);
+                        const matchSource = !selectedSource || sourceName === selectedSource;
+                        const matchCve = !cveOnly || item.classList.contains('is-cve');
+                        const show = matchQuery && matchSource && matchCve;
+                        item.classList.toggle('is-hidden', !show);
+                        if (show) sectionVisible++;
+                    });
+
+                    const showSection = sectionVisible > 0;
+                    section.classList.toggle('is-hidden', !showSection);
+                    if (showSection) {
+                        visibleSections++;
+                        visibleArticles += sectionVisible;
+                    }
+                });
+
+                if (filterMeta) {
+                    filterMeta.textContent = query || selectedSource || cveOnly
+                        ? `显示 ${visibleArticles} 篇文章 · ${visibleSections} 个来源`
+                        : `共 ${sections.length} 个来源`;
+                }
+                if (filterEmpty) {
+                    filterEmpty.style.display = visibleArticles === 0 ? 'block' : 'none';
+                }
+            };
+
+            filterInput.addEventListener('input', applyFilter);
+            if (sourceFilter) sourceFilter.addEventListener('change', applyFilter);
+            if (cveOnlyBtn) {
+                cveOnlyBtn.addEventListener('click', () => {
+                    cveOnly = !cveOnly;
+                    cveOnlyBtn.classList.toggle('is-active', cveOnly);
+                    applyFilter();
+                });
+            }
+            if (clearFilterBtn) {
+                clearFilterBtn.addEventListener('click', () => {
+                    filterInput.value = '';
+                    if (sourceFilter) sourceFilter.value = '';
+                    cveOnly = false;
+                    if (cveOnlyBtn) cveOnlyBtn.classList.remove('is-active');
+                    applyFilter();
+                });
+            }
+
+            document.querySelectorAll('.tag-cloud-item').forEach((tag) => {
+                tag.addEventListener('click', () => {
+                    filterInput.value = tag.textContent.trim();
+                    applyFilter();
+                    document.getElementById('dailyToolbar')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+
+            applyFilter();
+        })();
+
+        (function initReadingEnhancements() {
+            const mainBody = document.getElementById('mainBody');
+            const tocPanel = document.getElementById('tocPanel');
+            const tocList = document.getElementById('tocList');
+            const articleLayout = document.getElementById('articleLayout');
+            const progressBar = document.getElementById('readProgress');
+            if (!mainBody) return;
+            
+            const headings = mainBody.querySelectorAll('h2');
+            if (headings.length && tocList && tocPanel) {
+                tocPanel.hidden = false;
+                articleLayout.classList.remove('no-toc');
+                headings.forEach((heading, index) => {
+                    const text = heading.textContent.trim();
+                    if (!text) return;
+                    let id = heading.id;
+                    if (!id) {
+                        id = 'section-' + index + '-' + text.replace(/\s+/g, '-').replace(/[^\w\u4e00-\u9fff-]/g, '').slice(0, 40);
+                        heading.id = id;
+                    }
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = '#' + id;
+                    a.textContent = text.length > 28 ? text.slice(0, 28) + '…' : text;
+                    a.title = text;
+                    a.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                    li.appendChild(a);
+                    tocList.appendChild(li);
+                });
+                
+                const tocLinks = tocList.querySelectorAll('a');
+                const onScroll = () => {
+                    let active = 0;
+                    headings.forEach((h, i) => {
+                        if (h.getBoundingClientRect().top <= 120) active = i;
+                    });
+                    tocLinks.forEach((link, i) => link.classList.toggle('is-active', i === active));
+                };
+                window.addEventListener('scroll', onScroll, { passive: true });
+                onScroll();
+            }
+            
+            if (progressBar) {
+                window.addEventListener('scroll', () => {
+                    const rect = mainBody.getBoundingClientRect();
+                    const total = mainBody.scrollHeight - window.innerHeight;
+                    const scrolled = Math.min(Math.max(-rect.top, 0), total);
+                    const pct = total > 0 ? (scrolled / total) * 100 : 0;
+                    progressBar.style.width = pct + '%';
+                }, { passive: true });
+            }
+        })();
+    </script>
+</body>
+</html>
