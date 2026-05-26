@@ -97,6 +97,14 @@ cd archive && python -m http.server 8080
 
 在线访问：部署 GitHub Pages 后见下文「GitHub Pages 部署」。
 
+**归档首页**（日期归档 / 全站标题搜索）：
+
+<img width="930" alt="归档首页：日期浏览与标题搜索" src="https://github.com/user-attachments/assets/bee267b6-3025-41cb-acee-d4a6674ba291" />
+
+**日报页面**（来源导航、标题筛选、词云与 CVE 统计等）：
+
+<img width="932" alt="日报页面：文章列表与筛选" src="https://github.com/user-attachments/assets/b5361db7-7581-49a2-99a0-ecb3d6fa4118" />
+
 ## 配置说明
 
 ### RSS源配置 (`config.json`)
