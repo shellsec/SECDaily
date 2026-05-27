@@ -26,7 +26,7 @@
             --radius-md: 8px;
             --radius-lg: 10px;
             --sidebar-width: 260px;
-            --toc-width: 168px;
+            --toc-width: 220px;
             --gap-section: 12px;
             --gap-card: 8px;
             --accent: #10b981;
@@ -65,11 +65,16 @@
         }
         
         .container {
-            max-width: 1100px;
+            max-width: 1440px;
             margin: 0 auto;
-            padding: 16px 16px 28px;
+            padding: 16px 20px 28px;
             position: relative;
             z-index: 1;
+        }
+
+        body:has(.tag-cloud) .container,
+        body:has(.ai-summary-panel) .container {
+            padding-right: calc(var(--sidebar-width) + 28px);
         }
         
         .navigation {
@@ -163,9 +168,8 @@
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
-            padding: 18px 22px;
+            padding: 18px 26px 24px;
             box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-            margin-right: calc(var(--sidebar-width) + 16px);
             position: relative;
         }
         
@@ -199,22 +203,43 @@
         
         .article-layout {
             display: grid;
-            grid-template-columns: var(--toc-width) 1fr;
-            gap: 14px;
+            grid-template-columns: 1fr;
+            column-gap: 16px;
+            row-gap: 14px;
             align-items: start;
         }
-        
-        .article-layout.no-toc {
-            grid-template-columns: 1fr;
+
+        .article-layout.has-toc {
+            grid-template-columns: var(--toc-width) minmax(0, 1fr);
+        }
+
+        .article-head {
+            grid-column: 1 / -1;
+        }
+
+        .article-layout.has-toc .toc-panel {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .article-layout.has-toc .main-body {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .article-layout:not(.has-toc) .main-body {
+            grid-column: 1;
+            grid-row: 2;
         }
         
         .toc-panel {
             position: sticky;
             top: 16px;
+            align-self: start;
             background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
-            padding: 10px;
+            padding: 12px 10px;
             max-height: calc(100vh - 32px);
             overflow-y: auto;
             box-shadow: var(--shadow-sm);
@@ -228,9 +253,10 @@
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            margin-bottom: 8px;
-            padding-bottom: 6px;
+            margin: 0 0 8px;
+            padding: 0 0 8px;
             border-bottom: 1px dashed var(--border);
+            line-height: 1.3;
         }
         
         .toc-list {
@@ -278,7 +304,7 @@
         
         .article-head {
             padding-top: 4px;
-            margin-bottom: 14px;
+            margin: 0;
             padding-bottom: 12px;
             border-bottom: 1px dashed var(--border);
         }
@@ -345,16 +371,29 @@
             border: 1px solid rgba(14, 165, 233, 0.12);
             border-radius: var(--radius-sm);
         }
-        
-        .main-content h2::before {
+
+        .source-section > h2 {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 10px;
+            padding: 10px 12px;
+            line-height: 1.4;
+        }
+
+        .source-section > h2::before {
             content: '';
-            display: inline-block;
+            flex-shrink: 0;
             width: 4px;
-            height: 1em;
+            height: 1.1em;
             background: linear-gradient(180deg, var(--primary), var(--secondary));
             border-radius: 2px;
-            margin-right: 10px;
-            vertical-align: -0.1em;
+            margin-right: 2px;
+        }
+
+        .source-section:first-child > h2 {
+            margin-top: 0;
         }
         
         .main-content blockquote {
@@ -395,15 +434,23 @@
             border-bottom-color: var(--primary);
         }
         
-        .main-content ul, .main-content ol {
+        .main-content ul:not(.article-list):not(.toc-list),
+        .main-content ol {
             margin: 8px 0;
             padding-left: 1.35em;
         }
         
-        .main-content li {
+        .main-content li:not(.article-item) {
             margin: 4px 0;
             line-height: 1.5;
             color: var(--text-secondary);
+        }
+
+        .main-content .article-list,
+        .main-content .article-list .article-item {
+            margin: 0;
+            padding-left: 0;
+            list-style: none;
         }
         
         .main-content li a {
@@ -415,7 +462,7 @@
             flex-wrap: wrap;
             align-items: center;
             gap: 8px;
-            margin: 0 0 14px;
+            margin: 0 0 12px;
             padding: 10px 12px;
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             border: 1px solid var(--border);
@@ -480,8 +527,16 @@
             display: none;
         }
 
+        .daily-feed {
+            margin: 0;
+        }
+
         .source-section {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
+        }
+
+        .source-section:last-child {
+            margin-bottom: 0;
         }
 
         .source-section.is-hidden {
@@ -508,10 +563,14 @@
             list-style: none;
             margin: 0;
             padding: 0;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: #fff;
         }
 
         .article-item {
-            padding: 7px 10px;
+            padding: 8px 12px;
             border-bottom: 1px solid rgba(226, 232, 240, 0.9);
             transition: background 0.2s ease;
         }
@@ -574,7 +633,7 @@
         }
         
         .stats-line {
-            margin: 12px 0;
+            margin: 0 0 14px;
             padding: 8px 12px;
             text-align: center;
             background: linear-gradient(135deg, rgba(14, 165, 233, 0.06) 0%, rgba(6, 182, 212, 0.04) 100%);
@@ -803,12 +862,16 @@
         
         .back-to-top.has-ai-toggle { bottom: 64px; }
         
-        @media (max-width: 1100px) {
+        @media (max-width: 1280px) {
             :root { --sidebar-width: 240px; }
-            .main-content { margin-right: calc(var(--sidebar-width) + 12px); }
+            .container { max-width: 100%; }
         }
         
         @media (max-width: 768px) {
+            body:has(.tag-cloud) .container,
+            body:has(.ai-summary-panel) .container {
+                padding-right: 12px;
+            }
             .container { padding: 12px 12px 24px; }
             .navigation { align-items: stretch; }
             .nav-search {
@@ -820,8 +883,14 @@
                 margin-right: 0;
                 padding: 14px 16px;
             }
-            .article-layout {
+            .article-layout,
+            .article-layout.has-toc {
                 grid-template-columns: 1fr;
+            }
+            .article-layout.has-toc .toc-panel,
+            .article-layout.has-toc .main-body {
+                grid-column: 1;
+                grid-row: auto;
             }
             .toc-panel {
                 position: static;
@@ -877,19 +946,19 @@
         
         <div class="main-content">
             <div class="read-progress" aria-hidden="true"><div class="read-progress-bar" id="readProgress"></div></div>
-            <div class="article-head">
-                <h1>每日安全资讯（2025-08-25）</h1>
-                <div class="date">📅 资讯日期: 2025-08-25</div>
-                <div class="meta-tags">
-                    <span class="meta-tag">安全日报</span>
-                    <span class="meta-tag">60 篇文章</span>
-                    <span class="meta-tag">45 个来源</span>
-                    <span class="meta-tag">CVE 2 条</span>
-                    
-                    <span class="meta-tag">关键词 30 个</span>
-                </div>
-            </div>
-            <div class="article-layout no-toc" id="articleLayout">
+            <div class="article-layout" id="articleLayout">
+                <header class="article-head">
+                    <h1>每日安全资讯（2025-08-25）</h1>
+                    <div class="date">📅 资讯日期: 2025-08-25</div>
+                    <div class="meta-tags">
+                        <span class="meta-tag">安全日报</span>
+                        <span class="meta-tag">60 篇文章</span>
+                        <span class="meta-tag">45 个来源</span>
+                        <span class="meta-tag">CVE 2 条</span>
+                        
+                        <span class="meta-tag">关键词 30 个</span>
+                    </div>
+                </header>
                 <aside class="toc-panel" id="tocPanel" hidden>
                     <div class="toc-head">来源导航</div>
                     <ul class="toc-list" id="tocList"></ul>
@@ -911,7 +980,7 @@
     <span class="stat-separator">|</span>
     <span>2 条 CVE</span>
     <span class="stat-separator">|</span>
-    <span>页面更新: 2026-05-26 15:58:07</span>
+    <span>页面更新: 2026-05-27 10:18:23</span>
 </div><div class="daily-feed" id="dailyFeed">
 <section class="source-section" data-source="SecWiki News" id="source-0-SecWiki-News">
 <h2>SecWiki News <span class="source-count">1</span></h2>
@@ -1156,7 +1225,7 @@
 </div>
                     <div class="daily-filter-empty" id="dailyFilterEmpty">没有匹配的文章，请调整筛选条件</div>
                     <div class="footer">
-                        <p>Generated by SECDaily - 2026 · 页面更新 2026-05-26 15:58:07</p>
+                        <p>Generated by SECDaily - 2026 · 页面更新 2026-05-27 10:18:23</p>
                     </div>
                 </div>
             </div>
@@ -1472,7 +1541,7 @@
             const headings = mainBody.querySelectorAll('h2');
             if (headings.length && tocList && tocPanel) {
                 tocPanel.hidden = false;
-                articleLayout.classList.remove('no-toc');
+                articleLayout.classList.add('has-toc');
                 headings.forEach((heading, index) => {
                     const text = heading.textContent.trim();
                     if (!text) return;

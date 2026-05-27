@@ -123,6 +123,42 @@
         .navigation span {
             color: var(--border);
         }
+
+        .nav-search {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 180px;
+            max-width: 320px;
+            flex: 1;
+            padding: 4px 8px;
+            background: var(--bg-muted);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+        }
+
+        .nav-search input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 0.82rem;
+            color: var(--text-primary);
+            outline: none;
+            min-width: 0;
+        }
+
+        .nav-search button {
+            border: none;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 999px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
         
         .main-content {
             background: var(--bg-card);
@@ -638,6 +674,12 @@
         
         @media (max-width: 768px) {
             .container { padding: 12px 12px 24px; }
+            .navigation { align-items: stretch; }
+            .nav-search {
+                width: 100%;
+                max-width: none;
+                margin-left: 0;
+            }
             .main-content {
                 margin-right: 0;
                 padding: 14px 16px;
@@ -691,13 +733,17 @@
             <a href="../index.html">返回首页</a>
             <span>|</span>
             <a href="../../index.html">项目主页</a>
+            <form class="nav-search" id="navSearchForm">
+                <input type="search" id="navSearchInput" placeholder="全站标题搜索..." autocomplete="off" aria-label="全站标题搜索">
+                <button type="submit">搜索</button>
+            </form>
         </div>
         
         <div class="main-content">
             <div class="read-progress" aria-hidden="true"><div class="read-progress-bar" id="readProgress"></div></div>
             <div class="article-head">
                 <h1>AISummary2025-11-07</h1>
-                <div class="date">📅 生成时间: 2026-05-20</div>
+                <div class="date">📅 生成时间: 2026-05-25</div>
                 <div class="meta-tags">
                     <span class="meta-tag">安全日报</span>
                     
@@ -712,7 +758,7 @@
                 <div class="main-body" id="mainBody">
                     <hr>
                     <div class="stats-line">
-    <span>生成时间: 2026-05-20</span>
+    <span>生成时间: 2026-05-25</span>
     <span class="stat-separator">|</span>
     <span>总文章数: 19</span>
 </div><h1>AI总结 - 2025-11-07</h1>
@@ -873,6 +919,21 @@
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        (function initNavSearch() {
+            const form = document.getElementById('navSearchForm');
+            const input = document.getElementById('navSearchInput');
+            if (!form || !input) return;
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const query = input.value.trim();
+                if (!query) {
+                    window.location.href = '../index.html';
+                    return;
+                }
+                window.location.href = '../index.html?mode=title&q=' + encodeURIComponent(query);
+            });
+        })();
         
         (function initReadingEnhancements() {
             const mainBody = document.getElementById('mainBody');
