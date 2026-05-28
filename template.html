@@ -114,7 +114,7 @@
             gap: 4px;
         }
         
-        .navigation a::before {
+        .navigation a.nav-back::before {
             content: '←';
             font-size: 1em;
         }
@@ -126,6 +126,13 @@
         
         .navigation span {
             color: var(--border);
+            user-select: none;
+        }
+
+        .navigation a.nav-external::after {
+            content: '↗';
+            font-size: 0.75em;
+            opacity: 0.65;
         }
 
         .nav-search {
@@ -570,7 +577,11 @@
         }
 
         .article-item {
-            padding: 8px 12px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 8px 10px 8px 12px;
             border-bottom: 1px solid rgba(226, 232, 240, 0.9);
             transition: background 0.2s ease;
         }
@@ -587,9 +598,67 @@
             display: none;
         }
 
-        .article-item a {
-            display: inline;
+        .article-link {
+            flex: 1;
+            min-width: 0;
+            display: block;
             line-height: 1.55;
+            word-break: break-word;
+        }
+
+        .item-ai-jump {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+            padding-top: 1px;
+        }
+
+        .item-ai-btn {
+            border: 1px solid var(--border);
+            background: #fff;
+            font-size: 0.62rem;
+            font-weight: 600;
+            line-height: 1.2;
+            padding: 4px 7px;
+            border-radius: 999px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .item-ai-btn.item-ai-deepseek {
+            color: #3b5bdb;
+            border-color: rgba(77, 107, 254, 0.35);
+            background: rgba(77, 107, 254, 0.08);
+        }
+
+        .item-ai-btn.item-ai-chatgpt {
+            color: #0f766e;
+            border-color: rgba(16, 185, 129, 0.35);
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .item-ai-btn.item-ai-gemini {
+            color: #1d4ed8;
+            border-color: rgba(59, 130, 246, 0.35);
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        .item-ai-btn:hover {
+            box-shadow: var(--shadow-sm);
+        }
+
+        .item-ai-btn.item-ai-deepseek:hover {
+            background: rgba(77, 107, 254, 0.16);
+        }
+
+        .item-ai-btn.item-ai-chatgpt:hover {
+            background: rgba(16, 185, 129, 0.18);
+        }
+
+        .item-ai-btn.item-ai-gemini:hover {
+            background: rgba(59, 130, 246, 0.14);
         }
 
         .cve-badge {
@@ -730,6 +799,37 @@
             color: var(--text-muted);
             font-size: 0.78rem;
             border-top: 1px solid var(--border);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .footer-links a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            padding: 3px 8px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            background: rgba(14, 165, 233, 0.06);
+            font-size: 0.74rem;
+            font-weight: 500;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .footer-links span {
+            color: var(--border);
         }
         
         .ai-summary-panel {
@@ -908,6 +1008,14 @@
                 white-space: nowrap;
             }
             .main-content h1 { font-size: 1.15rem; }
+            .article-item {
+                flex-wrap: wrap;
+            }
+            .item-ai-jump {
+                width: 100%;
+                justify-content: flex-end;
+                padding-top: 4px;
+            }
             .ai-summary-panel,
             .tag-cloud {
                 width: calc(100% - 32px);
@@ -935,9 +1043,9 @@
     <div class="container">
         <div class="navigation">
             <span class="nav-brand">{{ site_name }}</span>
-            <a href="../index.html">返回首页</a>
+            <a class="nav-back" href="../index.html">返回首页</a>
             <span>|</span>
-            <a href="../../index.html">项目主页</a>
+            <a class="nav-external" href="{{ github_url }}" target="_blank" rel="noopener noreferrer" title="SECDaily 开源仓库">GitHub</a>
             <form class="nav-search" id="navSearchForm">
                 <input type="search" id="navSearchInput" placeholder="全站标题搜索..." autocomplete="off" aria-label="全站标题搜索">
                 <button type="submit">搜索</button>
@@ -977,6 +1085,11 @@
                     <div class="daily-filter-empty" id="dailyFilterEmpty">没有匹配的文章，请调整筛选条件</div>
                     <div class="footer">
                         <p>Generated by {{ site_name }} - {{ year }} · 页面更新 {{ generated_at }}</p>
+                        <div class="footer-links">
+                            <a href="{{ github_url }}" target="_blank" rel="noopener noreferrer">GitHub 仓库</a>
+                            <span>|</span>
+                            <a href="../index.html">归档首页</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1137,6 +1250,120 @@
                     return;
                 }
                 window.location.href = '../index.html?mode=title&q=' + encodeURIComponent(query);
+            });
+        })();
+
+        (function initItemAiJump() {
+            const buildPrompt = (meta) => {
+                const lines = [
+                    '你是资深网络安全分析助手。以下是一条来自 SECDaily 安全资讯聚合的单条资讯（含标题与原文链接）。',
+                    '请优先结合原文链接内容分析；若无法访问原文，请基于标题合理推断，并明确标注「仅凭标题推断」的部分。',
+                    '',
+                    '【资讯元数据】',
+                    meta.source ? `- 来源：${meta.source}` : null,
+                    meta.date ? `- 日期：${meta.date}` : null,
+                    meta.hasCve ? '- 标题含 CVE 标记：是（请重点核查漏洞编号、影响版本与修复状态）' : null,
+                    `- 标题：${meta.title}`,
+                    meta.url ? `- 原文链接：${meta.url}` : '- 原文链接：（无外链，仅按标题分析）',
+                    '',
+                    '【请完成以下分析】',
+                    '1. 事件定性：漏洞/CVE、网络攻击、数据泄露、供应链、钓鱼社工、合规监管、威胁情报或其他？',
+                    '2. 核心事实：发生了什么、涉及谁/哪家厂商/哪类产品、时间线（若可推断）',
+                    '3. 威胁与技术：攻击手法、利用条件、是否 0day/在野利用、相关 CVE 编号与严重级别（CVSS 逻辑）',
+                    '4. 影响评估：风险等级（高/中/低）及理由；受影响行业、资产类型、典型受害面',
+                    '5. 防守与响应：检测思路（日志/IOC/行为）、缓解与加固、补丁/配置、是否建议启动应急响应',
+                    '6. 关联延伸：与近期热点（APT、勒索、AI 安全、供应链等）是否相关；建议持续跟踪的关键词',
+                    '7. 阅读建议：是否值得点开原文深读；预计阅读价值（高/中/低）',
+                    '',
+                    '【输出要求】',
+                    '- 使用 Markdown，先给 TL;DR（3 条以内要点），再分节展开',
+                    '- 结论具体、可执行，避免空泛套话；不确定处请写明假设',
+                ];
+                return lines.filter((line) => line !== null).join('\n');
+            };
+
+            const copyTextSync = (text) => {
+                if (!text) return false;
+                try {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.setAttribute('readonly', '');
+                    ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    ta.setSelectionRange(0, text.length);
+                    const ok = document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    return ok;
+                } catch (e) {
+                    return false;
+                }
+            };
+
+            const copyText = async (text) => {
+                if (copyTextSync(text)) return true;
+                if (navigator.clipboard && window.isSecureContext) {
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        return true;
+                    } catch (e) {
+                        return false;
+                    }
+                }
+                return false;
+            };
+
+            document.addEventListener('click', async (e) => {
+                const btn = e.target.closest('.item-ai-btn');
+                if (!btn) return;
+                e.preventDefault();
+                e.stopPropagation();
+
+                const title = btn.dataset.articleTitle || '';
+                const url = (btn.dataset.articleUrl || '').replace(/&amp;/g, '&');
+                if (!title) return;
+
+                const dailyDate = document.querySelector('.article-head .date, .date')?.textContent?.trim() || '';
+                const meta = {
+                    title,
+                    url,
+                    source: btn.dataset.articleSource || '',
+                    date: btn.dataset.articleDate || dailyDate,
+                    hasCve: btn.dataset.articleCve === 'true',
+                };
+                const prompt = buildPrompt(meta);
+                let copied = copyTextSync(prompt);
+                if (!copied) {
+                    copied = await copyText(prompt);
+                }
+                const kind = btn.dataset.ai;
+                const shortHint = [
+                    '请按我剪贴板中的 SECDaily 单条安全资讯分析提示词执行：',
+                    '事件定性、威胁技术、CVE/影响、防守响应、关联延伸、阅读建议；Markdown 输出，先 TL;DR。',
+                ].join('');
+                let openUrl = 'https://gemini.google.com/app';
+                if (kind === 'deepseek') {
+                    openUrl = 'https://chat.deepseek.com/';
+                } else if (kind === 'chatgpt') {
+                    openUrl = prompt.length <= 2400
+                        ? 'https://chatgpt.com/?q=' + encodeURIComponent(prompt)
+                        : 'https://chatgpt.com/?q=' + encodeURIComponent(shortHint);
+                }
+
+                const oldLabel = btn.textContent;
+                btn.textContent = copied ? '已复制' : '复制失败';
+                btn.disabled = true;
+                setTimeout(() => {
+                    btn.textContent = oldLabel;
+                    btn.disabled = false;
+                }, copied ? 2000 : 2800);
+
+                if (copied) {
+                    window.open(openUrl, '_blank', 'noopener,noreferrer');
+                } else {
+                    window.prompt('复制未成功，请手动全选复制以下分析提示词：', prompt);
+                }
             });
         })();
         

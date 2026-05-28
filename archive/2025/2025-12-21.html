@@ -114,7 +114,7 @@
             gap: 4px;
         }
         
-        .navigation a::before {
+        .navigation a.nav-back::before {
             content: '←';
             font-size: 1em;
         }
@@ -126,6 +126,13 @@
         
         .navigation span {
             color: var(--border);
+            user-select: none;
+        }
+
+        .navigation a.nav-external::after {
+            content: '↗';
+            font-size: 0.75em;
+            opacity: 0.65;
         }
 
         .nav-search {
@@ -570,7 +577,11 @@
         }
 
         .article-item {
-            padding: 8px 12px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 8px 10px 8px 12px;
             border-bottom: 1px solid rgba(226, 232, 240, 0.9);
             transition: background 0.2s ease;
         }
@@ -587,9 +598,67 @@
             display: none;
         }
 
-        .article-item a {
-            display: inline;
+        .article-link {
+            flex: 1;
+            min-width: 0;
+            display: block;
             line-height: 1.55;
+            word-break: break-word;
+        }
+
+        .item-ai-jump {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+            padding-top: 1px;
+        }
+
+        .item-ai-btn {
+            border: 1px solid var(--border);
+            background: #fff;
+            font-size: 0.62rem;
+            font-weight: 600;
+            line-height: 1.2;
+            padding: 4px 7px;
+            border-radius: 999px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .item-ai-btn.item-ai-deepseek {
+            color: #3b5bdb;
+            border-color: rgba(77, 107, 254, 0.35);
+            background: rgba(77, 107, 254, 0.08);
+        }
+
+        .item-ai-btn.item-ai-chatgpt {
+            color: #0f766e;
+            border-color: rgba(16, 185, 129, 0.35);
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .item-ai-btn.item-ai-gemini {
+            color: #1d4ed8;
+            border-color: rgba(59, 130, 246, 0.35);
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        .item-ai-btn:hover {
+            box-shadow: var(--shadow-sm);
+        }
+
+        .item-ai-btn.item-ai-deepseek:hover {
+            background: rgba(77, 107, 254, 0.16);
+        }
+
+        .item-ai-btn.item-ai-chatgpt:hover {
+            background: rgba(16, 185, 129, 0.18);
+        }
+
+        .item-ai-btn.item-ai-gemini:hover {
+            background: rgba(59, 130, 246, 0.14);
         }
 
         .cve-badge {
@@ -730,6 +799,37 @@
             color: var(--text-muted);
             font-size: 0.78rem;
             border-top: 1px solid var(--border);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .footer-links a {
+            color: var(--primary-dark);
+            text-decoration: none;
+            padding: 3px 8px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            background: rgba(14, 165, 233, 0.06);
+            font-size: 0.74rem;
+            font-weight: 500;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .footer-links span {
+            color: var(--border);
         }
         
         .ai-summary-panel {
@@ -908,6 +1008,14 @@
                 white-space: nowrap;
             }
             .main-content h1 { font-size: 1.15rem; }
+            .article-item {
+                flex-wrap: wrap;
+            }
+            .item-ai-jump {
+                width: 100%;
+                justify-content: flex-end;
+                padding-top: 4px;
+            }
             .ai-summary-panel,
             .tag-cloud {
                 width: calc(100% - 32px);
@@ -935,9 +1043,9 @@
     <div class="container">
         <div class="navigation">
             <span class="nav-brand">SECDaily</span>
-            <a href="../index.html">返回首页</a>
+            <a class="nav-back" href="../index.html">返回首页</a>
             <span>|</span>
-            <a href="../../index.html">项目主页</a>
+            <a class="nav-external" href="https://github.com/shellsec/SECDaily" target="_blank" rel="noopener noreferrer" title="SECDaily 开源仓库">GitHub</a>
             <form class="nav-search" id="navSearchForm">
                 <input type="search" id="navSearchInput" placeholder="全站标题搜索..." autocomplete="off" aria-label="全站标题搜索">
                 <button type="submit">搜索</button>
@@ -980,224 +1088,229 @@
     <span class="stat-separator">|</span>
     <span>0 条 CVE</span>
     <span class="stat-separator">|</span>
-    <span>页面更新: 2026-05-27 10:18:28</span>
+    <span>页面更新: 2026-05-28 12:29:12</span>
 </div><div class="daily-feed" id="dailyFeed">
 <section class="source-section" data-source="博客" id="source-0-博客">
 <h2>博客 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="hawk authentication"><a href="https://dyrnq.com/hawk-authentication/" target="_blank" rel="noopener noreferrer">Hawk Authentication</a></li>
+<li class="article-item" data-title="hawk authentication"><a class="article-link" href="https://dyrnq.com/hawk-authentication/" target="_blank" rel="noopener noreferrer">Hawk Authentication</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="Hawk Authentication" data-article-url="https://dyrnq.com/hawk-authentication/" data-article-source="博客" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="Hawk Authentication" data-article-url="https://dyrnq.com/hawk-authentication/" data-article-source="博客" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="Hawk Authentication" data-article-url="https://dyrnq.com/hawk-authentication/" data-article-source="博客" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="Recent Commits to cve:main" id="source-1-Recent-Commits-to-cve-main">
 <h2>Recent Commits to cve:main <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="update sat dec 20 11:19:57 utc 2025"><a href="https://github.com/trickest/cve/commit/f686abea459b757232eecdb26e8af95dc6f673ad" target="_blank" rel="noopener noreferrer">Update Sat Dec 20 11:19:57 UTC 2025</a></li>
+<li class="article-item" data-title="update sat dec 20 11:19:57 utc 2025"><a class="article-link" href="https://github.com/trickest/cve/commit/f686abea459b757232eecdb26e8af95dc6f673ad" target="_blank" rel="noopener noreferrer">Update Sat Dec 20 11:19:57 UTC 2025</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="Update Sat Dec 20 11:19:57 UTC 2025" data-article-url="https://github.com/trickest/cve/commit/f686abea459b757232eecdb26e8af95dc6f673ad" data-article-source="Recent Commits to cve:main" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="Update Sat Dec 20 11:19:57 UTC 2025" data-article-url="https://github.com/trickest/cve/commit/f686abea459b757232eecdb26e8af95dc6f673ad" data-article-source="Recent Commits to cve:main" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="Update Sat Dec 20 11:19:57 UTC 2025" data-article-url="https://github.com/trickest/cve/commit/f686abea459b757232eecdb26e8af95dc6f673ad" data-article-source="Recent Commits to cve:main" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="ArthurChiao&#x27;s Blog" id="source-2-ArthurChiao-s-Blog">
 <h2>ArthurChiao&#x27;s Blog <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="[译][论文] p5 paper | 用语言模型做推荐：一种统一的预训练、个性化提示和预测范式（2022）"><a href="https://arthurchiao.github.io/blog/p5-paper-zh/" target="_blank" rel="noopener noreferrer">[译][论文] P5 paper | 用语言模型做推荐：一种统一的预训练、个性化提示和预测范式（2022）</a></li>
+<li class="article-item" data-title="[译][论文] p5 paper | 用语言模型做推荐：一种统一的预训练、个性化提示和预测范式（2022）"><a class="article-link" href="https://arthurchiao.github.io/blog/p5-paper-zh/" target="_blank" rel="noopener noreferrer">[译][论文] P5 paper | 用语言模型做推荐：一种统一的预训练、个性化提示和预测范式（2022）</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="[译][论文] P5 paper | 用语言模型做推荐：一种统一的预训练、个性化提示和预测范式（2022）" data-article-url="https://arthurchiao.github.io/blog/p5-paper-zh/" data-article-source="ArthurChiao&#x27;s Blog" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="[译][论文] P5 paper | 用语言模型做推荐：一种统一的预训练、个性化提示和预测范式（2022）" data-article-url="https://arthurchiao.github.io/blog/p5-paper-zh/" data-article-source="ArthurChiao&#x27;s Blog" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="[译][论文] P5 paper | 用语言模型做推荐：一种统一的预训练、个性化提示和预测范式（2022）" data-article-url="https://arthurchiao.github.io/blog/p5-paper-zh/" data-article-source="ArthurChiao&#x27;s Blog" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="Sec-News 安全文摘" id="source-3-Sec-News-安全文摘">
 <h2>Sec-News 安全文摘 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="原域名已变更且将在2024年彻底废弃，请访问 https://govuln.com/news/ 查看新的rss订阅"><a href="https://govuln.com/news/url/x8dB" target="_blank" rel="noopener noreferrer">原域名已变更且将在2024年彻底废弃，请访问 https://govuln.com/news/ 查看新的RSS订阅</a></li>
+<li class="article-item" data-title="原域名已变更且将在2024年彻底废弃，请访问 https://govuln.com/news/ 查看新的rss订阅"><a class="article-link" href="https://govuln.com/news/url/x8dB" target="_blank" rel="noopener noreferrer">原域名已变更且将在2024年彻底废弃，请访问 https://govuln.com/news/ 查看新的RSS订阅</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="原域名已变更且将在2024年彻底废弃，请访问 https://govuln.com/news/ 查看新的RSS订阅" data-article-url="https://govuln.com/news/url/x8dB" data-article-source="Sec-News 安全文摘" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="原域名已变更且将在2024年彻底废弃，请访问 https://govuln.com/news/ 查看新的RSS订阅" data-article-url="https://govuln.com/news/url/x8dB" data-article-source="Sec-News 安全文摘" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="原域名已变更且将在2024年彻底废弃，请访问 https://govuln.com/news/ 查看新的RSS订阅" data-article-url="https://govuln.com/news/url/x8dB" data-article-source="Sec-News 安全文摘" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="SecWiki News" id="source-4-SecWiki-News">
 <h2>SecWiki News <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="secwiki news 2025-12-20 review"><a href="http://www.sec-wiki.com/?2025-12-20" target="_blank" rel="noopener noreferrer">SecWiki News 2025-12-20 Review</a></li>
+<li class="article-item" data-title="secwiki news 2025-12-20 review"><a class="article-link" href="http://www.sec-wiki.com/?2025-12-20" target="_blank" rel="noopener noreferrer">SecWiki News 2025-12-20 Review</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="SecWiki News 2025-12-20 Review" data-article-url="http://www.sec-wiki.com/?2025-12-20" data-article-source="SecWiki News" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="SecWiki News 2025-12-20 Review" data-article-url="http://www.sec-wiki.com/?2025-12-20" data-article-source="SecWiki News" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="SecWiki News 2025-12-20 Review" data-article-url="http://www.sec-wiki.com/?2025-12-20" data-article-source="SecWiki News" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="Didier Stevens" id="source-5-Didier-Stevens">
 <h2>Didier Stevens <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="using a usb-c trigger cable to power an fm radio"><a href="https://blog.didierstevens.com/2025/12/20/using-a-usb-c-trigger-cable-to-power-an-fm-radio/" target="_blank" rel="noopener noreferrer">Using a USB-C Trigger Cable To Power An FM Radio</a></li>
+<li class="article-item" data-title="using a usb-c trigger cable to power an fm radio"><a class="article-link" href="https://blog.didierstevens.com/2025/12/20/using-a-usb-c-trigger-cable-to-power-an-fm-radio/" target="_blank" rel="noopener noreferrer">Using a USB-C Trigger Cable To Power An FM Radio</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="Using a USB-C Trigger Cable To Power An FM Radio" data-article-url="https://blog.didierstevens.com/2025/12/20/using-a-usb-c-trigger-cable-to-power-an-fm-radio/" data-article-source="Didier Stevens" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="Using a USB-C Trigger Cable To Power An FM Radio" data-article-url="https://blog.didierstevens.com/2025/12/20/using-a-usb-c-trigger-cable-to-power-an-fm-radio/" data-article-source="Didier Stevens" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="Using a USB-C Trigger Cable To Power An FM Radio" data-article-url="https://blog.didierstevens.com/2025/12/20/using-a-usb-c-trigger-cable-to-power-an-fm-radio/" data-article-source="Didier Stevens" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="CCC Event Blog" id="source-6-CCC-Event-Blog">
 <h2>CCC Event Blog <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="39c3: congress everywhere"><a href="https://events.ccc.de/2025/12/20/39c3-everywhere/" target="_blank" rel="noopener noreferrer">39C3: Congress Everywhere</a></li>
+<li class="article-item" data-title="39c3: congress everywhere"><a class="article-link" href="https://events.ccc.de/2025/12/20/39c3-everywhere/" target="_blank" rel="noopener noreferrer">39C3: Congress Everywhere</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="39C3: Congress Everywhere" data-article-url="https://events.ccc.de/2025/12/20/39c3-everywhere/" data-article-source="CCC Event Blog" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="39C3: Congress Everywhere" data-article-url="https://events.ccc.de/2025/12/20/39c3-everywhere/" data-article-source="CCC Event Blog" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="39C3: Congress Everywhere" data-article-url="https://events.ccc.de/2025/12/20/39c3-everywhere/" data-article-source="CCC Event Blog" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="黑海洋Wiki | Web开发工具包 | 网络安全攻防实战 | 区块链技术文档教程 - 免费资源平台" id="source-7-黑海洋Wiki-Web开发工具包-网络安全攻防实战-区块链技术文档教程---免费">
 <h2>黑海洋Wiki | Web开发工具包 | 网络安全攻防实战 | 区块链技术文档教程 - 免费资源平台 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="冬瓜tv max：开源私有流媒体聚合平台，tmdb 智能刮削打造你的私人 netflix"><a href="https://blog.upx8.com/4925" target="_blank" rel="noopener noreferrer">冬瓜TV MAX：开源私有流媒体聚合平台，TMDb 智能刮削打造你的私人 Netflix</a></li>
+<li class="article-item" data-title="冬瓜tv max：开源私有流媒体聚合平台，tmdb 智能刮削打造你的私人 netflix"><a class="article-link" href="https://blog.upx8.com/4925" target="_blank" rel="noopener noreferrer">冬瓜TV MAX：开源私有流媒体聚合平台，TMDb 智能刮削打造你的私人 Netflix</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="冬瓜TV MAX：开源私有流媒体聚合平台，TMDb 智能刮削打造你的私人 Netflix" data-article-url="https://blog.upx8.com/4925" data-article-source="黑海洋Wiki | Web开发工具包 | 网络安全攻防实战 | 区块链技术文档教程 - 免费资源平台" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="冬瓜TV MAX：开源私有流媒体聚合平台，TMDb 智能刮削打造你的私人 Netflix" data-article-url="https://blog.upx8.com/4925" data-article-source="黑海洋Wiki | Web开发工具包 | 网络安全攻防实战 | 区块链技术文档教程 - 免费资源平台" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="冬瓜TV MAX：开源私有流媒体聚合平台，TMDb 智能刮削打造你的私人 Netflix" data-article-url="https://blog.upx8.com/4925" data-article-source="黑海洋Wiki | Web开发工具包 | 网络安全攻防实战 | 区块链技术文档教程 - 免费资源平台" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="黑鸟" id="source-8-黑鸟">
 <h2>黑鸟 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="主流主板新的bios漏洞攻陷某些游戏反作弊系统"><a href="https://mp.weixin.qq.com/s?__biz=MzAxOTM1MDQ1NA==&amp;mid=2451184338&amp;idx=1&amp;sn=5fe0fd68cae5c63312da8c6f69d8dd1d" target="_blank" rel="noopener noreferrer">主流主板新的BIOS漏洞攻陷某些游戏反作弊系统</a></li>
+<li class="article-item" data-title="主流主板新的bios漏洞攻陷某些游戏反作弊系统"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MzAxOTM1MDQ1NA==&amp;mid=2451184338&amp;idx=1&amp;sn=5fe0fd68cae5c63312da8c6f69d8dd1d" target="_blank" rel="noopener noreferrer">主流主板新的BIOS漏洞攻陷某些游戏反作弊系统</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="主流主板新的BIOS漏洞攻陷某些游戏反作弊系统" data-article-url="https://mp.weixin.qq.com/s?__biz=MzAxOTM1MDQ1NA==&amp;mid=2451184338&amp;idx=1&amp;sn=5fe0fd68cae5c63312da8c6f69d8dd1d" data-article-source="黑鸟" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="主流主板新的BIOS漏洞攻陷某些游戏反作弊系统" data-article-url="https://mp.weixin.qq.com/s?__biz=MzAxOTM1MDQ1NA==&amp;mid=2451184338&amp;idx=1&amp;sn=5fe0fd68cae5c63312da8c6f69d8dd1d" data-article-source="黑鸟" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="主流主板新的BIOS漏洞攻陷某些游戏反作弊系统" data-article-url="https://mp.weixin.qq.com/s?__biz=MzAxOTM1MDQ1NA==&amp;mid=2451184338&amp;idx=1&amp;sn=5fe0fd68cae5c63312da8c6f69d8dd1d" data-article-source="黑鸟" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="看雪学苑" id="source-9-看雪学苑">
 <h2>看雪学苑 <span class="source-count">2</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="强网杯2025-polyencryption之vibe reing的胜利"><a href="https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&amp;mid=2458605813&amp;idx=1&amp;sn=5aaf757d9e44be5001110e1c73d1525b" target="_blank" rel="noopener noreferrer">强网杯2025-PolyEncryption之Vibe Reing的胜利</a></li>
-<li class="article-item" data-title="30小时教你进阶ctf-密码学：顶尖硕博战队亲授，从古典密码到rsa攻击"><a href="https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&amp;mid=2458605813&amp;idx=2&amp;sn=1544b92906faa55850d3f74922c5c4a0" target="_blank" rel="noopener noreferrer">30小时教你进阶CTF-密码学：顶尖硕博战队亲授，从古典密码到RSA攻击</a></li>
+<li class="article-item" data-title="强网杯2025-polyencryption之vibe reing的胜利"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&amp;mid=2458605813&amp;idx=1&amp;sn=5aaf757d9e44be5001110e1c73d1525b" target="_blank" rel="noopener noreferrer">强网杯2025-PolyEncryption之Vibe Reing的胜利</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="强网杯2025-PolyEncryption之Vibe Reing的胜利" data-article-url="https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&amp;mid=2458605813&amp;idx=1&amp;sn=5aaf757d9e44be5001110e1c73d1525b" data-article-source="看雪学苑" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="强网杯2025-PolyEncryption之Vibe Reing的胜利" data-article-url="https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&amp;mid=2458605813&amp;idx=1&amp;sn=5aaf757d9e44be5001110e1c73d1525b" data-article-source="看雪学苑" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="强网杯2025-PolyEncryption之Vibe Reing的胜利" data-article-url="https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&amp;mid=2458605813&amp;idx=1&amp;sn=5aaf757d9e44be5001110e1c73d1525b" data-article-source="看雪学苑" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
+<li class="article-item" data-title="30小时教你进阶ctf-密码学：顶尖硕博战队亲授，从古典密码到rsa攻击"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&amp;mid=2458605813&amp;idx=2&amp;sn=1544b92906faa55850d3f74922c5c4a0" target="_blank" rel="noopener noreferrer">30小时教你进阶CTF-密码学：顶尖硕博战队亲授，从古典密码到RSA攻击</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="30小时教你进阶CTF-密码学：顶尖硕博战队亲授，从古典密码到RSA攻击" data-article-url="https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&amp;mid=2458605813&amp;idx=2&amp;sn=1544b92906faa55850d3f74922c5c4a0" data-article-source="看雪学苑" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="30小时教你进阶CTF-密码学：顶尖硕博战队亲授，从古典密码到RSA攻击" data-article-url="https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&amp;mid=2458605813&amp;idx=2&amp;sn=1544b92906faa55850d3f74922c5c4a0" data-article-source="看雪学苑" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="30小时教你进阶CTF-密码学：顶尖硕博战队亲授，从古典密码到RSA攻击" data-article-url="https://mp.weixin.qq.com/s?__biz=MjM5NTc2MDYxMw==&amp;mid=2458605813&amp;idx=2&amp;sn=1544b92906faa55850d3f74922c5c4a0" data-article-source="看雪学苑" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="先进攻防" id="source-10-先进攻防">
 <h2>先进攻防 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="实用攻击面管理系统设计指南"><a href="https://mp.weixin.qq.com/s?__biz=MzI1MDA1MjcxMw==&amp;mid=2649908793&amp;idx=1&amp;sn=eec5aca94507a6d0180e4203cfa2c042" target="_blank" rel="noopener noreferrer">实用攻击面管理系统设计指南</a></li>
+<li class="article-item" data-title="实用攻击面管理系统设计指南"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MzI1MDA1MjcxMw==&amp;mid=2649908793&amp;idx=1&amp;sn=eec5aca94507a6d0180e4203cfa2c042" target="_blank" rel="noopener noreferrer">实用攻击面管理系统设计指南</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="实用攻击面管理系统设计指南" data-article-url="https://mp.weixin.qq.com/s?__biz=MzI1MDA1MjcxMw==&amp;mid=2649908793&amp;idx=1&amp;sn=eec5aca94507a6d0180e4203cfa2c042" data-article-source="先进攻防" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="实用攻击面管理系统设计指南" data-article-url="https://mp.weixin.qq.com/s?__biz=MzI1MDA1MjcxMw==&amp;mid=2649908793&amp;idx=1&amp;sn=eec5aca94507a6d0180e4203cfa2c042" data-article-source="先进攻防" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="实用攻击面管理系统设计指南" data-article-url="https://mp.weixin.qq.com/s?__biz=MzI1MDA1MjcxMw==&amp;mid=2649908793&amp;idx=1&amp;sn=eec5aca94507a6d0180e4203cfa2c042" data-article-source="先进攻防" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="安全分析与研究" id="source-11-安全分析与研究">
 <h2>安全分析与研究 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="donot(肚脑虫) apt组织攻击活动分析"><a href="https://mp.weixin.qq.com/s?__biz=MzA4ODEyODA3MQ==&amp;mid=2247494897&amp;idx=1&amp;sn=5d70506b8c6ae8fab1429afbd176e5b9" target="_blank" rel="noopener noreferrer">Donot(肚脑虫) APT组织攻击活动分析</a></li>
+<li class="article-item" data-title="donot(肚脑虫) apt组织攻击活动分析"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MzA4ODEyODA3MQ==&amp;mid=2247494897&amp;idx=1&amp;sn=5d70506b8c6ae8fab1429afbd176e5b9" target="_blank" rel="noopener noreferrer">Donot(肚脑虫) APT组织攻击活动分析</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="Donot(肚脑虫) APT组织攻击活动分析" data-article-url="https://mp.weixin.qq.com/s?__biz=MzA4ODEyODA3MQ==&amp;mid=2247494897&amp;idx=1&amp;sn=5d70506b8c6ae8fab1429afbd176e5b9" data-article-source="安全分析与研究" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="Donot(肚脑虫) APT组织攻击活动分析" data-article-url="https://mp.weixin.qq.com/s?__biz=MzA4ODEyODA3MQ==&amp;mid=2247494897&amp;idx=1&amp;sn=5d70506b8c6ae8fab1429afbd176e5b9" data-article-source="安全分析与研究" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="Donot(肚脑虫) APT组织攻击活动分析" data-article-url="https://mp.weixin.qq.com/s?__biz=MzA4ODEyODA3MQ==&amp;mid=2247494897&amp;idx=1&amp;sn=5d70506b8c6ae8fab1429afbd176e5b9" data-article-source="安全分析与研究" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="天黑说嘿话" id="source-12-天黑说嘿话">
 <h2>天黑说嘿话 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="最新nessus2025.12.8版本主机漏洞扫描/探测工具windows/linux下载"><a href="https://mp.weixin.qq.com/s?__biz=MzI5NTQ5MTAzMA==&amp;mid=2247485847&amp;idx=1&amp;sn=6ef507eb9b153ac69e514c65f72f5e6c" target="_blank" rel="noopener noreferrer">最新Nessus2025.12.8版本主机漏洞扫描/探测工具Windows/Linux下载</a></li>
+<li class="article-item" data-title="最新nessus2025.12.8版本主机漏洞扫描/探测工具windows/linux下载"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MzI5NTQ5MTAzMA==&amp;mid=2247485847&amp;idx=1&amp;sn=6ef507eb9b153ac69e514c65f72f5e6c" target="_blank" rel="noopener noreferrer">最新Nessus2025.12.8版本主机漏洞扫描/探测工具Windows/Linux下载</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="最新Nessus2025.12.8版本主机漏洞扫描/探测工具Windows/Linux下载" data-article-url="https://mp.weixin.qq.com/s?__biz=MzI5NTQ5MTAzMA==&amp;mid=2247485847&amp;idx=1&amp;sn=6ef507eb9b153ac69e514c65f72f5e6c" data-article-source="天黑说嘿话" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="最新Nessus2025.12.8版本主机漏洞扫描/探测工具Windows/Linux下载" data-article-url="https://mp.weixin.qq.com/s?__biz=MzI5NTQ5MTAzMA==&amp;mid=2247485847&amp;idx=1&amp;sn=6ef507eb9b153ac69e514c65f72f5e6c" data-article-source="天黑说嘿话" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="最新Nessus2025.12.8版本主机漏洞扫描/探测工具Windows/Linux下载" data-article-url="https://mp.weixin.qq.com/s?__biz=MzI5NTQ5MTAzMA==&amp;mid=2247485847&amp;idx=1&amp;sn=6ef507eb9b153ac69e514c65f72f5e6c" data-article-source="天黑说嘿话" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="网安寻路人" id="source-13-网安寻路人">
 <h2>网安寻路人 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="cptpp 数字贸易现代化改革：对 pecc《现代化数字贸易》 报告的综述"><a href="https://mp.weixin.qq.com/s?__biz=MzIxODM0NDU4MQ==&amp;mid=2247508047&amp;idx=1&amp;sn=bdf4de65adaedbdd0118dbc628f79a29" target="_blank" rel="noopener noreferrer">CPTPP 数字贸易现代化改革：对 PECC《现代化数字贸易》 报告的综述</a></li>
+<li class="article-item" data-title="cptpp 数字贸易现代化改革：对 pecc《现代化数字贸易》 报告的综述"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MzIxODM0NDU4MQ==&amp;mid=2247508047&amp;idx=1&amp;sn=bdf4de65adaedbdd0118dbc628f79a29" target="_blank" rel="noopener noreferrer">CPTPP 数字贸易现代化改革：对 PECC《现代化数字贸易》 报告的综述</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="CPTPP 数字贸易现代化改革：对 PECC《现代化数字贸易》 报告的综述" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIxODM0NDU4MQ==&amp;mid=2247508047&amp;idx=1&amp;sn=bdf4de65adaedbdd0118dbc628f79a29" data-article-source="网安寻路人" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="CPTPP 数字贸易现代化改革：对 PECC《现代化数字贸易》 报告的综述" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIxODM0NDU4MQ==&amp;mid=2247508047&amp;idx=1&amp;sn=bdf4de65adaedbdd0118dbc628f79a29" data-article-source="网安寻路人" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="CPTPP 数字贸易现代化改革：对 PECC《现代化数字贸易》 报告的综述" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIxODM0NDU4MQ==&amp;mid=2247508047&amp;idx=1&amp;sn=bdf4de65adaedbdd0118dbc628f79a29" data-article-source="网安寻路人" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="娜璋AI安全之家" id="source-14-娜璋AI安全之家">
 <h2>娜璋AI安全之家 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="[ai安全论文] (46)大佬团队探索 ids-agent: 一种用于物联网可解释入侵检测的大模型agent"><a href="https://mp.weixin.qq.com/s?__biz=Mzg5MTM5ODU2Mg==&amp;mid=2247502307&amp;idx=1&amp;sn=14bbf074e2b5960e7164a53db463f5ca" target="_blank" rel="noopener noreferrer">[AI安全论文] (46)大佬团队探索 IDS-Agent: 一种用于物联网可解释入侵检测的大模型Agent</a></li>
+<li class="article-item" data-title="[ai安全论文] (46)大佬团队探索 ids-agent: 一种用于物联网可解释入侵检测的大模型agent"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=Mzg5MTM5ODU2Mg==&amp;mid=2247502307&amp;idx=1&amp;sn=14bbf074e2b5960e7164a53db463f5ca" target="_blank" rel="noopener noreferrer">[AI安全论文] (46)大佬团队探索 IDS-Agent: 一种用于物联网可解释入侵检测的大模型Agent</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="[AI安全论文] (46)大佬团队探索 IDS-Agent: 一种用于物联网可解释入侵检测的大模型Agent" data-article-url="https://mp.weixin.qq.com/s?__biz=Mzg5MTM5ODU2Mg==&amp;mid=2247502307&amp;idx=1&amp;sn=14bbf074e2b5960e7164a53db463f5ca" data-article-source="娜璋AI安全之家" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="[AI安全论文] (46)大佬团队探索 IDS-Agent: 一种用于物联网可解释入侵检测的大模型Agent" data-article-url="https://mp.weixin.qq.com/s?__biz=Mzg5MTM5ODU2Mg==&amp;mid=2247502307&amp;idx=1&amp;sn=14bbf074e2b5960e7164a53db463f5ca" data-article-source="娜璋AI安全之家" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="[AI安全论文] (46)大佬团队探索 IDS-Agent: 一种用于物联网可解释入侵检测的大模型Agent" data-article-url="https://mp.weixin.qq.com/s?__biz=Mzg5MTM5ODU2Mg==&amp;mid=2247502307&amp;idx=1&amp;sn=14bbf074e2b5960e7164a53db463f5ca" data-article-source="娜璋AI安全之家" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="迪哥讲事" id="source-15-迪哥讲事">
 <h2>迪哥讲事 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="src中自动化查找目录遍历获取赏金"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMTIzNTM0MA==&amp;mid=2247498821&amp;idx=1&amp;sn=44eb0ffb9c56d4b3cc0e5148ed996597" target="_blank" rel="noopener noreferrer">SRC中自动化查找目录遍历获取赏金</a></li>
+<li class="article-item" data-title="src中自动化查找目录遍历获取赏金"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MzIzMTIzNTM0MA==&amp;mid=2247498821&amp;idx=1&amp;sn=44eb0ffb9c56d4b3cc0e5148ed996597" target="_blank" rel="noopener noreferrer">SRC中自动化查找目录遍历获取赏金</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="SRC中自动化查找目录遍历获取赏金" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIzMTIzNTM0MA==&amp;mid=2247498821&amp;idx=1&amp;sn=44eb0ffb9c56d4b3cc0e5148ed996597" data-article-source="迪哥讲事" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="SRC中自动化查找目录遍历获取赏金" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIzMTIzNTM0MA==&amp;mid=2247498821&amp;idx=1&amp;sn=44eb0ffb9c56d4b3cc0e5148ed996597" data-article-source="迪哥讲事" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="SRC中自动化查找目录遍历获取赏金" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIzMTIzNTM0MA==&amp;mid=2247498821&amp;idx=1&amp;sn=44eb0ffb9c56d4b3cc0e5148ed996597" data-article-source="迪哥讲事" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="Dark Space Blogspot" id="source-16-Dark-Space-Blogspot">
 <h2>Dark Space Blogspot <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="i troll più famosi della storia: usenet, forum, blog"><a href="http://darkwhite666.blogspot.com/2025/12/i-troll-piu-famosi-della-storia-usenet.html" target="_blank" rel="noopener noreferrer">I Troll Più Famosi Della Storia: Usenet, Forum, Blog</a></li>
+<li class="article-item" data-title="i troll più famosi della storia: usenet, forum, blog"><a class="article-link" href="http://darkwhite666.blogspot.com/2025/12/i-troll-piu-famosi-della-storia-usenet.html" target="_blank" rel="noopener noreferrer">I Troll Più Famosi Della Storia: Usenet, Forum, Blog</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="I Troll Più Famosi Della Storia: Usenet, Forum, Blog" data-article-url="http://darkwhite666.blogspot.com/2025/12/i-troll-piu-famosi-della-storia-usenet.html" data-article-source="Dark Space Blogspot" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="I Troll Più Famosi Della Storia: Usenet, Forum, Blog" data-article-url="http://darkwhite666.blogspot.com/2025/12/i-troll-piu-famosi-della-storia-usenet.html" data-article-source="Dark Space Blogspot" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="I Troll Più Famosi Della Storia: Usenet, Forum, Blog" data-article-url="http://darkwhite666.blogspot.com/2025/12/i-troll-piu-famosi-della-storia-usenet.html" data-article-source="Dark Space Blogspot" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="安全圈" id="source-17-安全圈">
 <h2>安全圈 <span class="source-count">3</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="【安全圈】南京导航全崩，真相曝光！"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=1&amp;sn=28d2a548889d6be66ceabac0c2832c0a" target="_blank" rel="noopener noreferrer">【安全圈】南京导航全崩，真相曝光！</a></li>
-<li class="article-item" data-title="【安全圈】拳头游戏发现主板致命漏洞，多家厂商紧急修复"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=2&amp;sn=b1c32749fab00f883b96ae2d3966a433" target="_blank" rel="noopener noreferrer">【安全圈】拳头游戏发现主板致命漏洞，多家厂商紧急修复</a></li>
-<li class="article-item" data-title="【安全圈】youtube突发全球宕机"><a href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=3&amp;sn=958b7f3472c4e7a87c82d00aa58c868b" target="_blank" rel="noopener noreferrer">【安全圈】YouTube突发全球宕机</a></li>
+<li class="article-item" data-title="【安全圈】南京导航全崩，真相曝光！"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=1&amp;sn=28d2a548889d6be66ceabac0c2832c0a" target="_blank" rel="noopener noreferrer">【安全圈】南京导航全崩，真相曝光！</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="【安全圈】南京导航全崩，真相曝光！" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=1&amp;sn=28d2a548889d6be66ceabac0c2832c0a" data-article-source="安全圈" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="【安全圈】南京导航全崩，真相曝光！" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=1&amp;sn=28d2a548889d6be66ceabac0c2832c0a" data-article-source="安全圈" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="【安全圈】南京导航全崩，真相曝光！" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=1&amp;sn=28d2a548889d6be66ceabac0c2832c0a" data-article-source="安全圈" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
+<li class="article-item" data-title="【安全圈】拳头游戏发现主板致命漏洞，多家厂商紧急修复"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=2&amp;sn=b1c32749fab00f883b96ae2d3966a433" target="_blank" rel="noopener noreferrer">【安全圈】拳头游戏发现主板致命漏洞，多家厂商紧急修复</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="【安全圈】拳头游戏发现主板致命漏洞，多家厂商紧急修复" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=2&amp;sn=b1c32749fab00f883b96ae2d3966a433" data-article-source="安全圈" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="【安全圈】拳头游戏发现主板致命漏洞，多家厂商紧急修复" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=2&amp;sn=b1c32749fab00f883b96ae2d3966a433" data-article-source="安全圈" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="【安全圈】拳头游戏发现主板致命漏洞，多家厂商紧急修复" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=2&amp;sn=b1c32749fab00f883b96ae2d3966a433" data-article-source="安全圈" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
+<li class="article-item" data-title="【安全圈】youtube突发全球宕机"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=3&amp;sn=958b7f3472c4e7a87c82d00aa58c868b" target="_blank" rel="noopener noreferrer">【安全圈】YouTube突发全球宕机</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="【安全圈】YouTube突发全球宕机" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=3&amp;sn=958b7f3472c4e7a87c82d00aa58c868b" data-article-source="安全圈" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="【安全圈】YouTube突发全球宕机" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=3&amp;sn=958b7f3472c4e7a87c82d00aa58c868b" data-article-source="安全圈" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="【安全圈】YouTube突发全球宕机" data-article-url="https://mp.weixin.qq.com/s?__biz=MzIzMzE4NDU1OQ==&amp;mid=2652073304&amp;idx=3&amp;sn=958b7f3472c4e7a87c82d00aa58c868b" data-article-source="安全圈" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="Over Security - Cybersecurity news aggregator" id="source-18-Over-Security---Cybersecurity-news-aggre">
 <h2>Over Security - Cybersecurity news aggregator <span class="source-count">2</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="ransomhouse upgrades encryption with multi-layered data processing"><a href="https://www.bleepingcomputer.com/news/security/ransomhouse-upgrades-encryption-with-multi-layered-data-processing/" target="_blank" rel="noopener noreferrer">RansomHouse upgrades encryption with multi-layered data processing</a></li>
-<li class="article-item" data-title="announce: survey about legal and criminal threats experienced by journalists and security researchers"><a href="https://www.suspectfile.com/announce-survey-about-legal-and-criminal-threats-experienced-by-journalists-and-security-researchers/" target="_blank" rel="noopener noreferrer">ANNOUNCE: Survey about legal and criminal threats experienced by journalists and security researchers</a></li>
+<li class="article-item" data-title="ransomhouse upgrades encryption with multi-layered data processing"><a class="article-link" href="https://www.bleepingcomputer.com/news/security/ransomhouse-upgrades-encryption-with-multi-layered-data-processing/" target="_blank" rel="noopener noreferrer">RansomHouse upgrades encryption with multi-layered data processing</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="RansomHouse upgrades encryption with multi-layered data processing" data-article-url="https://www.bleepingcomputer.com/news/security/ransomhouse-upgrades-encryption-with-multi-layered-data-processing/" data-article-source="Over Security - Cybersecurity news aggregator" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="RansomHouse upgrades encryption with multi-layered data processing" data-article-url="https://www.bleepingcomputer.com/news/security/ransomhouse-upgrades-encryption-with-multi-layered-data-processing/" data-article-source="Over Security - Cybersecurity news aggregator" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="RansomHouse upgrades encryption with multi-layered data processing" data-article-url="https://www.bleepingcomputer.com/news/security/ransomhouse-upgrades-encryption-with-multi-layered-data-processing/" data-article-source="Over Security - Cybersecurity news aggregator" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
+<li class="article-item" data-title="announce: survey about legal and criminal threats experienced by journalists and security researchers"><a class="article-link" href="https://www.suspectfile.com/announce-survey-about-legal-and-criminal-threats-experienced-by-journalists-and-security-researchers/" target="_blank" rel="noopener noreferrer">ANNOUNCE: Survey about legal and criminal threats experienced by journalists and security researchers</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="ANNOUNCE: Survey about legal and criminal threats experienced by journalists and security researchers" data-article-url="https://www.suspectfile.com/announce-survey-about-legal-and-criminal-threats-experienced-by-journalists-and-security-researchers/" data-article-source="Over Security - Cybersecurity news aggregator" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="ANNOUNCE: Survey about legal and criminal threats experienced by journalists and security researchers" data-article-url="https://www.suspectfile.com/announce-survey-about-legal-and-criminal-threats-experienced-by-journalists-and-security-researchers/" data-article-source="Over Security - Cybersecurity news aggregator" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="ANNOUNCE: Survey about legal and criminal threats experienced by journalists and security researchers" data-article-url="https://www.suspectfile.com/announce-survey-about-legal-and-criminal-threats-experienced-by-journalists-and-security-researchers/" data-article-source="Over Security - Cybersecurity news aggregator" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="情报分析师" id="source-19-情报分析师">
 <h2>情报分析师 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="特定目标画像实战，情报分析师如何挖掘人物与企业背景"><a href="https://mp.weixin.qq.com/s?__biz=MzA3Mjc1MTkwOA==&amp;mid=2650564491&amp;idx=1&amp;sn=d0f83958fa053619b8042a3809aea012" target="_blank" rel="noopener noreferrer">特定目标画像实战，情报分析师如何挖掘人物与企业背景</a></li>
+<li class="article-item" data-title="特定目标画像实战，情报分析师如何挖掘人物与企业背景"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MzA3Mjc1MTkwOA==&amp;mid=2650564491&amp;idx=1&amp;sn=d0f83958fa053619b8042a3809aea012" target="_blank" rel="noopener noreferrer">特定目标画像实战，情报分析师如何挖掘人物与企业背景</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="特定目标画像实战，情报分析师如何挖掘人物与企业背景" data-article-url="https://mp.weixin.qq.com/s?__biz=MzA3Mjc1MTkwOA==&amp;mid=2650564491&amp;idx=1&amp;sn=d0f83958fa053619b8042a3809aea012" data-article-source="情报分析师" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="特定目标画像实战，情报分析师如何挖掘人物与企业背景" data-article-url="https://mp.weixin.qq.com/s?__biz=MzA3Mjc1MTkwOA==&amp;mid=2650564491&amp;idx=1&amp;sn=d0f83958fa053619b8042a3809aea012" data-article-source="情报分析师" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="特定目标画像实战，情报分析师如何挖掘人物与企业背景" data-article-url="https://mp.weixin.qq.com/s?__biz=MzA3Mjc1MTkwOA==&amp;mid=2650564491&amp;idx=1&amp;sn=d0f83958fa053619b8042a3809aea012" data-article-source="情报分析师" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="极客公园" id="source-20-极客公园">
 <h2>极客公园 <span class="source-count">2</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="每天只学 2 小时，成绩却排全美前 1%？ai 正在重新定义「好学校」"><a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653095109&amp;idx=1&amp;sn=add1c9e82a178f8b665db87c99b4b6af" target="_blank" rel="noopener noreferrer">每天只学 2 小时，成绩却排全美前 1%？AI 正在重新定义「好学校」</a></li>
-<li class="article-item" data-title="传字节跳动今年利润将破 500 亿美元；faker 回应马斯克英雄联盟ai挑战；《阿凡达 3》豆瓣开分系列最低 | 极客早知道"><a href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653095168&amp;idx=1&amp;sn=e101053c119000d771e5a55235d72269" target="_blank" rel="noopener noreferrer">传字节跳动今年利润将破 500 亿美元；Faker 回应马斯克英雄联盟AI挑战；《阿凡达 3》豆瓣开分系列最低 | 极客早知道</a></li>
+<li class="article-item" data-title="每天只学 2 小时，成绩却排全美前 1%？ai 正在重新定义「好学校」"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653095109&amp;idx=1&amp;sn=add1c9e82a178f8b665db87c99b4b6af" target="_blank" rel="noopener noreferrer">每天只学 2 小时，成绩却排全美前 1%？AI 正在重新定义「好学校」</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="每天只学 2 小时，成绩却排全美前 1%？AI 正在重新定义「好学校」" data-article-url="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653095109&amp;idx=1&amp;sn=add1c9e82a178f8b665db87c99b4b6af" data-article-source="极客公园" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="每天只学 2 小时，成绩却排全美前 1%？AI 正在重新定义「好学校」" data-article-url="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653095109&amp;idx=1&amp;sn=add1c9e82a178f8b665db87c99b4b6af" data-article-source="极客公园" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="每天只学 2 小时，成绩却排全美前 1%？AI 正在重新定义「好学校」" data-article-url="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653095109&amp;idx=1&amp;sn=add1c9e82a178f8b665db87c99b4b6af" data-article-source="极客公园" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
+<li class="article-item" data-title="传字节跳动今年利润将破 500 亿美元；faker 回应马斯克英雄联盟ai挑战；《阿凡达 3》豆瓣开分系列最低 | 极客早知道"><a class="article-link" href="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653095168&amp;idx=1&amp;sn=e101053c119000d771e5a55235d72269" target="_blank" rel="noopener noreferrer">传字节跳动今年利润将破 500 亿美元；Faker 回应马斯克英雄联盟AI挑战；《阿凡达 3》豆瓣开分系列最低 | 极客早知道</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="传字节跳动今年利润将破 500 亿美元；Faker 回应马斯克英雄联盟AI挑战；《阿凡达 3》豆瓣开分系列最低 | 极客早知道" data-article-url="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653095168&amp;idx=1&amp;sn=e101053c119000d771e5a55235d72269" data-article-source="极客公园" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="传字节跳动今年利润将破 500 亿美元；Faker 回应马斯克英雄联盟AI挑战；《阿凡达 3》豆瓣开分系列最低 | 极客早知道" data-article-url="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653095168&amp;idx=1&amp;sn=e101053c119000d771e5a55235d72269" data-article-source="极客公园" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="传字节跳动今年利润将破 500 亿美元；Faker 回应马斯克英雄联盟AI挑战；《阿凡达 3》豆瓣开分系列最低 | 极客早知道" data-article-url="https://mp.weixin.qq.com/s?__biz=MTMwNDMwODQ0MQ==&amp;mid=2653095168&amp;idx=1&amp;sn=e101053c119000d771e5a55235d72269" data-article-source="极客公园" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="Troy Hunt&#x27;s Blog" id="source-21-Troy-Hunt-s-Blog">
 <h2>Troy Hunt&#x27;s Blog <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="weekly update 483"><a href="https://www.troyhunt.com/weekly-update-483/" target="_blank" rel="noopener noreferrer">Weekly Update 483</a></li>
+<li class="article-item" data-title="weekly update 483"><a class="article-link" href="https://www.troyhunt.com/weekly-update-483/" target="_blank" rel="noopener noreferrer">Weekly Update 483</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="Weekly Update 483" data-article-url="https://www.troyhunt.com/weekly-update-483/" data-article-source="Troy Hunt&#x27;s Blog" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="Weekly Update 483" data-article-url="https://www.troyhunt.com/weekly-update-483/" data-article-source="Troy Hunt&#x27;s Blog" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="Weekly Update 483" data-article-url="https://www.troyhunt.com/weekly-update-483/" data-article-source="Troy Hunt&#x27;s Blog" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="The Hacker News" id="source-22-The-Hacker-News">
 <h2>The Hacker News <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="u.s. doj charges 54 in atm jackpotting scheme using ploutus malware"><a href="https://thehackernews.com/2025/12/us-doj-charges-54-in-atm-jackpotting.html" target="_blank" rel="noopener noreferrer">U.S. DOJ Charges 54 in ATM Jackpotting Scheme Using Ploutus Malware</a></li>
+<li class="article-item" data-title="u.s. doj charges 54 in atm jackpotting scheme using ploutus malware"><a class="article-link" href="https://thehackernews.com/2025/12/us-doj-charges-54-in-atm-jackpotting.html" target="_blank" rel="noopener noreferrer">U.S. DOJ Charges 54 in ATM Jackpotting Scheme Using Ploutus Malware</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="U.S. DOJ Charges 54 in ATM Jackpotting Scheme Using Ploutus Malware" data-article-url="https://thehackernews.com/2025/12/us-doj-charges-54-in-atm-jackpotting.html" data-article-source="The Hacker News" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="U.S. DOJ Charges 54 in ATM Jackpotting Scheme Using Ploutus Malware" data-article-url="https://thehackernews.com/2025/12/us-doj-charges-54-in-atm-jackpotting.html" data-article-source="The Hacker News" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="U.S. DOJ Charges 54 in ATM Jackpotting Scheme Using Ploutus Malware" data-article-url="https://thehackernews.com/2025/12/us-doj-charges-54-in-atm-jackpotting.html" data-article-source="The Hacker News" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="Security Affairs" id="source-23-Security-Affairs">
 <h2>Security Affairs <span class="source-count">2</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="u.s. cisa adds a flaw in watchguard fireware os to its known exploited vulnerabilities catalog"><a href="https://securityaffairs.com/185896/hacking/u-s-cisa-adds-a-flaw-in-watchguard-fireware-os-to-its-known-exploited-vulnerabilities-catalog.html" target="_blank" rel="noopener noreferrer">U.S. CISA adds a flaw in WatchGuard Fireware OS to its Known Exploited Vulnerabilities catalog</a></li>
-<li class="article-item" data-title="russia was behind a destructive cyber attack on a water utility in 2024, denmark says"><a href="https://securityaffairs.com/185885/hacking/russia-was-behind-a-destructive-cyber-attack-on-a-water-utility-in-2024-denmark-says.html" target="_blank" rel="noopener noreferrer">Russia was behind a destructive cyber attack on a water utility in 2024, Denmark says</a></li>
+<li class="article-item" data-title="u.s. cisa adds a flaw in watchguard fireware os to its known exploited vulnerabilities catalog"><a class="article-link" href="https://securityaffairs.com/185896/hacking/u-s-cisa-adds-a-flaw-in-watchguard-fireware-os-to-its-known-exploited-vulnerabilities-catalog.html" target="_blank" rel="noopener noreferrer">U.S. CISA adds a flaw in WatchGuard Fireware OS to its Known Exploited Vulnerabilities catalog</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="U.S. CISA adds a flaw in WatchGuard Fireware OS to its Known Exploited Vulnerabilities catalog" data-article-url="https://securityaffairs.com/185896/hacking/u-s-cisa-adds-a-flaw-in-watchguard-fireware-os-to-its-known-exploited-vulnerabilities-catalog.html" data-article-source="Security Affairs" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="U.S. CISA adds a flaw in WatchGuard Fireware OS to its Known Exploited Vulnerabilities catalog" data-article-url="https://securityaffairs.com/185896/hacking/u-s-cisa-adds-a-flaw-in-watchguard-fireware-os-to-its-known-exploited-vulnerabilities-catalog.html" data-article-source="Security Affairs" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="U.S. CISA adds a flaw in WatchGuard Fireware OS to its Known Exploited Vulnerabilities catalog" data-article-url="https://securityaffairs.com/185896/hacking/u-s-cisa-adds-a-flaw-in-watchguard-fireware-os-to-its-known-exploited-vulnerabilities-catalog.html" data-article-source="Security Affairs" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
+<li class="article-item" data-title="russia was behind a destructive cyber attack on a water utility in 2024, denmark says"><a class="article-link" href="https://securityaffairs.com/185885/hacking/russia-was-behind-a-destructive-cyber-attack-on-a-water-utility-in-2024-denmark-says.html" target="_blank" rel="noopener noreferrer">Russia was behind a destructive cyber attack on a water utility in 2024, Denmark says</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="Russia was behind a destructive cyber attack on a water utility in 2024, Denmark says" data-article-url="https://securityaffairs.com/185885/hacking/russia-was-behind-a-destructive-cyber-attack-on-a-water-utility-in-2024-denmark-says.html" data-article-source="Security Affairs" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="Russia was behind a destructive cyber attack on a water utility in 2024, Denmark says" data-article-url="https://securityaffairs.com/185885/hacking/russia-was-behind-a-destructive-cyber-attack-on-a-water-utility-in-2024-denmark-says.html" data-article-source="Security Affairs" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="Russia was behind a destructive cyber attack on a water utility in 2024, Denmark says" data-article-url="https://securityaffairs.com/185885/hacking/russia-was-behind-a-destructive-cyber-attack-on-a-water-utility-in-2024-denmark-says.html" data-article-source="Security Affairs" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="Ground Oddity" id="source-24-Ground-Oddity">
 <h2>Ground Oddity <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="二十岁不再来"><a href="http://jujuba.me/posts/no-more-twenties.html" target="_blank" rel="noopener noreferrer">二十岁不再来</a></li>
+<li class="article-item" data-title="二十岁不再来"><a class="article-link" href="http://jujuba.me/posts/no-more-twenties.html" target="_blank" rel="noopener noreferrer">二十岁不再来</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="二十岁不再来" data-article-url="http://jujuba.me/posts/no-more-twenties.html" data-article-source="Ground Oddity" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="二十岁不再来" data-article-url="http://jujuba.me/posts/no-more-twenties.html" data-article-source="Ground Oddity" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="二十岁不再来" data-article-url="http://jujuba.me/posts/no-more-twenties.html" data-article-source="Ground Oddity" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="滿五的部落格" id="source-25-滿五的部落格">
 <h2>滿五的部落格 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="csapp bomb lab 解析"><a href="https://blog.aeilot.top/2025/12/20/csapp-lab2/" target="_blank" rel="noopener noreferrer">CSAPP Bomb Lab 解析</a></li>
+<li class="article-item" data-title="csapp bomb lab 解析"><a class="article-link" href="https://blog.aeilot.top/2025/12/20/csapp-lab2/" target="_blank" rel="noopener noreferrer">CSAPP Bomb Lab 解析</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="CSAPP Bomb Lab 解析" data-article-url="https://blog.aeilot.top/2025/12/20/csapp-lab2/" data-article-source="滿五的部落格" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="CSAPP Bomb Lab 解析" data-article-url="https://blog.aeilot.top/2025/12/20/csapp-lab2/" data-article-source="滿五的部落格" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="CSAPP Bomb Lab 解析" data-article-url="https://blog.aeilot.top/2025/12/20/csapp-lab2/" data-article-source="滿五的部落格" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="luozhiyun`s Blog" id="source-26-luozhiyun-s-Blog">
 <h2>luozhiyun`s Blog <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="探究rust中有趣的设计"><a href="https://www.luozhiyun.com/archives/889" target="_blank" rel="noopener noreferrer">探究Rust中有趣的设计</a></li>
+<li class="article-item" data-title="探究rust中有趣的设计"><a class="article-link" href="https://www.luozhiyun.com/archives/889" target="_blank" rel="noopener noreferrer">探究Rust中有趣的设计</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="探究Rust中有趣的设计" data-article-url="https://www.luozhiyun.com/archives/889" data-article-source="luozhiyun`s Blog" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="探究Rust中有趣的设计" data-article-url="https://www.luozhiyun.com/archives/889" data-article-source="luozhiyun`s Blog" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="探究Rust中有趣的设计" data-article-url="https://www.luozhiyun.com/archives/889" data-article-source="luozhiyun`s Blog" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="懒得勤快的博客_互联网分享精神" id="source-27-懒得勤快的博客_互联网分享精神">
 <h2>懒得勤快的博客_互联网分享精神 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="晚高峰25w的4k机场！桔子云，速鹰666的分机场，高速全隧道iplc超大国际机场，可白嫖！"><a href="https://masuit.net/p86" target="_blank" rel="noopener noreferrer">晚高峰25W的4K机场！桔子云，速鹰666的分机场，高速全隧道IPLC超大国际机场，可白嫖！</a></li>
+<li class="article-item" data-title="晚高峰25w的4k机场！桔子云，速鹰666的分机场，高速全隧道iplc超大国际机场，可白嫖！"><a class="article-link" href="https://masuit.net/p86" target="_blank" rel="noopener noreferrer">晚高峰25W的4K机场！桔子云，速鹰666的分机场，高速全隧道IPLC超大国际机场，可白嫖！</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="晚高峰25W的4K机场！桔子云，速鹰666的分机场，高速全隧道IPLC超大国际机场，可白嫖！" data-article-url="https://masuit.net/p86" data-article-source="懒得勤快的博客_互联网分享精神" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="晚高峰25W的4K机场！桔子云，速鹰666的分机场，高速全隧道IPLC超大国际机场，可白嫖！" data-article-url="https://masuit.net/p86" data-article-source="懒得勤快的博客_互联网分享精神" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="晚高峰25W的4K机场！桔子云，速鹰666的分机场，高速全隧道IPLC超大国际机场，可白嫖！" data-article-url="https://masuit.net/p86" data-article-source="懒得勤快的博客_互联网分享精神" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="印记" id="source-28-印记">
 <h2>印记 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="回顾 2025"><a href="https://yinji.org/review-2025.html" target="_blank" rel="noopener noreferrer">回顾 2025</a></li>
+<li class="article-item" data-title="回顾 2025"><a class="article-link" href="https://yinji.org/review-2025.html" target="_blank" rel="noopener noreferrer">回顾 2025</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="回顾 2025" data-article-url="https://yinji.org/review-2025.html" data-article-source="印记" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="回顾 2025" data-article-url="https://yinji.org/review-2025.html" data-article-source="印记" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="回顾 2025" data-article-url="https://yinji.org/review-2025.html" data-article-source="印记" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="61’s life" id="source-29-61-s-life">
 <h2>61’s life <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="20251218"><a href="https://61.life/2025/1218" target="_blank" rel="noopener noreferrer">20251218</a></li>
+<li class="article-item" data-title="20251218"><a class="article-link" href="https://61.life/2025/1218" target="_blank" rel="noopener noreferrer">20251218</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="20251218" data-article-url="https://61.life/2025/1218" data-article-source="61’s life" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="20251218" data-article-url="https://61.life/2025/1218" data-article-source="61’s life" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="20251218" data-article-url="https://61.life/2025/1218" data-article-source="61’s life" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="Lei Mao&#x27;s Log Book" id="source-30-Lei-Mao-s-Log-Book">
 <h2>Lei Mao&#x27;s Log Book <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="sony float run open-ear wireless headphones"><a href="https://leimao.github.io/essay/Sony-Float-Run-Open-Ear-Wireless-Headphones/" target="_blank" rel="noopener noreferrer">Sony Float Run Open-Ear Wireless Headphones</a></li>
+<li class="article-item" data-title="sony float run open-ear wireless headphones"><a class="article-link" href="https://leimao.github.io/essay/Sony-Float-Run-Open-Ear-Wireless-Headphones/" target="_blank" rel="noopener noreferrer">Sony Float Run Open-Ear Wireless Headphones</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="Sony Float Run Open-Ear Wireless Headphones" data-article-url="https://leimao.github.io/essay/Sony-Float-Run-Open-Ear-Wireless-Headphones/" data-article-source="Lei Mao&#x27;s Log Book" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="Sony Float Run Open-Ear Wireless Headphones" data-article-url="https://leimao.github.io/essay/Sony-Float-Run-Open-Ear-Wireless-Headphones/" data-article-source="Lei Mao&#x27;s Log Book" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="Sony Float Run Open-Ear Wireless Headphones" data-article-url="https://leimao.github.io/essay/Sony-Float-Run-Open-Ear-Wireless-Headphones/" data-article-source="Lei Mao&#x27;s Log Book" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="愆伏" id="source-31-愆伏">
 <h2>愆伏 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="再游红山动物园：我看见动物更像动物了"><a href="https://www.tortorse.com/archives/hongshan-zoo/" target="_blank" rel="noopener noreferrer">再游红山动物园：我看见动物更像动物了</a></li>
+<li class="article-item" data-title="再游红山动物园：我看见动物更像动物了"><a class="article-link" href="https://www.tortorse.com/archives/hongshan-zoo/" target="_blank" rel="noopener noreferrer">再游红山动物园：我看见动物更像动物了</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="再游红山动物园：我看见动物更像动物了" data-article-url="https://www.tortorse.com/archives/hongshan-zoo/" data-article-source="愆伏" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="再游红山动物园：我看见动物更像动物了" data-article-url="https://www.tortorse.com/archives/hongshan-zoo/" data-article-source="愆伏" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="再游红山动物园：我看见动物更像动物了" data-article-url="https://www.tortorse.com/archives/hongshan-zoo/" data-article-source="愆伏" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="子舒的博客" id="source-32-子舒的博客">
 <h2>子舒的博客 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="我的 2025 年度总结"><a href="https://zishu.me/blog/2025-summary.html" target="_blank" rel="noopener noreferrer">我的 2025 年度总结</a></li>
+<li class="article-item" data-title="我的 2025 年度总结"><a class="article-link" href="https://zishu.me/blog/2025-summary.html" target="_blank" rel="noopener noreferrer">我的 2025 年度总结</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="我的 2025 年度总结" data-article-url="https://zishu.me/blog/2025-summary.html" data-article-source="子舒的博客" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="我的 2025 年度总结" data-article-url="https://zishu.me/blog/2025-summary.html" data-article-source="子舒的博客" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="我的 2025 年度总结" data-article-url="https://zishu.me/blog/2025-summary.html" data-article-source="子舒的博客" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="碎言 - SuiYan Blog" id="source-33-碎言---SuiYan-Blog">
 <h2>碎言 - SuiYan Blog <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="冬至不吃饺子？"><a href="https://www.suiyan.cc/blog/20251220005628" target="_blank" rel="noopener noreferrer">冬至不吃饺子？</a></li>
+<li class="article-item" data-title="冬至不吃饺子？"><a class="article-link" href="https://www.suiyan.cc/blog/20251220005628" target="_blank" rel="noopener noreferrer">冬至不吃饺子？</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="冬至不吃饺子？" data-article-url="https://www.suiyan.cc/blog/20251220005628" data-article-source="碎言 - SuiYan Blog" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="冬至不吃饺子？" data-article-url="https://www.suiyan.cc/blog/20251220005628" data-article-source="碎言 - SuiYan Blog" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="冬至不吃饺子？" data-article-url="https://www.suiyan.cc/blog/20251220005628" data-article-source="碎言 - SuiYan Blog" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="豌豆花下猫" id="source-34-豌豆花下猫">
 <h2>豌豆花下猫 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="python 潮流周刊#132：30 年 python 自由职业经验"><a href="https://pythoncat.top/posts/2025-12-20-weekly/" target="_blank" rel="noopener noreferrer">Python 潮流周刊#132：30 年 Python 自由职业经验</a></li>
+<li class="article-item" data-title="python 潮流周刊#132：30 年 python 自由职业经验"><a class="article-link" href="https://pythoncat.top/posts/2025-12-20-weekly/" target="_blank" rel="noopener noreferrer">Python 潮流周刊#132：30 年 Python 自由职业经验</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="Python 潮流周刊#132：30 年 Python 自由职业经验" data-article-url="https://pythoncat.top/posts/2025-12-20-weekly/" data-article-source="豌豆花下猫" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="Python 潮流周刊#132：30 年 Python 自由职业经验" data-article-url="https://pythoncat.top/posts/2025-12-20-weekly/" data-article-source="豌豆花下猫" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="Python 潮流周刊#132：30 年 Python 自由职业经验" data-article-url="https://pythoncat.top/posts/2025-12-20-weekly/" data-article-source="豌豆花下猫" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="happy xiao" id="source-35-happy-xiao">
 <h2>happy xiao <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="濒临死亡教会我的事"><a href="https://happyxiao.com/heart-attack/" target="_blank" rel="noopener noreferrer">濒临死亡教会我的事</a></li>
+<li class="article-item" data-title="濒临死亡教会我的事"><a class="article-link" href="https://happyxiao.com/heart-attack/" target="_blank" rel="noopener noreferrer">濒临死亡教会我的事</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="濒临死亡教会我的事" data-article-url="https://happyxiao.com/heart-attack/" data-article-source="happy xiao" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="濒临死亡教会我的事" data-article-url="https://happyxiao.com/heart-attack/" data-article-source="happy xiao" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="濒临死亡教会我的事" data-article-url="https://happyxiao.com/heart-attack/" data-article-source="happy xiao" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="Tony Bai" id="source-36-Tony-Bai">
 <h2>Tony Bai <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="ai 编码时代的生产力跃迁：2025 年开发者生态报告深度解读"><a href="https://tonybai.com/2025/12/20/ai-coding-era-productivity-leap-2025-developer-ecosystem-report/" target="_blank" rel="noopener noreferrer">AI 编码时代的生产力跃迁：2025 年开发者生态报告深度解读</a></li>
+<li class="article-item" data-title="ai 编码时代的生产力跃迁：2025 年开发者生态报告深度解读"><a class="article-link" href="https://tonybai.com/2025/12/20/ai-coding-era-productivity-leap-2025-developer-ecosystem-report/" target="_blank" rel="noopener noreferrer">AI 编码时代的生产力跃迁：2025 年开发者生态报告深度解读</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="AI 编码时代的生产力跃迁：2025 年开发者生态报告深度解读" data-article-url="https://tonybai.com/2025/12/20/ai-coding-era-productivity-leap-2025-developer-ecosystem-report/" data-article-source="Tony Bai" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="AI 编码时代的生产力跃迁：2025 年开发者生态报告深度解读" data-article-url="https://tonybai.com/2025/12/20/ai-coding-era-productivity-leap-2025-developer-ecosystem-report/" data-article-source="Tony Bai" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="AI 编码时代的生产力跃迁：2025 年开发者生态报告深度解读" data-article-url="https://tonybai.com/2025/12/20/ai-coding-era-productivity-leap-2025-developer-ecosystem-report/" data-article-source="Tony Bai" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="Cytrogen 的个人博客" id="source-37-Cytrogen-的个人博客">
 <h2>Cytrogen 的个人博客 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="儿童网红背后的黑暗"><a href="https://cytrogen.icu/posts/196a.html" target="_blank" rel="noopener noreferrer">儿童网红背后的黑暗</a></li>
+<li class="article-item" data-title="儿童网红背后的黑暗"><a class="article-link" href="https://cytrogen.icu/posts/196a.html" target="_blank" rel="noopener noreferrer">儿童网红背后的黑暗</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="儿童网红背后的黑暗" data-article-url="https://cytrogen.icu/posts/196a.html" data-article-source="Cytrogen 的个人博客" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="儿童网红背后的黑暗" data-article-url="https://cytrogen.icu/posts/196a.html" data-article-source="Cytrogen 的个人博客" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="儿童网红背后的黑暗" data-article-url="https://cytrogen.icu/posts/196a.html" data-article-source="Cytrogen 的个人博客" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="专享生活" id="source-38-专享生活">
 <h2>专享生活 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="你公司真正的资产，压根不随你姓"><a href="https://zhjwork.online/2025/12/20/%e4%bd%a0%e5%85%ac%e5%8f%b8%e7%9c%9f%e6%ad%a3%e7%9a%84%e8%b5%84%e4%ba%a7%ef%bc%8c%e5%8e%8b%e6%a0%b9%e4%b8%8d%e9%9a%8f%e4%bd%a0%e5%a7%93/" target="_blank" rel="noopener noreferrer">你公司真正的资产，压根不随你姓</a></li>
+<li class="article-item" data-title="你公司真正的资产，压根不随你姓"><a class="article-link" href="https://zhjwork.online/2025/12/20/%e4%bd%a0%e5%85%ac%e5%8f%b8%e7%9c%9f%e6%ad%a3%e7%9a%84%e8%b5%84%e4%ba%a7%ef%bc%8c%e5%8e%8b%e6%a0%b9%e4%b8%8d%e9%9a%8f%e4%bd%a0%e5%a7%93/" target="_blank" rel="noopener noreferrer">你公司真正的资产，压根不随你姓</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="你公司真正的资产，压根不随你姓" data-article-url="https://zhjwork.online/2025/12/20/%e4%bd%a0%e5%85%ac%e5%8f%b8%e7%9c%9f%e6%ad%a3%e7%9a%84%e8%b5%84%e4%ba%a7%ef%bc%8c%e5%8e%8b%e6%a0%b9%e4%b8%8d%e9%9a%8f%e4%bd%a0%e5%a7%93/" data-article-source="专享生活" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="你公司真正的资产，压根不随你姓" data-article-url="https://zhjwork.online/2025/12/20/%e4%bd%a0%e5%85%ac%e5%8f%b8%e7%9c%9f%e6%ad%a3%e7%9a%84%e8%b5%84%e4%ba%a7%ef%bc%8c%e5%8e%8b%e6%a0%b9%e4%b8%8d%e9%9a%8f%e4%bd%a0%e5%a7%93/" data-article-source="专享生活" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="你公司真正的资产，压根不随你姓" data-article-url="https://zhjwork.online/2025/12/20/%e4%bd%a0%e5%85%ac%e5%8f%b8%e7%9c%9f%e6%ad%a3%e7%9a%84%e8%b5%84%e4%ba%a7%ef%bc%8c%e5%8e%8b%e6%a0%b9%e4%b8%8d%e9%9a%8f%e4%bd%a0%e5%a7%93/" data-article-source="专享生活" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="Under the Sun with Paddy" id="source-39-Under-the-Sun-with-Paddy">
 <h2>Under the Sun with Paddy <span class="source-count">2</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="电影生涯喜好表（2025）"><a href="https://www.paddysun.top/archives/4855" target="_blank" rel="noopener noreferrer">电影生涯喜好表（2025）</a></li>
-<li class="article-item" data-title="在“平滑”的世界里，给自己制造一点阻力"><a href="https://www.paddysun.top/archives/4861" target="_blank" rel="noopener noreferrer">在“平滑”的世界里，给自己制造一点阻力</a></li>
+<li class="article-item" data-title="电影生涯喜好表（2025）"><a class="article-link" href="https://www.paddysun.top/archives/4855" target="_blank" rel="noopener noreferrer">电影生涯喜好表（2025）</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="电影生涯喜好表（2025）" data-article-url="https://www.paddysun.top/archives/4855" data-article-source="Under the Sun with Paddy" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="电影生涯喜好表（2025）" data-article-url="https://www.paddysun.top/archives/4855" data-article-source="Under the Sun with Paddy" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="电影生涯喜好表（2025）" data-article-url="https://www.paddysun.top/archives/4855" data-article-source="Under the Sun with Paddy" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
+<li class="article-item" data-title="在“平滑”的世界里，给自己制造一点阻力"><a class="article-link" href="https://www.paddysun.top/archives/4861" target="_blank" rel="noopener noreferrer">在“平滑”的世界里，给自己制造一点阻力</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="在“平滑”的世界里，给自己制造一点阻力" data-article-url="https://www.paddysun.top/archives/4861" data-article-source="Under the Sun with Paddy" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="在“平滑”的世界里，给自己制造一点阻力" data-article-url="https://www.paddysun.top/archives/4861" data-article-source="Under the Sun with Paddy" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="在“平滑”的世界里，给自己制造一点阻力" data-article-url="https://www.paddysun.top/archives/4861" data-article-source="Under the Sun with Paddy" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 <section class="source-section" data-source="白菜" id="source-40-白菜">
 <h2>白菜 <span class="source-count">1</span></h2>
 <ul class="article-list">
-<li class="article-item" data-title="当 postgresql 查询占用 cpu 很高时，找出是谁在吃 cpu"><a href="https://blog.baicai.me/article/2025/analyze/" target="_blank" rel="noopener noreferrer">当 PostgreSQL 查询占用 CPU 很高时，找出是谁在吃 CPU</a></li>
+<li class="article-item" data-title="当 postgresql 查询占用 cpu 很高时，找出是谁在吃 cpu"><a class="article-link" href="https://blog.baicai.me/article/2025/analyze/" target="_blank" rel="noopener noreferrer">当 PostgreSQL 查询占用 CPU 很高时，找出是谁在吃 CPU</a><span class="item-ai-jump"><button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" data-article-title="当 PostgreSQL 查询占用 CPU 很高时，找出是谁在吃 CPU" data-article-url="https://blog.baicai.me/article/2025/analyze/" data-article-source="白菜" data-article-cve="false" aria-label="用 ChatGPT 分析此条">ChatGPT</button><button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" data-article-title="当 PostgreSQL 查询占用 CPU 很高时，找出是谁在吃 CPU" data-article-url="https://blog.baicai.me/article/2025/analyze/" data-article-source="白菜" data-article-cve="false" aria-label="用 Gemini 分析此条">Gemini</button><button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" data-article-title="当 PostgreSQL 查询占用 CPU 很高时，找出是谁在吃 CPU" data-article-url="https://blog.baicai.me/article/2025/analyze/" data-article-source="白菜" data-article-cve="false" aria-label="用 DeepSeek 分析此条">DeepSeek</button></span></li>
 </ul></section>
 </div>
                     <div class="daily-filter-empty" id="dailyFilterEmpty">没有匹配的文章，请调整筛选条件</div>
                     <div class="footer">
-                        <p>Generated by SECDaily - 2026 · 页面更新 2026-05-27 10:18:28</p>
+                        <p>Generated by SECDaily - 2026 · 页面更新 2026-05-28 12:29:12</p>
+                        <div class="footer-links">
+                            <a href="https://github.com/shellsec/SECDaily" target="_blank" rel="noopener noreferrer">GitHub 仓库</a>
+                            <span>|</span>
+                            <a href="../index.html">归档首页</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1405,6 +1518,120 @@
                     return;
                 }
                 window.location.href = '../index.html?mode=title&q=' + encodeURIComponent(query);
+            });
+        })();
+
+        (function initItemAiJump() {
+            const buildPrompt = (meta) => {
+                const lines = [
+                    '你是资深网络安全分析助手。以下是一条来自 SECDaily 安全资讯聚合的单条资讯（含标题与原文链接）。',
+                    '请优先结合原文链接内容分析；若无法访问原文，请基于标题合理推断，并明确标注「仅凭标题推断」的部分。',
+                    '',
+                    '【资讯元数据】',
+                    meta.source ? `- 来源：${meta.source}` : null,
+                    meta.date ? `- 日期：${meta.date}` : null,
+                    meta.hasCve ? '- 标题含 CVE 标记：是（请重点核查漏洞编号、影响版本与修复状态）' : null,
+                    `- 标题：${meta.title}`,
+                    meta.url ? `- 原文链接：${meta.url}` : '- 原文链接：（无外链，仅按标题分析）',
+                    '',
+                    '【请完成以下分析】',
+                    '1. 事件定性：漏洞/CVE、网络攻击、数据泄露、供应链、钓鱼社工、合规监管、威胁情报或其他？',
+                    '2. 核心事实：发生了什么、涉及谁/哪家厂商/哪类产品、时间线（若可推断）',
+                    '3. 威胁与技术：攻击手法、利用条件、是否 0day/在野利用、相关 CVE 编号与严重级别（CVSS 逻辑）',
+                    '4. 影响评估：风险等级（高/中/低）及理由；受影响行业、资产类型、典型受害面',
+                    '5. 防守与响应：检测思路（日志/IOC/行为）、缓解与加固、补丁/配置、是否建议启动应急响应',
+                    '6. 关联延伸：与近期热点（APT、勒索、AI 安全、供应链等）是否相关；建议持续跟踪的关键词',
+                    '7. 阅读建议：是否值得点开原文深读；预计阅读价值（高/中/低）',
+                    '',
+                    '【输出要求】',
+                    '- 使用 Markdown，先给 TL;DR（3 条以内要点），再分节展开',
+                    '- 结论具体、可执行，避免空泛套话；不确定处请写明假设',
+                ];
+                return lines.filter((line) => line !== null).join('\n');
+            };
+
+            const copyTextSync = (text) => {
+                if (!text) return false;
+                try {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.setAttribute('readonly', '');
+                    ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+                    document.body.appendChild(ta);
+                    ta.focus();
+                    ta.select();
+                    ta.setSelectionRange(0, text.length);
+                    const ok = document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    return ok;
+                } catch (e) {
+                    return false;
+                }
+            };
+
+            const copyText = async (text) => {
+                if (copyTextSync(text)) return true;
+                if (navigator.clipboard && window.isSecureContext) {
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        return true;
+                    } catch (e) {
+                        return false;
+                    }
+                }
+                return false;
+            };
+
+            document.addEventListener('click', async (e) => {
+                const btn = e.target.closest('.item-ai-btn');
+                if (!btn) return;
+                e.preventDefault();
+                e.stopPropagation();
+
+                const title = btn.dataset.articleTitle || '';
+                const url = (btn.dataset.articleUrl || '').replace(/&amp;/g, '&');
+                if (!title) return;
+
+                const dailyDate = document.querySelector('.article-head .date, .date')?.textContent?.trim() || '';
+                const meta = {
+                    title,
+                    url,
+                    source: btn.dataset.articleSource || '',
+                    date: btn.dataset.articleDate || dailyDate,
+                    hasCve: btn.dataset.articleCve === 'true',
+                };
+                const prompt = buildPrompt(meta);
+                let copied = copyTextSync(prompt);
+                if (!copied) {
+                    copied = await copyText(prompt);
+                }
+                const kind = btn.dataset.ai;
+                const shortHint = [
+                    '请按我剪贴板中的 SECDaily 单条安全资讯分析提示词执行：',
+                    '事件定性、威胁技术、CVE/影响、防守响应、关联延伸、阅读建议；Markdown 输出，先 TL;DR。',
+                ].join('');
+                let openUrl = 'https://gemini.google.com/app';
+                if (kind === 'deepseek') {
+                    openUrl = 'https://chat.deepseek.com/';
+                } else if (kind === 'chatgpt') {
+                    openUrl = prompt.length <= 2400
+                        ? 'https://chatgpt.com/?q=' + encodeURIComponent(prompt)
+                        : 'https://chatgpt.com/?q=' + encodeURIComponent(shortHint);
+                }
+
+                const oldLabel = btn.textContent;
+                btn.textContent = copied ? '已复制' : '复制失败';
+                btn.disabled = true;
+                setTimeout(() => {
+                    btn.textContent = oldLabel;
+                    btn.disabled = false;
+                }, copied ? 2000 : 2800);
+
+                if (copied) {
+                    window.open(openUrl, '_blank', 'noopener,noreferrer');
+                } else {
+                    window.prompt('复制未成功，请手动全选复制以下分析提示词：', prompt);
+                }
             });
         })();
         

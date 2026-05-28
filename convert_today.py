@@ -16,6 +16,7 @@ SOURCE_H2_RE = re.compile(r'^##\s+(.+)$')
 
 SITE_NAME = 'SECDaily'
 SITE_TAGLINE = '每日安全资讯聚合与 AI 智能总结'
+SITE_GITHUB_URL = 'https://github.com/shellsec/SECDaily'
 DATE_MD_RE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 CVE_RE = re.compile(r'CVE-\d{4}-\d+', re.IGNORECASE)
 
@@ -535,6 +536,7 @@ def convert_md_to_html(md_file, html_file):
                 year=datetime.datetime.now().year,
                 site_name=SITE_NAME,
                 site_tagline=SITE_TAGLINE,
+                github_url=SITE_GITHUB_URL,
             )
             logger.info("模板渲染成功")
         except Exception as e:
@@ -804,13 +806,30 @@ def render_structured_html(sources):
         for article in source['articles']:
             safe_title = html_module.escape(article['title'])
             safe_url = html_module.escape(article['url'], quote=True)
+            title_attr = html_module.escape(article['title'], quote=True)
+            source_attr = html_module.escape(source['name'], quote=True)
             cve_badge = '<span class="cve-badge">CVE</span> ' if article.get('has_cve') else ''
             search_text = html_module.escape(article['title'].lower())
+            cve_flag = 'true' if article.get('has_cve') else 'false'
             parts.append(
                 f'<li class="article-item{" is-cve" if article.get("has_cve") else ""}" '
                 f'data-title="{search_text}">'
-                f'<a href="{safe_url}" target="_blank" rel="noopener noreferrer">'
-                f'{cve_badge}{safe_title}</a></li>'
+                f'<a class="article-link" href="{safe_url}" target="_blank" rel="noopener noreferrer">'
+                f'{cve_badge}{safe_title}</a>'
+                f'<span class="item-ai-jump">'
+                f'<button type="button" class="item-ai-btn item-ai-chatgpt" data-ai="chatgpt" '
+                f'data-article-title="{title_attr}" data-article-url="{safe_url}" '
+                f'data-article-source="{source_attr}" data-article-cve="{cve_flag}" '
+                f'aria-label="用 ChatGPT 分析此条">ChatGPT</button>'
+                f'<button type="button" class="item-ai-btn item-ai-gemini" data-ai="gemini" '
+                f'data-article-title="{title_attr}" data-article-url="{safe_url}" '
+                f'data-article-source="{source_attr}" data-article-cve="{cve_flag}" '
+                f'aria-label="用 Gemini 分析此条">Gemini</button>'
+                f'<button type="button" class="item-ai-btn item-ai-deepseek" data-ai="deepseek" '
+                f'data-article-title="{title_attr}" data-article-url="{safe_url}" '
+                f'data-article-source="{source_attr}" data-article-cve="{cve_flag}" '
+                f'aria-label="用 DeepSeek 分析此条">DeepSeek</button>'
+                f'</span></li>'
             )
         parts.append('</ul></section>')
     parts.append('</div>')
@@ -1007,6 +1026,7 @@ def generate_index_html():
                 years_list=years,
                 site_name=SITE_NAME,
                 site_tagline=SITE_TAGLINE,
+                github_url=SITE_GITHUB_URL,
             )
             logger.info("模板渲染成功")
         except Exception as e:
